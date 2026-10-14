@@ -1,0 +1,26 @@
+body{
+    background-color: black;
+}
+
+
+
+body{
+    color: white;
+}
+
+.menu {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  border-bottom: 1px solid var(--borde);
+}
+
+.menu a {
+  color: var(--texto);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.menu a:hover {
+  color: var(--acento);
+}
