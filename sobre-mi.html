@@ -25,6 +25,8 @@
 </head>
 
 <body>
+    <div id="scroll-progress"></div>
+
     <nav class="navbar">
         <div class="nav-links">
             <a href="index.html">Inicio</a>
@@ -34,8 +36,6 @@
             <a href="contacto.html">Contacto</a>
         </div>
         <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema">☀️</button>
-        <div id="scroll-progress"></div>
-
     </nav>
 
     <!-- CABECERA -->
@@ -89,16 +89,71 @@
                     construyendo.
                 </p>
 
-                <div class="tags-row about-tags">
-                    <span class="tag" data-icon="🔧">hardware</span>
-                    <span class="tag" data-icon="🪟">windows</span>
-                    <span class="tag" data-icon="🐧">linux</span>
-                    <span class="tag" data-icon="🌐">redes</span>
-                    <span class="tag" data-icon="🔒">ciberseguridad</span>
-                    <span class="tag" data-icon="📄">ofimática</span>
-                    <span class="tag" data-icon="🖥️">servidores</span>
-                    <span class="tag" data-icon="🎨">css</span>
-                    <span class="tag" data-icon="⚡">javascript</span>
+                <!-- MARQUESINA DE TAGS (2 LÍNEAS) -->
+                <div class="tags-marquee-container">
+
+                    <!-- Línea 1: Se mueve de Izquierda a Derecha -->
+                    <div class="tags-marquee-row">
+                        <div class="tags-marquee-track track-ltr">
+                            <!-- Bloque 1 -->
+                            <span class="tag" data-icon="🔧">hardware</span>
+                            <span class="tag" data-icon="🪟">windows</span>
+                            <span class="tag" data-icon="🐧">linux</span>
+                            <span class="tag" data-icon="🌐">redes locales</span>
+                            <span class="tag" data-icon="🖥️">servidores</span>
+                            <span class="tag" data-icon="🗄️">active directory</span>
+                            <span class="tag" data-icon="💠">virtualización</span>
+                            <span class="tag" data-icon="🛡️">seguridad informática</span>
+                            <span class="tag" data-icon="📡">dhcp / dns</span>
+                            <span class="tag" data-icon="🔒">firewalls</span>
+                            <span class="tag" data-icon="📂">copias de seguridad</span>
+
+                            <!-- Bloque 2 (Copia exacta para el bucle infinito) -->
+                            <span class="tag" data-icon="🔧">hardware</span>
+                            <span class="tag" data-icon="🪟">windows</span>
+                            <span class="tag" data-icon="🐧">linux</span>
+                            <span class="tag" data-icon="🌐">redes locales</span>
+                            <span class="tag" data-icon="🖥️">servidores</span>
+                            <span class="tag" data-icon="🗄️">active directory</span>
+                            <span class="tag" data-icon="💠">virtualización</span>
+                            <span class="tag" data-icon="🛡️">seguridad informática</span>
+                            <span class="tag" data-icon="📡">dhcp / dns</span>
+                            <span class="tag" data-icon="🔒">firewalls</span>
+                            <span class="tag" data-icon="📂">copias de seguridad</span>
+                        </div>
+                    </div>
+
+                    <!-- Línea 2: Se mueve de Derecha a Izquierda -->
+                    <div class="tags-marquee-row">
+                        <div class="tags-marquee-track track-rtl">
+                            <!-- Bloque 1 -->
+                            <span class="tag" data-icon="🌐">html</span>
+                            <span class="tag" data-icon="🎨">css</span>
+                            <span class="tag" data-icon="⚡">javascript</span>
+                            <span class="tag" data-icon="🗄️">sql</span>
+                            <span class="tag" data-icon="🌿">git</span>
+                            <span class="tag" data-icon="⌨️">bash</span>
+                            <span class="tag" data-icon="📄">ofimática</span>
+                            <span class="tag" data-icon="🖱️">packet tracer</span>
+                            <span class="tag" data-icon="🔌">cableado estructurado</span>
+                            <span class="tag" data-icon="📋">gestión de incidencias</span>
+                            <span class="tag" data-icon="🇬🇧">inglés técnico</span>
+
+                            <!-- Bloque 2 (Copia exacta para el bucle infinito) -->
+                            <span class="tag" data-icon="🌐">html</span>
+                            <span class="tag" data-icon="🎨">css</span>
+                            <span class="tag" data-icon="⚡">javascript</span>
+                            <span class="tag" data-icon="🗄️">sql</span>
+                            <span class="tag" data-icon="🌿">git</span>
+                            <span class="tag" data-icon="⌨️">bash</span>
+                            <span class="tag" data-icon="📄">ofimática</span>
+                            <span class="tag" data-icon="🖱️">packet tracer</span>
+                            <span class="tag" data-icon="🔌">cableado estructurado</span>
+                            <span class="tag" data-icon="📋">gestión de incidencias</span>
+                            <span class="tag" data-icon="🇬🇧">inglés técnico</span>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="about-actions">
@@ -112,9 +167,6 @@
 
         </div>
     </section>
-
-
-
 
     <!-- TRAYECTORIA -->
     <section class="section">
@@ -168,8 +220,10 @@
     <footer class="footer">
         <p>© 2026 · Nico Talens · Hecho con HTML &amp; CSS</p>
     </footer>
-    <script src="ui.js"></script>
+
     <button id="back-to-top" aria-label="Volver arriba">↑</button>
+
+    <script src="ui.js"></script>
 
 </body>
 

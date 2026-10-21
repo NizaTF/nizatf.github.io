@@ -65,7 +65,7 @@
       <div class="currently-head">
         <span class="status">
           <span class="status-dot"></span>
-          right now
+          ahora mismo
         </span>
       </div>
 
@@ -88,7 +88,7 @@
         <li>
           <span class="cur-icon">📚</span>
           <span class="cur-key">aprendiendo</span>
-          <span class="cur-val">HTML · CSS · JavaScript</span>
+          <span class="cur-val">HTML · CSS </span>
         </li>
       </ul>
     </div>
@@ -132,7 +132,7 @@
     </div>
   </section>
 
-  <!-- STACK -->
+  <!-- STACK (MARQUESINA DE 2 LÍNEAS) -->
   <section class="section">
     <div class="section-head">
       <span class="eyebrow">02 // stack</span>
@@ -142,29 +142,66 @@
       </p>
     </div>
 
-    <div class="tags-row">
-      <span class="tag" data-icon="🔧">hardware</span>
-      <span class="tag" data-icon="💾">software</span>
-      <span class="tag" data-icon="🪟">windows</span>
-      <span class="tag" data-icon="🐧">linux</span>
-      <span class="tag" data-icon="🌐">redes</span>
-      <span class="tag" data-icon="🔒">ciberseguridad</span>
-      <span class="tag" data-icon="📄">ofimática</span>
-      <span class="tag" data-icon="🖥️">servidores</span>
-      <span class="tag" data-icon="🌍">aplicaciones web</span>
-      <span class="tag" data-icon="⌨️">programación</span>
-      <span class="tag" data-icon="💠">virtualización</span>
-      <span class="tag" data-icon="🗂️">active directory</span>
-      <span class="tag" data-icon="🇬🇧">inglés técnico</span>
-      <span class="tag" data-icon="🛠️">gestión de incidencias</span>
-      <span class="tag" data-icon="♻️">sostenibilidad</span>
+    <div class="tags-marquee-container">
+      
+      <!-- Línea 1: Se mueve de Izquierda a Derecha -->
+      <div class="tags-marquee-row">
+        <div class="tags-marquee-track track-ltr">
+          <!-- Bloque 1 -->
+          <span class="tag" data-icon="🔧">hardware</span>
+          <span class="tag" data-icon="💾">software</span>
+          <span class="tag" data-icon="🪟">windows</span>
+          <span class="tag" data-icon="🐧">linux</span>
+          <span class="tag" data-icon="🌐">redes</span>
+          <span class="tag" data-icon="🔒">ciberseguridad</span>
+          <span class="tag" data-icon="📄">ofimática</span>
+          <span class="tag" data-icon="🖥️">servidores</span>
+          
+          <!-- Bloque 2 (Duplicado para bucle) -->
+          <span class="tag" data-icon="🔧">hardware</span>
+          <span class="tag" data-icon="💾">software</span>
+          <span class="tag" data-icon="🪟">windows</span>
+          <span class="tag" data-icon="🐧">linux</span>
+          <span class="tag" data-icon="🌐">redes</span>
+          <span class="tag" data-icon="🔒">ciberseguridad</span>
+          <span class="tag" data-icon="📄">ofimática</span>
+          <span class="tag" data-icon="🖥️">servidores</span>
+        </div>
+      </div>
+
+      <!-- Línea 2: Se mueve de Derecha a Izquierda -->
+      <div class="tags-marquee-row">
+        <div class="tags-marquee-track track-rtl">
+          <!-- Bloque 1 -->
+          <span class="tag" data-icon="🌍">aplicaciones web</span>
+          <span class="tag" data-icon="⌨️">programación</span>
+          <span class="tag" data-icon="💠">virtualización</span>
+          <span class="tag" data-icon="🗂️">active directory</span>
+          <span class="tag" data-icon="🇬🇧">inglés técnico</span>
+          <span class="tag" data-icon="🛠️">gestión de incidencias</span>
+          <span class="tag" data-icon="♻️">sostenibilidad</span>
+          
+          <!-- Bloque 2 (Duplicado para bucle) -->
+          <span class="tag" data-icon="🌍">aplicaciones web</span>
+          <span class="tag" data-icon="⌨️">programación</span>
+          <span class="tag" data-icon="💠">virtualización</span>
+          <span class="tag" data-icon="🗂️">active directory</span>
+          <span class="tag" data-icon="🇬🇧">inglés técnico</span>
+          <span class="tag" data-icon="🛠️">gestión de incidencias</span>
+          <span class="tag" data-icon="♻️">sostenibilidad</span>
+        </div>
+      </div>
+
     </div>
   </section>
+
   <footer class="footer">
     <p>© 2026 · Nico Talens · Hecho con HTML &amp; CSS</p>
   </footer>
+  
   <script src="ui.js"></script>
   <button id="back-to-top" aria-label="Volver arriba">↑</button>
+  
   <div>
     <div>
       <div>

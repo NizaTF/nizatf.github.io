@@ -1850,3 +1850,59 @@ body,
 [data-theme="light"] .lvl-dot.is-on {
   box-shadow: none;
 }
+
+/* ============================
+   MARQUESINA DE TAGS (Sobre mí - 2 Líneas)
+   ============================ */
+.tags-marquee-container {
+  margin: 28px 0 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Separación entre las dos líneas */
+}
+
+.tags-marquee-row {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  
+  /* Efecto de difuminado en los bordes para que entren y salgan suavemente */
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.tags-marquee-track {
+  display: flex;
+  gap: 8px;
+  width: max-content;
+}
+
+/* Animación Línea 1: Izquierda a Derecha */
+.track-ltr {
+  animation: marquee-ltr 25s linear infinite;
+}
+
+/* Animación Línea 2: Derecha a Izquierda */
+.track-rtl {
+  animation: marquee-rtl 25s linear infinite;
+}
+
+/* Pausar animaciones al pasar el ratón */
+.tags-marquee-row:hover .tags-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-ltr {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+
+@keyframes marquee-rtl {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* Evitar que los tags se encojan */
+.tags-marquee-track .tag {
+  flex-shrink: 0;
+}
