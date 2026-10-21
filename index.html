@@ -6,6 +6,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
   <title>Inicio · Nico Talens</title>
+  
+    <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+  <!-- SEO Básico -->
+  <meta name="description" content="Portfolio de Nico Talens, estudiante de Sistemas Microinformáticos y Redes (SMX). Especializado en hardware, redes y desarrollo web.">
+  <meta name="author" content="Nico Talens">
+
+  <!-- Open Graph (Para LinkedIn, WhatsApp, etc.) -->
+  <meta property="og:title" content="Nico Talens · Portfolio">
+  <meta property="og:description" content="Estudiante de SMX apasionado por la informática, las redes y el desarrollo web.">
+  <meta property="og:type" content="website">
+  <!-- NOTA: Esta imagen es la que saldrá al compartir el link. Asegúrate de que existe o cambia la ruta -->
+  <meta property="og:image" content="assets/img/image.png"> 
 </head>
 
 <body>
@@ -17,6 +31,8 @@
       <a href="habilidades.html">Habilidades</a>
       <a href="contacto.html">Contacto</a>
     </div>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema">☀️</button>
+          <div id="scroll-progress"></div>
   </nav>
 
   <!-- HERO CENTRADO -->
@@ -145,5 +161,7 @@
   <footer class="footer">
     <p>© 2026 · Nico Talens · Hecho con HTML &amp; CSS</p>
   </footer>
+  <script src="ui.js"></script>
+<button id="back-to-top" aria-label="Volver arriba">↑</button>
 </body>
 </html>

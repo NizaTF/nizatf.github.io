@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Error 404 · Nico Talens</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  
+  <!-- SEO: Evitar que Google indexe la página de error -->
+  <meta name="robots" content="noindex">
+</head>
+
+<body>
+  <div id="scroll-progress"></div>
+
+  <nav class="navbar">
+    <div class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="sobre-mi.html">Sobre mí</a>
+      <a href="proyectos.html">Proyectos</a>
+      <a href="habilidades.html">Habilidades</a>
+      <a href="contacto.html">Contacto</a>
+    </div>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema">☀️</button>
+  </nav>
+
+  <!-- CONTENIDO 404 -->
+  <section class="page-header" style="padding-top: 120px; padding-bottom: 80px;">
+    <span class="eyebrow">Error 404</span>
+    <h1 class="page-title">Ruta no encontrada<span class="accent">.</span></h1>
+    <p class="page-subtitle" style="margin-bottom: 40px;">
+      El sistema no ha podido resolver la ruta especificada. Puede que el enlace esté roto o que la página haya sido movida.
+    </p>
+
+    <!-- Simulación de terminal -->
+    <div class="card" style="max-width: 520px; margin: 0 auto; text-align: left; padding: 24px; background: var(--surface);">
+      <div style="font-family: var(--font-mono); font-size: 13px; color: var(--text-soft); line-height: 1.8;">
+        <span style="color: var(--accent);">root@portfolio</span>:<span style="color: #6aa8ff;">~</span>$ ping destino<br>
+        <span style="color: var(--text-muted);">ping: cannot resolve destino: Unknown host</span><br>
+        <span style="color: var(--accent);">root@portfolio</span>:<span style="color: #6aa8ff;">~</span>$ echo $ERROR<br>
+        <span style="color: var(--text-muted);">404 - Not Found</span>
+      </div>
+    </div>
+
+    <div style="margin-top: 40px;">
+      <a href="index.html" class="btn btn-primary">Volver al inicio</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>© 2026 · Nico Talens · Hecho con HTML &amp; CSS</p>
+  </footer>
+
+  <!-- Botón volver arriba (por si acaso) -->
+  <button id="back-to-top" aria-label="Volver arriba">↑</button>
+
+  <script src="captcha.js"></script>
+  <script src="ui.js"></script>
+</body>
+</html>

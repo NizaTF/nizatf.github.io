@@ -1568,81 +1568,159 @@ a {
   }
 }
 
+
 /* ============================
-   AUTH OVERLAY (Acceso seguro)
+   MODO CLARO (Variables)
    ============================ */
-.auth-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background: rgba(10, 14, 23, 0.95); /* Casi opaco para ocultar el fondo */
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
+[data-theme="light"] {
+  --bg:             #f8fafc;
+  --surface:        #ffffff;
+  --surface-2:      #f1f5f9;
+  --surface-hover:  #e2e8f0;
+
+  --border:         #cbd5e1;
+  --border-strong:  #94a3b8;
+  --border-accent:  rgba(255, 77, 94, 0.4);
+
+  --text:           #0f172a;
+  --text-soft:      #334155;
+  --text-muted:     #64748b;
+  --text-dim:       #94a3b8;
+
+  /* Las sombras en claro deben ser más suaves */
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* ============================
+   TRANSICIONES SUAVES DE TEMA
+   ============================ */
+/* Aplicamos la transición a los colores de los elementos principales,
+   evitando `*` para no romper los efectos hover (transform) */
+body,
+.navbar,
+.card,
+.btn,
+.tag,
+.timeline-content,
+.contact-card,
+.skill-chip,
+.cefr-pip,
+.form-field input,
+.form-field textarea,
+.footer {
+  transition: background-color 0.4s ease,
+              border-color 0.4s ease,
+              color 0.4s ease,
+              box-shadow 0.4s ease;
+}
+
+/* ============================
+   AJUSTE DE PUNTITOS EN MODO CLARO
+   ============================ */
+[data-theme="light"] body::before {
+  /* Mantenemos exactamente tu tamaño (3.2px y 100px) pero subimos la opacidad */
+  background-image: radial-gradient(
+    circle,
+    rgba(255, 77, 94, 0.20) 3.2px,
+    transparent 1.4px
+  );
+}
+
+/* ============================
+   BOTÓN DE TEMA (Toggle)
+   ============================ */
+.theme-toggle {
+  position: absolute;
+  right: var(--pad-x);
+  background: transparent;
+  border: 1px solid transparent;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: var(--r-md);
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
-  transition: opacity 0.3s ease;
 }
 
-.auth-box {
+.theme-toggle:hover {
+  background: var(--surface-hover);
+  border-color: var(--border);
+}
+
+/* En móviles, ajustamos para que no se pegue al borde */
+@media (max-width: 850px) {
+  .theme-toggle {
+    top: 14px;
+  }
+}
+
+/* ============================
+   BARRA DE PROGRESO DE SCROLL
+   ============================ */
+#scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: var(--accent);
+  z-index: 9999;
+  /* Transición suave para que el movimiento sea fluido */
+  transition: width 0.1s ease-out;
+  pointer-events: none; /* Para que no bloquee clics en el navbar */
+}
+
+/* ============================
+   BOTÓN VOLVER ARRIBA
+   ============================ */
+#back-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
   background: var(--surface);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--accent); /* Detalle técnico lateral */
-  border-radius: var(--r-lg);
-  padding: 36px;
-  max-width: 440px;
-  width: 100%;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
-}
-
-.auth-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
-}
-
-.auth-header .eyebrow {
-  margin: 0;
-  font-size: 11px;
-  letter-spacing: 1px;
-}
-
-.auth-terminal {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-dim);
-}
-
-.auth-title {
+  color: var(--accent);
+  border: 1px solid var(--border-accent);
   font-size: 20px;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 900;
+  box-shadow: var(--shadow-md);
+  
+  /* Estado inicial: oculto */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(15px);
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.auth-desc {
-  font-size: 14px;
-  color: var(--text-muted);
-  line-height: 1.6;
-  margin-bottom: 28px;
+/* Estado visible: cuando el JS le añade la clase .is-visible */
+#back-to-top.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
-.auth-btn {
-  width: 100%;
-  font-family: var(--font-sans);
-  font-size: 14px;
-  padding: 14px 20px;
-  font-weight: 600;
+#back-to-top:hover {
+  background: var(--accent-soft);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-accent);
 }
 
-.auth-footer {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--text-dim);
-  text-align: center;
-  margin-top: 20px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+/* Ajuste para móviles */
+@media (max-width: 480px) {
+  #back-to-top {
+    bottom: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
 }
