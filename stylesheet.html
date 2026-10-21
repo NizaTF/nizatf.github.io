@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Style Guide · Dev Clean</title>
+  <style>
+    .sg-block { margin-bottom: 40px; }
+    .sg-label {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-dim);
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+    .sg-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .sg-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+    .swatch { height: 56px; border-radius: var(--r-md); border: 1px solid var(--border); margin-bottom: 10px; }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="sobre-mi.html">Sobre mí</a>
+      <a href="proyectos.html">Proyectos</a>
+      <a href="habilidades.html">Habilidades</a>
+      <a href="contacto.html">Contacto</a>
+    </div>
+  </nav>
+
+  <section class="page-header">
+    <span class="eyebrow">00 // style-guide</span>
+    <h1 class="page-title">Dev <span class="accent">Clean</span></h1>
+    <p class="page-subtitle">Todos los componentes del sistema en un solo sitio.</p>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <span class="eyebrow">01 // colores</span>
+      <h2 class="section-title">Paleta</h2>
+    </div>
+
+    <div class="sg-grid">
+      <div><div class="swatch" style="background:var(--bg)"></div><p class="sg-label">--bg #0a0e17</p></div>
+      <div><div class="swatch" style="background:var(--surface)"></div><p class="sg-label">--surface #0f1522</p></div>
+      <div><div class="swatch" style="background:var(--surface-2)"></div><p class="sg-label">--surface-2 #131a2a</p></div>
+      <div><div class="swatch" style="background:var(--border)"></div><p class="sg-label">--border #1e2938</p></div>
+      <div><div class="swatch" style="background:var(--accent)"></div><p class="sg-label">--accent #ff4d5e</p></div>
+      <div><div class="swatch" style="background:var(--accent-soft)"></div><p class="sg-label">--accent-soft #2a1218</p></div>
+      <div><div class="swatch" style="background:var(--green)"></div><p class="sg-label">--green #3ddc97</p></div>
+      <div><div class="swatch" style="background:var(--text)"></div><p class="sg-label">--text #e8ecf1</p></div>
+      <div><div class="swatch" style="background:var(--text-muted)"></div><p class="sg-label">--text-muted #8b95a5</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <span class="eyebrow">02 // tipografía</span>
+      <h2 class="section-title">Escala tipográfica</h2>
+    </div>
+
+    <div class="sg-block">
+      <p class="sg-label">Eyebrow (mono)</p>
+      <span class="eyebrow">01 // sobre-mi</span>
+    </div>
+    <div class="sg-block">
+      <p class="sg-label">Page title</p>
+      <h1 class="page-title">Estudiante de <span class="accent">SMX</span></h1>
+    </div>
+    <div class="sg-block">
+      <p class="sg-label">Section title</p>
+      <h2 class="section-title">Mis proyectos</h2>
+    </div>
+    <div class="sg-block">
+      <p class="sg-label">Body</p>
+      <p style="color:var(--text-soft);font-size:15.5px;max-width:600px;">
+        Cuerpo de texto a 15.5px con line-height 1.7.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <span class="eyebrow">03 // componentes</span>
+      <h2 class="section-title">Botones</h2>
+    </div>
+    <div class="sg-row">
+      <a href="#" class="btn btn-primary">Ver proyectos</a>
+      <a href="#" class="btn btn-secondary">Contactar</a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <span class="eyebrow">04 // componentes</span>
+      <h2 class="section-title">Tags &amp; estado</h2>
+    </div>
+
+    <div class="sg-block">
+      <p class="sg-label">Tags con icono (data-icon)</p>
+      <div class="tags-row">
+        <span class="tag" data-icon="🔧">hardware</span>
+        <span class="tag" data-icon="🪟">windows</span>
+        <span class="tag" data-icon="🐧">linux</span>
+        <span class="tag" data-icon="🌐">redes</span>
+        <span class="tag" data-icon="🔒">ciberseguridad</span>
+        <span class="tag" data-icon="📄">ofimática</span>
+        <span class="tag" data-icon="🎨">css</span>
+        <span class="tag" data-icon="⚡">javascript</span>
+        <span class="tag" data-icon="🌿">git</span>
+        <span class="tag" data-icon="⌨️">bash</span>
+        <span class="tag" data-icon="🗄️">sql</span>
+        <span class="tag" data-icon="🖥️">servidores</span>
+      </div>
+    </div>
+
+    <div class="sg-block">
+      <p class="sg-label">Estado</p>
+      <span class="status"><span class="status-dot"></span>Disponible para prácticas</span>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <span class="eyebrow">05 // componentes</span>
+      <h2 class="section-title">Tarjetas</h2>
+    </div>
+    <div class="sg-grid">
+      <div class="card">
+        <span class="card-number">01</span>
+        <div class="card-icon">👤</div>
+        <h3>Sobre mí</h3>
+        <p>Mi historia, formación y enfoque como técnico en sistemas.</p>
+      </div>
+      <div class="card">
+        <span class="card-number">02</span>
+        <div class="card-icon">💼</div>
+        <h3>Proyectos</h3>
+        <p>Una selección de trabajos reales y personales.</p>
+      </div>
+      <div class="card">
+        <span class="card-number">03</span>
+        <div class="card-icon">⚙️</div>
+        <h3>Habilidades</h3>
+        <p>Tecnologías, herramientas y nivel de dominio.</p>
+      </div>
+      <div class="card">
+        <span class="card-number">04</span>
+        <div class="card-icon">✉️</div>
+        <h3>Contacto</h3>
+        <p>Hablemos: propuestas, colaboraciones o dudas.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <span class="eyebrow">06 // componentes</span>
+      <h2 class="section-title">Timeline con estados</h2>
+    </div>
+
+    <div class="timeline">
+      <!-- done -->
+      <div class="timeline-item is-done">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <span class="timeline-date">2023 — 2024</span>
+          <h3>Primer año de SMX</h3>
+          <p>Hardware, sistemas operativos y redes iniciales.</p>
+        </div>
+      </div>
+
+      <!-- current -->
+      <div class="timeline-item is-current">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <span class="timeline-badge">actual</span>
+          <span class="timeline-date">2024 — 2025</span>
+          <h3>Segundo año · recta final</h3>
+          <p>Prácticas y proyecto de síntesis. Último tramo del ciclo.</p>
+        </div>
+      </div>
+
+      <!-- future -->
+      <div class="timeline-item is-future">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <span class="timeline-date">Próximamente</span>
+          <h3>Inserción laboral</h3>
+          <p>Soporte técnico, administración de sistemas o redes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <span class="eyebrow">07 // componentes</span>
+      <h2 class="section-title">Lista de datos</h2>
+    </div>
+    <ul class="fact-list">
+      <li><span class="fact-key">ubicación:</span> Valencia, España</li>
+      <li><span class="fact-key">formación:</span> Grado Medio en SMX</li>
+      <li><span class="fact-key">enfoque:</span> Sistemas y redes</li>
+      <li><span class="fact-key">estado:</span> Buscando prácticas</li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <span class="eyebrow">08 // hero</span>
+      <h2 class="section-title">Hero centrado</h2>
+    </div>
+    <div class="hero-center" style="padding:60px 0;">
+      <div class="hero-center-inner">
+        <span class="status"><span class="status-dot"></span>Disponible para prácticas</span>
+        <h1 class="hero-headline" style="margin-top:18px;">
+          Hola, soy <span class="accent">Nico</span>
+        </h1>
+        <p class="hero-subtitle">Estudiante de SMX · Sistemas, redes y desarrollo web.</p>
+        <div class="hero-actions">
+          <a href="#" class="btn btn-primary">Ver proyectos</a>
+          <a href="#" class="btn btn-secondary">Contactarme</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>© 2026 · Nico Talens · style guide</p>
+  </footer>
+</body>
+</html>

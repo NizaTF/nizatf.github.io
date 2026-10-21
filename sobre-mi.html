@@ -1,24 +1,155 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-  <title>Sobre mi</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Sobre mí · Nico Talens</title>
 </head>
 
 <body>
-  <nav class="navbar">
+    <nav class="navbar">
+        <div class="nav-links">
+            <a href="index.html">Inicio</a>
+            <a href="sobre-mi.html" class="active">Sobre mí</a>
+            <a href="proyectos.html">Proyectos</a>
+            <a href="habilidades.html">Habilidades</a>
+            <a href="contacto.html">Contacto</a>
+        </div>
+    </nav>
 
-    <div class="nav-links">
-      <a href="index.html">Inicio</a>
-      <a href="sobre-mi.html" class="active">Sobre mí</a>
-      <a href="proyectos.html">Proyectos</a>
-      <a href="habilidades.html">Habilidades</a>
-      <a href="contacto.html">Contacto</a>
-    </div>
-  </nav>
+    <!-- CABECERA -->
+    <section class="page-header">
+        <span class="eyebrow">01 // sobre-mi</span>
+        <h1 class="page-title">Un poco sobre <span class="accent">mí</span></h1>
+        <p class="page-subtitle">
+            Quién soy, de dónde vengo y hacia dónde quiero ir.
+        </p>
+    </section>
+
+    <!-- PRESENTACIÓN -->
+    <section class="section">
+        <div class="about-grid">
+
+            <!-- Columna izquierda: foto + datos -->
+            <aside class="about-side">
+                <div class="avatar">
+                    <img src="assets/img/foto-perfil.png" alt="Nico Talens" class="avatar-img">
+                </div>
+
+                <ul class="fact-list">
+                    <li><span class="fact-key">ubicación:</span> Valencia, España</li>
+                    <li><span class="fact-key">formación:</span> Grado Medio en SMX</li>
+                    <li><span class="fact-key">enfoque:</span> Sistemas y redes</li>
+                    <li><span class="fact-key">estado:</span> Buscando prácticas</li>
+                </ul>
+            </aside>
+
+            <!-- Columna derecha: texto -->
+            <div class="about-main">
+                <h2 class="about-heading">Hola, soy <span class="accent">Nico Talens</span></h2>
+
+                <p>
+                    Soy estudiante del Grado Medio de <strong>Sistemas Microinformáticos y Redes (SMX)</strong>.
+                    Me interesa todo lo relacionado con la informática: desde montar un equipo
+                    pieza a pieza hasta configurar una red local o dejar un servidor funcionando.
+                </p>
+
+                <p>
+                    Durante el ciclo he aprendido a trabajar con hardware, instalar y administrar
+                    sistemas operativos (Windows y Linux), montar redes locales y aplicar medidas
+                    básicas de seguridad. También manejo herramientas de ofimática y tengo soltura
+                    con el entorno web (HTML y CSS).
+                </p>
+
+                <p>
+                    Me considero una persona curiosa, constante y con ganas de aprender.
+                    Disfruto resolviendo problemas técnicos y entendiendo cómo funcionan las cosas
+                    por dentro. Este portafolio es mi forma de ir dejando constancia de lo que voy
+                    construyendo.
+                </p>
+
+                <div class="tags-row about-tags">
+                    <span class="tag" data-icon="🔧">hardware</span>
+                    <span class="tag" data-icon="🪟">windows</span>
+                    <span class="tag" data-icon="🐧">linux</span>
+                    <span class="tag" data-icon="🌐">redes</span>
+                    <span class="tag" data-icon="🔒">ciberseguridad</span>
+                    <span class="tag" data-icon="📄">ofimática</span>
+                    <span class="tag" data-icon="🖥️">servidores</span>
+                    <span class="tag" data-icon="🎨">css</span>
+                    <span class="tag" data-icon="⚡">javascript</span>
+                </div>
+
+                <div class="about-actions">
+                    <a href="proyectos.html" class="btn btn-primary">Ver mis proyectos</a>
+                    <a href="assets/docs/cv-nico-talens.pdf" class="btn btn-secondary" target="_blank" rel="noopener">
+                        Descargar CV
+                    </a>
+                    <a href="contacto.html" class="btn btn-secondary">Contactarme</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+
+
+    <!-- TRAYECTORIA -->
+    <section class="section">
+        <div class="section-head">
+            <span class="eyebrow">02 // trayectoria</span>
+            <h2 class="section-title">Mi recorrido</h2>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-item is-done">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">2025 — 2026</span>
+                    <h3>Primer año de SMX</h3>
+                    <p>
+                        Montaje y mantenimiento de equipos, sistemas operativos monopuesto,
+                        redes locales y aplicaciones ofimáticas, todo con media de 8.
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item is-current">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-badge">actual</span>
+                    <span class="timeline-date">2026 — 2027</span>
+                    <h3>Segundo año de SMX</h3>
+                    <p>
+                        Estoy en el último tramo del ciclo. Ya he cursado los módulos de hardware,
+                        sistemas operativos, redes locales, seguridad y ofimática, y afronto la
+                        recta final con las prácticas y el proyecto de síntesis.
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item is-future">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">Próximamente</span>
+                    <h3>Inserción laboral</h3>
+                    <p>
+                        Tras finalizar el ciclo, mi objetivo es estudiar DAM y DAW conjuntamente, luego dar el salto al
+                        mundo laboral
+                        en soporte técnico, administración de sistemas o redes, sin dejar de
+                        aprender y de construir proyectos propios.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>© 2026 · Nico Talens · Hecho con HTML &amp; CSS</p>
+    </footer>
 </body>
 
 </html>
