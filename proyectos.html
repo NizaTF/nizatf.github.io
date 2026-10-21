@@ -6,20 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Proyectos · Nico Talens</title>
-     
+
     <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
-  <!-- SEO Básico -->
-  <meta name="description" content="Portfolio de Nico Talens, estudiante de Sistemas Microinformáticos y Redes (SMX). Especializado en hardware, redes y desarrollo web.">
-  <meta name="author" content="Nico Talens">
+    <!-- SEO Básico -->
+    <meta name="description"
+        content="Portfolio de Nico Talens, estudiante de Sistemas Microinformáticos y Redes (SMX). Especializado en hardware, redes y desarrollo web.">
+    <meta name="author" content="Nico Talens">
 
-  <!-- Open Graph (Para LinkedIn, WhatsApp, etc.) -->
-  <meta property="og:title" content="Nico Talens · Portfolio">
-  <meta property="og:description" content="Estudiante de SMX apasionado por la informática, las redes y el desarrollo web.">
-  <meta property="og:type" content="website">
-  <!-- NOTA: Esta imagen es la que saldrá al compartir el link. Asegúrate de que existe o cambia la ruta -->
-  <meta property="og:image" content="assets/img/image.png"> 
+    <!-- Open Graph (Para LinkedIn, WhatsApp, etc.) -->
+    <meta property="og:title" content="Nico Talens · Portfolio">
+    <meta property="og:description"
+        content="Estudiante de SMX apasionado por la informática, las redes y el desarrollo web.">
+    <meta property="og:type" content="website">
+    <!-- NOTA: Esta imagen es la que saldrá al compartir el link. Asegúrate de que existe o cambia la ruta -->
+    <meta property="og:image" content="assets/img/image.png">
 </head>
 
 <body>
@@ -31,8 +33,8 @@
             <a href="habilidades.html">Habilidades</a>
             <a href="contacto.html">Contacto</a>
         </div>
-                <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema">☀️</button>
-          <div id="scroll-progress"></div>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema">☀️</button>
+        <div id="scroll-progress"></div>
 
     </nav>
 
@@ -57,13 +59,37 @@
                     <img src="assets/img/image.png" alt="Vista previa del proyecto" class="project-img">
                 </div>
                 <div class="project-body">
+
+                    <!-- AÑADE ESTE BLOQUE DE BADGES -->
+                    <div class="project-badges">
+
+                        <!-- Estado con lucecita -->
+                        <span class="badge is-active">
+                            <span class="badge-dot"></span>
+                            activo
+                        </span>
+
+                        <!-- Nivel de seriedad -->
+                        <div class="badge-level" title="Nivel de seriedad: 5/5">
+                            <span class="badge-label">nivel</span>
+                            <span class="lvl-dot is-on"></span>
+                            <span class="lvl-dot is-on"></span>
+                            <span class="lvl-dot is-on"></span>
+                            <span class="lvl-dot is-on"></span>
+                            <span class="lvl-dot is-on"></span>
+                        </div>
+
+                    </div>
+
                     <div class="project-top">
                         <h2 class="project-title">Web portifolio</h2>
                         <span class="project-arrow" aria-hidden="true">↗</span>
                     </div>
                     <p class="project-desc">
-                        La Web portifolio en la cual te encuentras ahora mismo, diseñada con la ayuda de diferentes
-                        modelos de IA, utilizando GitHub Pages.
+                        Portfolio personal desarrollado desde cero. Diseñé la estructura, el sistema de diseño (Dev
+                        Clean) y la lógica de la web (modo claro/oscuro, indicador de scroll y filtros de proyectos).
+                        Utilicé IA como asistente para agilizar la escritura del código y resolver dudas técnicas, lo
+                        que me permitió centrarme en la arquitectura y el diseño. Desplegado en GitHub Pages.
                     </p>
                 </div>
             </a>
