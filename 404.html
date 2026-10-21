@@ -12,6 +12,54 @@
   
   <!-- SEO: Evitar que Google indexe la página de error -->
   <meta name="robots" content="noindex">
+
+  <style>
+    /* ============================
+       FONDO DE INTERROGANTES ANIMADOS
+       ============================ */
+    
+    /* 1. Ocultamos los puntos originales */
+    body::before {
+      display: none;
+    }
+
+    /* 2. Creamos el fondo animado de interrogantes */
+    body::after {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      pointer-events: none;
+      
+      /* El dibujo del interrogante. 
+         Fíjate en viewBox='0 0 48 48': hemos hecho el lienzo más grande 
+         para que el dibujo (que estaba calculado para 24x24) se vea más pequeño. */
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none' stroke='%23ff4d5e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3'/%3E%3Cline x1='12' y1='17' x2='12.01' y2='17'/%3E%3C/svg%3E");
+      
+      /* Volvemos al tamaño original de 100px para que la cuadrícula sea idéntica */
+      background-size: 100px 100px;
+      background-position: 0 0;
+      
+      /* La animación vuelve a moverse en bloques de 100px */
+      animation: dotsDrift 5s linear infinite;
+      
+      /* Opacidad original */
+      opacity: 0.10;
+    }
+
+    @keyframes dotsDrift {
+      from { background-position: 0px 0px; }
+      to   { background-position: 100px 100px; }
+    }
+
+    /* Ajuste de opacidad para modo claro */
+    [data-theme="light"] body::after {
+      opacity: 0.15; 
+    }
+  </style>
 </head>
 
 <body>
@@ -41,8 +89,6 @@
       <div style="font-family: var(--font-mono); font-size: 13px; color: var(--text-soft); line-height: 1.8;">
         <span style="color: var(--accent);">root@portfolio</span>:<span style="color: #6aa8ff;">~</span>$ ping destino<br>
         <span style="color: var(--text-muted);">ping: cannot resolve destino: Unknown host</span><br>
-        <span style="color: var(--accent);">root@portfolio</span>:<span style="color: #6aa8ff;">~</span>$ echo $ERROR<br>
-        <span style="color: var(--text-muted);">404 - Not Found</span>
       </div>
     </div>
 
@@ -55,10 +101,8 @@
     <p>© 2026 · Nico Talens · Hecho con HTML &amp; CSS</p>
   </footer>
 
-  <!-- Botón volver arriba (por si acaso) -->
   <button id="back-to-top" aria-label="Volver arriba">↑</button>
 
-  <script src="captcha.js"></script>
   <script src="ui.js"></script>
 </body>
 </html>
