@@ -828,7 +828,7 @@ a {
 }
 
 /* ============================
-   ABOUT / SOBRE MÍ
+   SOBRE MÍ (Layout y Responsive)
    ============================ */
 .about-grid {
   display: grid;
@@ -840,6 +840,233 @@ a {
 .about-side {
   position: sticky;
   top: 100px;
+}
+
+.avatar {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  overflow: hidden;
+  margin-bottom: 22px;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.avatar:hover .avatar-img {
+  transform: scale(1.04);
+}
+
+.about-heading {
+  font-size: clamp(22px, 3vw, 32px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin-bottom: 22px;
+  color: var(--text);
+}
+
+.about-main p {
+  color: var(--text-soft);
+  font-size: 15.5px;
+  line-height: 1.8;
+  margin-bottom: 18px;
+}
+
+.about-main p strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.about-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+/* --- LA MARQUESINA DE TAGS --- */
+.tags-marquee-container {
+  margin: 32px 0 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  /* Obligamos a que la marquesina no ensanche la columna */
+  width: 100%;
+  overflow: hidden; 
+}
+
+.tags-marquee-row {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.tags-marquee-track {
+  display: flex;
+  gap: 8px;
+  width: max-content;
+}
+
+.track-ltr { animation: marquee-ltr 30s linear infinite; }
+.track-rtl { animation: marquee-rtl 30s linear infinite; }
+
+.tags-marquee-row:hover .tags-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-ltr {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+
+@keyframes marquee-rtl {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.tags-marquee-track .tag {
+  flex-shrink: 0;
+}
+
+/* ============================
+   SOBRE MÍ (Layout Definitivo)
+   ============================ */
+.about-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 56px;
+  align-items: start;
+  width: 100%;
+}
+
+.about-side {
+  position: sticky;
+  top: 100px;
+}
+
+.avatar {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  overflow: hidden;
+  margin-bottom: 22px;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.about-main {
+  min-width: 0; /* Evita que el texto largo rompa el grid */
+}
+
+.about-main p {
+  color: var(--text-soft);
+  font-size: 15.5px;
+  line-height: 1.8;
+  margin-bottom: 18px;
+}
+
+/* --- LA MARQUESINA DE TAGS --- */
+.tags-marquee-container {
+  margin: 32px 0 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  overflow: hidden; 
+}
+
+.tags-marquee-row {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.tags-marquee-track {
+  display: flex;
+  gap: 8px;
+  width: max-content;
+}
+
+.track-ltr { animation: marquee-ltr 30s linear infinite; }
+.track-rtl { animation: marquee-rtl 30s linear infinite; }
+
+.tags-marquee-row:hover .tags-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-ltr {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+
+@keyframes marquee-rtl {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.tags-marquee-track .tag {
+  flex-shrink: 0;
+}
+
+/* ============================
+   RESPONSIVE MÓVIL (Forzado)
+   ============================ */
+@media screen and (max-width: 850px) {
+  .about-grid {
+    grid-template-columns: 1fr !important; /* Fuerza 1 columna */
+    gap: 32px !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .about-side {
+    position: static !important; /* Quita el sticky */
+    max-width: 300px !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+  }
+
+  .about-main {
+    width: 100% !important;
+  }
+
+  .about-heading {
+    text-align: center !important;
+  }
+
+  .about-main p {
+    text-align: center !important;
+  }
+
+  .about-actions {
+    justify-content: center !important;
+    flex-direction: column !important;
+  }
+
+  .about-actions .btn {
+    width: 100% !important;
+  }
 }
 
 /* Avatar */
