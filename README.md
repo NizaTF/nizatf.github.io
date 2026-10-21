@@ -3,6 +3,8 @@
 > Estudiante de Sistemas Microinformáticos y Redes (SMX)
 > Apasionado por el hardware, las redes y el desarrollo web.
 
+🌐 **Puedes ver la web en vivo aquí: [https://nizatf.github.io/](https://nizatf.github.io/)**
+
 Este es el repositorio de mi portfolio personal. Una web estática, rápida y construida desde cero para mostrar quién soy, lo que he aprendido durante el ciclo y los proyectos en los que estoy trabajando.
 
 ## 🛠️ Stack Técnico
