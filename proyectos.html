@@ -6,6 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Proyectos · Nico Talens</title>
+        <script>
+        // Evitar el parpadeo (FOUC) al cargar la página
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+            if (savedTheme === 'light' || (!savedTheme && systemPrefersLight)) {
+                document.documentElement.setAttribute('data-theme', 'light');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+    
+    <!-- Favicon Dinámico -->
+    <link rel="icon" type="image/png" href="assets/img/favicon_oscuro.png" id="dynamic-favicon">
   <script>
     // Evitar el parpadeo (FOUC) al cargar la página
     (function() {
