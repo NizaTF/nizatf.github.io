@@ -2,6 +2,7 @@
 <html lang="es">
 
 <head>
+  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
@@ -18,8 +19,9 @@
       }
     })();
   </script>
-  <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  
+  <!-- Favicon dinámico -->
+  <link rel="icon" type="image/png" href="assets/img/favicon_oscuro.png" id="dynamic-favicon">
 
   <!-- SEO Básico -->
   <meta name="description"
@@ -36,6 +38,8 @@
 </head>
 
 <body>
+  <div id="scroll-progress"></div>
+
   <nav class="navbar">
     <div class="nav-links">
       <a href="index.html" class="active">Inicio</a>
@@ -45,7 +49,6 @@
       <a href="contacto.html">Contacto</a>
     </div>
     <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema">☀️</button>
-    <div id="scroll-progress"></div>
   </nav>
 
   <!-- HERO CENTRADO -->
@@ -99,7 +102,7 @@
         <li>
           <span class="cur-icon">📚</span>
           <span class="cur-key">aprendiendo</span>
-          <span class="cur-val">HTML · CSS </span>
+          <span class="cur-val">HTML · CSS</span>
         </li>
       </ul>
     </div>
