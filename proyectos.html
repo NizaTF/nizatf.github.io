@@ -2,220 +2,131 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Proyectos · Nico Talens</title>
-    
-    <script>
-        // Evitar el parpadeo (FOUC) al cargar la página
-        (function() {
-            const savedTheme = localStorage.getItem('theme');
-            const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-            if (savedTheme === 'light' || (!savedTheme && systemPrefersLight)) {
-                document.documentElement.setAttribute('data-theme', 'light');
-            } else {
-                document.documentElement.setAttribute('data-theme', 'dark');
-            }
-        })();
-    </script>
-    
-    <!-- Favicon Dinámico -->
-    <link rel="icon" type="image/png" href="assets/img/favicon_oscuro.png" id="dynamic-favicon">
-
-    <!-- SEO Básico -->
-    <meta name="description"
-        content="Portfolio de Nico Talens, estudiante de Sistemas Microinformáticos y Redes (SMX). Especializado en hardware, redes y desarrollo web.">
-    <meta name="author" content="Nico Talens">
-
-    <!-- Open Graph (Para LinkedIn, WhatsApp, etc.) -->
-    <meta property="og:title" content="Nico Talens · Portfolio">
-    <meta property="og:description"
-        content="Estudiante de SMX apasionado por la informática, las redes y el desarrollo web.">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="assets/img/image.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Proyectos · Nico Talens</title>
+  
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+      if (savedTheme === 'light' || (!savedTheme && systemPrefersLight)) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+  
+  <link rel="icon" type="image/png" href="assets/img/favicon_oscuro.png" id="dynamic-favicon">
 </head>
 
 <body>
-    <div id="scroll-progress"></div>
+  <div id="scroll-progress"></div>
 
-    <nav class="navbar">
-        <div class="nav-links">
-            <a href="index.html">Inicio</a>
-            <a href="sobre-mi.html">Sobre mí</a>
-            <a href="proyectos.html" class="active">Proyectos</a>
-            <a href="habilidades.html">Habilidades</a>
-            <a href="contacto.html">Contacto</a>
-        </div>
-        <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema">☀️</button>
-    </nav>
+  <nav class="navbar">
+    <div class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="sobre-mi.html">Sobre mí</a>
+      <a href="proyectos.html" class="active">Proyectos</a>
+      <a href="habilidades.html">Habilidades</a>
+      <a href="contacto.html">Contacto</a>
+    </div>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema">☀️</button>
+  </nav>
 
-    <!-- CABECERA -->
-    <section class="page-header">
-        <span class="eyebrow">01 // proyectos</span>
-        <h1 class="page-title">Mis <span class="accent">proyectos</span></h1>
-        <p class="page-subtitle">
-            Una selección de trabajos reales y personales. Cada tarjeta abre la web del proyecto.
-        </p>
-    </section>
+  <section class="page-header">
+    <span class="eyebrow">01 // proyectos</span>
+    <h1 class="page-title">Mis <span class="accent">proyectos</span></h1>
+    <p class="page-subtitle">
+      Una selección de trabajos reales y personales. Cada tarjeta abre la web del proyecto.
+    </p>
+  </section>
 
-    <!-- GRID DE PROYECTOS -->
-    <section class="section">
-        <div class="projects-grid">
+  <section class="section">
+    <!-- Aquí se inyectarán las tarjetas -->
+    <div class="projects-grid" id="projects-grid">
+      <p style="color: var(--text-muted); font-family: var(--font-mono);">Cargando proyectos...</p>
+    </div>
+  </section>
 
-            <!-- PROYECTO 1 -->
-            <a class="project-card" href="https://github.com/NizaTF/nizatf.github.io" target="_blank" rel="noopener">
+  <footer class="footer">
+    <p>© 2026 · Nico Talens · Hecho con HTML &amp; CSS</p>
+  </footer>
+  
+  <button id="back-to-top" aria-label="Volver arriba">↑</button>
+  <script src="ui.js"></script>
+
+  <!-- SCRIPT PARA GENERAR LAS TARJETAS -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const grid = document.getElementById("projects-grid");
+
+      // Mapeo de estados a clases y textos
+      const statusMap = {
+        active: { class: 'is-active', text: 'activo' },
+        building: { class: 'is-building', text: 'en proceso' },
+        planned: { class: 'is-planned', text: 'planeado' },
+        inactive: { class: 'is-inactive', text: 'inactivo' }
+      };
+
+      // Leemos el archivo JSON
+      // Usamos un timestamp para evitar la caché del navegador y ver los cambios al instante
+      fetch(`projects.json?v=${new Date().getTime()}`)
+        .then(res => {
+          if (!res.ok) throw new Error('Error al cargar los proyectos');
+          return res.json();
+        })
+        .then(projects => {
+          grid.innerHTML = ''; // Limpiamos el mensaje de carga
+
+          if (projects.length === 0) {
+            grid.innerHTML = '<p style="color: var(--text-muted);">No hay proyectos aún.</p>';
+            return;
+          }
+
+          projects.forEach(p => {
+            const st = statusMap[p.status] || statusMap.inactive;
+
+            // Generar barritas de nivel
+            let dots = '';
+            for (let i = 1; i <= 5; i++) {
+              dots += `<span class="lvl-dot ${i <= p.level ? 'is-on' : ''}"></span>`;
+            }
+
+            // Crear la tarjeta HTML
+            const card = `
+              <a class="project-card" href="${p.link}" target="_blank" rel="noopener">
                 <div class="project-thumb">
-                    <img src="assets/img/image.png" alt="Vista previa del proyecto" class="project-img">
+                  <img src="${p.image}" alt="Vista previa de ${p.title}" class="project-img" onerror="this.src='assets/img/placeholder.webp'">
                 </div>
                 <div class="project-body">
-
-                    <div class="project-badges">
-                        <span class="badge is-active">
-                            <span class="badge-dot"></span>
-                            activo
-                        </span>
-
-                        <div class="badge-level" title="Nivel de seriedad: 5/5">
-                            <span class="badge-label">nivel</span>
-                            <span class="lvl-dot is-on"></span>
-                            <span class="lvl-dot is-on"></span>
-                            <span class="lvl-dot is-on"></span>
-                            <span class="lvl-dot is-on"></span>
-                            <span class="lvl-dot is-on"></span>
-                        </div>
+                  <div class="project-badges">
+                    <span class="badge ${st.class}">
+                      <span class="badge-dot"></span>
+                      ${st.text}
+                    </span>
+                    <div class="badge-level" title="Nivel de seriedad: ${p.level}/5">
+                      <span class="badge-label">nivel</span>
+                      ${dots}
                     </div>
-
-                    <div class="project-top">
-                        <h2 class="project-title">Web portifolio</h2>
-                        <span class="project-arrow" aria-hidden="true">↗</span>
-                    </div>
-                    <p class="project-desc">
-                        Portfolio personal desarrollado desde cero. Diseñé la estructura, el sistema de diseño (Dev
-                        Clean) y la lógica de la web (modo claro/oscuro, indicador de scroll y filtros de proyectos).
-                        Utilicé IA como asistente para agilizar la escritura del código y resolver dudas técnicas, lo
-                        que me permitió centrarme en la arquitectura y el diseño. Desplegado en GitHub Pages.
-                    </p>
+                  </div>
+                  <div class="project-top">
+                    <h2 class="project-title">${p.title}</h2>
+                    <span class="project-arrow" aria-hidden="true">↗</span>
+                  </div>
+                  <p class="project-desc">${p.desc}</p>
                 </div>
-            </a>
-
-            <!-- PROYECTO 2 -->
-            <a class="project-card" href="https://youtu.be/dQw4w9WgXcQ?si=ZB4BDuuiD07nctol" target="_blank"
-                rel="noopener">
-                <div class="project-thumb">
-                    <img src="assets/img/placeholder.webp" alt="Vista previa del proyecto" class="project-img">
-                </div>
-                <div class="project-body">
-
-                    <div class="project-badges">
-                        <span class="badge is-building">
-                            <span class="badge-dot"></span>
-                            en proceso
-                        </span>
-
-                        <div class="badge-level" title="Nivel de seriedad: 4/5">
-                            <span class="badge-label">nivel</span>
-                            <span class="lvl-dot is-on"></span>
-                            <span class="lvl-dot is-on"></span>
-                            <span class="lvl-dot is-on"></span>
-                            <span class="lvl-dot is-on"></span>
-                            <span class="lvl-dot is-off"></span>
-                        </div>
-                    </div>
-
-                    <div class="project-top">
-                        <h2 class="project-title">Placeholder</h2>
-                        <span class="project-arrow" aria-hidden="true">↗</span>
-                    </div>
-                    <p class="project-desc">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore dolorum sunt, obcaecati sequi
-                        distinctio et tempora! Assumenda numquam temporibus facilis, quos maxime quo eveniet nostrum
-                        quam rem quas cupiditate facere!
-                    </p>
-                </div>
-            </a>
-
-            <!-- PROYECTO 3 -->
-            <a class="project-card" href="https://youtu.be/dQw4w9WgXcQ?si=ZB4BDuuiD07nctol" target="_blank"
-                rel="noopener">
-                <div class="project-thumb">
-                    <img src="assets/img/placeholder.webp" alt="Vista previa del proyecto" class="project-img">
-                </div>
-                <div class="project-body">
-
-                    <div class="project-badges">
-                        <span class="badge is-planned">
-                            <span class="badge-dot"></span>
-                            planeado
-                        </span>
-
-                        <div class="badge-level" title="Nivel de seriedad: 3/5">
-                            <span class="badge-label">nivel</span>
-                            <span class="lvl-dot is-on"></span>
-                            <span class="lvl-dot is-on"></span>
-                            <span class="lvl-dot is-on"></span>
-                            <span class="lvl-dot is-off"></span>
-                            <span class="lvl-dot is-off"></span>
-                        </div>
-                    </div>
-
-                    <div class="project-top">
-                        <h2 class="project-title">Placeholder</h2>
-                        <span class="project-arrow" aria-hidden="true">↗</span>
-                    </div>
-                    <p class="project-desc">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore dolorum sunt, obcaecati sequi
-                        distinctio et tempora! Assumenda numquam temporibus facilis, quos maxime quo eveniet nostrum
-                        quam rem quas cupiditate facere!
-                    </p>
-                </div>
-            </a>
-
-            <!-- PROYECTO 4 -->
-            <a class="project-card" href="https://youtu.be/dQw4w9WgXcQ?si=ZB4BDuuiD07nctol" target="_blank"
-                rel="noopener">
-                <div class="project-thumb">
-                    <img src="assets/img/placeholder.webp" alt="Vista previa del proyecto" class="project-img">
-                </div>
-                <div class="project-body">
-
-                    <div class="project-badges">
-                        <span class="badge is-inactive">
-                            <span class="badge-dot"></span>
-                            inactivo
-                        </span>
-
-                        <div class="badge-level" title="Nivel de seriedad: 2/5">
-                            <span class="badge-label">nivel</span>
-                            <span class="lvl-dot is-on"></span>
-                            <span class="lvl-dot is-on"></span>
-                            <span class="lvl-dot is-off"></span>
-                            <span class="lvl-dot is-off"></span>
-                            <span class="lvl-dot is-off"></span>
-                        </div>
-                    </div>
-
-                    <div class="project-top">
-                        <h2 class="project-title">Placeholder</h2>
-                        <span class="project-arrow" aria-hidden="true">↗</span>
-                    </div>
-                    <p class="project-desc">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore dolorum sunt, obcaecati sequi
-                        distinctio et tempora! Assumenda numquam temporibus facilis, quos maxime quo eveniet nostrum
-                        quam rem quas cupiditate facere!
-                    </p>
-                </div>
-            </a>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <p>© 2026 · Nico Talens · Hecho con HTML &amp; CSS</p>
-    </footer>
-    
-    <button id="back-to-top" aria-label="Volver arriba">↑</button>
-    
-    <script src="ui.js"></script>
+              </a>
+            `;
+            grid.innerHTML += card;
+          });
+        })
+        .catch(err => {
+          grid.innerHTML = `<p style="color: var(--accent);">Error al cargar el JSON: ${err.message}</p>`;
+        });
+    });
+  </script>
 </body>
-
 </html>

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Admin · Proyectos</title>
+  
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+      if (savedTheme === 'light' || (!savedTheme && systemPrefersLight)) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+  
+  <!-- Favicon Dinámico -->
+  <link rel="icon" type="image/png" href="assets/img/favicon_oscuro.png" id="dynamic-favicon">
+  
+  <style>
+    /* Estilos exclusivos del panel */
+    .admin-section { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+    .admin-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 24px; margin-bottom: 24px; }
+    .admin-box h2 { font-size: 18px; margin-bottom: 16px; color: var(--text); }
+    .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .project-row { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid var(--border); }
+    .project-row:last-child { border-bottom: none; }
+    .project-row h3 { font-size: 15px; color: var(--text); }
+    .project-actions button { padding: 6px 12px; font-size: 12px; border-radius: var(--r-sm); cursor: pointer; border: none; color: #fff; }
+    .btn-edit { background: #6aa8ff; margin-right: 8px; }
+    .btn-delete { background: var(--accent); }
+    .status-msg { margin-top: 10px; font-family: var(--font-mono); font-size: 13px; text-align: center; }
+    .status-msg.ok { color: var(--green); }
+    .status-msg.err { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <div id="scroll-progress"></div>
+
+  <nav class="navbar">
+    <div class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="sobre-mi.html">Sobre mí</a>
+      <a href="proyectos.html">Proyectos</a>
+      <a href="habilidades.html">Habilidades</a>
+      <a href="contacto.html">Contacto</a>
+    </div>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema">☀️</button>
+  </nav>
+
+  <section class="page-header">
+    <span class="eyebrow">panel de control</span>
+    <h1 class="page-title">Admin <span class="accent">Proyectos</span></h1>
+    <p class="page-subtitle">Edita el portfolio y guarda los cambios directamente en GitHub.</p>
+  </section>
+
+  <div class="admin-section">
+    
+    <!-- 1. CONFIGURACIÓN DE GITHUB -->
+    <div class="admin-box">
+      <h2>🔧 Configuración de GitHub</h2>
+      <div class="admin-grid">
+        <div class="form-field">
+          <label>Usuario GitHub</label>
+          <input type="text" id="gh-user" placeholder="Ej: NizaTF">
+        </div>
+        <div class="form-field">
+          <label>Repositorio</label>
+          <input type="text" id="gh-repo" placeholder="Ej: nizatf.github.io">
+        </div>
+      </div>
+      <div class="form-field" style="margin-top: 16px;">
+        <label>Token de GitHub (Fine-grained)</label>
+        <input type="password" id="gh-token" placeholder="github_pat_...">
+      </div>
+      <button class="btn btn-secondary" style="margin-top: 16px; width: 100%;" onclick="saveConfig()">Guardar Configuración y Conectar</button>
+    </div>
+
+    <!-- 2. FORMULARIO DE PROYECTO -->
+    <div class="admin-box" id="editor-box" style="display:none;">
+      <h2 id="editor-title">Añadir Proyecto</h2>
+      <input type="hidden" id="proj-id">
+      
+      <div class="form-field">
+        <label>Título</label>
+        <input type="text" id="proj-title" placeholder="Nombre del proyecto">
+      </div>
+      
+      <div class="form-field" style="margin-top: 16px;">
+        <label>Descripción</label>
+        <textarea id="proj-desc" rows="3" placeholder="Descripción del proyecto..."></textarea>
+      </div>
+
+      <div class="admin-grid" style="margin-top: 16px;">
+        <div class="form-field">
+          <label>Enlace del Proyecto</label>
+          <input type="url" id="proj-link" placeholder="https://...">
+        </div>
+        <div class="form-field">
+          <label>Ruta de la Imagen</label>
+          <input type="text" id="proj-image" placeholder="assets/img/...">
+        </div>
+      </div>
+
+      <div class="admin-grid" style="margin-top: 16px;">
+        <div class="form-field">
+          <label>Estado</label>
+          <select id="proj-status">
+            <option value="active">Activo</option>
+            <option value="building">En proceso</option>
+            <option value="planned">Planeado</option>
+            <option value="inactive">Inactivo</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Nivel de Seriedad (1-5)</label>
+          <input type="number" id="proj-level" min="1" max="5" value="5">
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 10px; margin-top: 20px;">
+        <button class="btn btn-primary" onclick="saveProject()">Guardar Proyecto</button>
+        <button class="btn btn-secondary" onclick="resetForm()">Cancelar</button>
+      </div>
+    </div>
+
+    <!-- 3. LISTA DE PROYECTOS -->
+    <div class="admin-box" id="list-box" style="display:none;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h2 style="margin: 0;">📦 Tus Proyectos</h2>
+        <button class="btn btn-primary" style="padding: 8px 16px; font-size: 13px;" onclick="resetForm()">+ Añadir Nuevo</button>
+      </div>
+      <div id="projects-list"></div>
+    </div>
+
+    <div class="status-msg" id="status-msg"></div>
+  </div>
+
+  <footer class="footer">
+    <p>© 2026 · Nico Talens · Hecho con HTML &amp; CSS</p>
+  </footer>
+
+  <button id="back-to-top" aria-label="Volver arriba">↑</button>
+  <script src="ui.js"></script>
+
+  <script>
+    let projectsData = [];
+    let fileSha = null;
+    
+    const API_URL = () => {
+      const user = localStorage.getItem('gh_user');
+      const repo = localStorage.getItem('gh_repo');
+      return `https://api.github.com/repos/${user}/${repo}/contents/projects.json`;
+    };
+
+    function loadConfig() {
+      const user = localStorage.getItem('gh_user');
+      const repo = localStorage.getItem('gh_repo');
+      const token = localStorage.getItem('gh_token');
+      
+      if (user && repo && token) {
+        document.getElementById('gh-user').value = user;
+        document.getElementById('gh-repo').value = repo;
+        document.getElementById('gh-token').value = token;
+        fetchProjects();
+      }
+    }
+
+    function saveConfig() {
+      const user = document.getElementById('gh-user').value.trim();
+      const repo = document.getElementById('gh-repo').value.trim();
+      const token = document.getElementById('gh-token').value.trim();
+
+      if (!user || !repo || !token) {
+        showStatus('Rellena todos los campos de configuración.', 'err');
+        return;
+      }
+
+      localStorage.setItem('gh_user', user);
+      localStorage.setItem('gh_repo', repo);
+      localStorage.setItem('gh_token', token);
+      showStatus('Configuración guardada. Cargando proyectos...', 'ok');
+      fetchProjects();
+    }
+
+    async function fetchProjects() {
+      const token = localStorage.getItem('gh_token');
+      if (!token) return;
+
+      try {
+        showStatus('Cargando proyectos...', 'ok');
+        const res = await fetch(API_URL(), {
+          headers: { 'Authorization': `token ${token}` }
+        });
+        
+        if (!res.ok) throw new Error('Error al conectar con GitHub. Revisa usuario/repo/token.');
+        
+        const data = await res.json();
+        fileSha = data.sha;
+        
+        const decoded = decodeURIComponent(escape(atob(data.content)));
+        projectsData = JSON.parse(decoded);
+
+        document.getElementById('editor-box').style.display = 'block';
+        document.getElementById('list-box').style.display = 'block';
+        renderList();
+        showStatus('Proyectos cargados correctamente.', 'ok');
+      } catch (err) {
+        showStatus(err.message, 'err');
+      }
+    }
+
+    function renderList() {
+      const list = document.getElementById('projects-list');
+      list.innerHTML = '';
+      
+      if (projectsData.length === 0) {
+        list.innerHTML = '<p style="color: var(--text-muted); font-size: 14px;">No hay proyectos.</p>';
+        return;
+      }
+
+      projectsData.forEach((p, index) => {
+        const row = document.createElement('div');
+        row.className = 'project-row';
+        row.innerHTML = `
+          <h3>${p.title}</h3>
+          <div class="project-actions">
+            <button class="btn-edit" onclick="editProject(${index})">Editar</button>
+            <button class="btn-delete" onclick="deleteProject(${index})">Borrar</button>
+          </div>
+        `;
+        list.appendChild(row);
+      });
+    }
+
+    function editProject(index) {
+      const p = projectsData[index];
+      document.getElementById('editor-title').textContent = 'Editar Proyecto';
+      document.getElementById('proj-id').value = index;
+      document.getElementById('proj-title').value = p.title;
+      document.getElementById('proj-desc').value = p.desc;
+      document.getElementById('proj-link').value = p.link;
+      document.getElementById('proj-image').value = p.image;
+      document.getElementById('proj-status').value = p.status;
+      document.getElementById('proj-level').value = p.level;
+      document.getElementById('editor-box').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function resetForm() {
+      document.getElementById('editor-title').textContent = 'Añadir Proyecto';
+      document.getElementById('proj-id').value = '';
+      document.getElementById('proj-title').value = '';
+      document.getElementById('proj-desc').value = '';
+      document.getElementById('proj-link').value = '';
+      document.getElementById('proj-image').value = '';
+      document.getElementById('proj-status').value = 'active';
+      document.getElementById('proj-level').value = '5';
+    }
+
+    function deleteProject(index) {
+      if (!confirm('¿Seguro que quieres borrar este proyecto?')) return;
+      projectsData.splice(index, 1);
+      saveToGitHub();
+    }
+
+    function saveProject() {
+      const id = document.getElementById('proj-id').value;
+      const title = document.getElementById('proj-title').value;
+      const desc = document.getElementById('proj-desc').value;
+      const link = document.getElementById('proj-link').value;
+      const image = document.getElementById('proj-image').value;
+      const status = document.getElementById('proj-status').value;
+      const level = parseInt(document.getElementById('proj-level').value);
+
+      if (!title || !desc) {
+        showStatus('El título y la descripción son obligatorios.', 'err');
+        return;
+      }
+
+      const project = {
+        id: id ? projectsData[id].id : Date.now().toString(),
+        title, desc, link, image, status, level
+      };
+
+      if (id) {
+        projectsData[id] = project;
+      } else {
+        projectsData.push(project);
+      }
+
+      saveToGitHub();
+    }
+
+    async function saveToGitHub() {
+      const token = localStorage.getItem('gh_token');
+      if (!token) return;
+
+      try {
+        showStatus('Guardando en GitHub...', 'ok');
+        
+        const contentString = JSON.stringify(projectsData, null, 2);
+        const contentBase64 = btoa(unescape(encodeURIComponent(contentString)));
+
+        const res = await fetch(API_URL(), {
+          method: 'PUT',
+          headers: {
+            'Authorization': `token ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: 'Actualizar proyectos desde el panel admin',
+            content: contentBase64,
+            sha: fileSha
+          })
+        });
+
+        if (!res.ok) throw new Error('Error al guardar. Revisa el token.');
+
+        const data = await res.json();
+        fileSha = data.content.sha;
+
+        resetForm();
+        renderList();
+        showStatus('¡Guardado con éxito! GitHub Pages tardará ~1 minuto en actualizarse.', 'ok');
+      } catch (err) {
+        showStatus(err.message, 'err');
+      }
+    }
+
+    function showStatus(msg, type) {
+      const el = document.getElementById('status-msg');
+      el.textContent = msg;
+      el.className = `status-msg ${type}`;
+    }
+
+    document.addEventListener('DOMContentLoaded', loadConfig);
+  </script>
+</body>
+</html>
