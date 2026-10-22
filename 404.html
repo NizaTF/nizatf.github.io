@@ -29,12 +29,10 @@
        FONDO DE INTERROGANTES ANIMADOS
        ============================ */
     
-    /* 1. Ocultamos los puntos originales */
     body::before {
       display: none;
     }
 
-    /* 2. Creamos el fondo animado de interrogantes */
     body::after {
       content: "";
       position: fixed;
@@ -45,19 +43,11 @@
       z-index: -1;
       pointer-events: none;
       
-      /* El dibujo del interrogante. 
-         Fíjate en viewBox='0 0 48 48': hemos hecho el lienzo más grande 
-         para que el dibujo (que estaba calculado para 24x24) se vea más pequeño. */
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none' stroke='%23ff4d5e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3'/%3E%3Cline x1='12' y1='17' x2='12.01' y2='17'/%3E%3C/svg%3E");
       
-      /* Volvemos al tamaño original de 100px para que la cuadrícula sea idéntica */
       background-size: 100px 100px;
       background-position: 0 0;
-      
-      /* La animación vuelve a moverse en bloques de 100px */
       animation: dotsDrift 5s linear infinite;
-      
-      /* Opacidad original */
       opacity: 0.10;
     }
 
@@ -66,9 +56,21 @@
       to   { background-position: 100px 100px; }
     }
 
-    /* Ajuste de opacidad para modo claro */
     [data-theme="light"] body::after {
       opacity: 0.15; 
+    }
+
+    /* ============================
+       FORZAR FOOTER AL FONDO
+       ============================ */
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    main {
+      flex: 1;
     }
   </style>
 </head>
@@ -87,26 +89,24 @@
     <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema">☀️</button>
   </nav>
 
-  <!-- CONTENIDO 404 -->
-  <section class="page-header" style="padding-top: 120px; padding-bottom: 80px;">
-    <span class="eyebrow">Error 404</span>
-    <h1 class="page-title">Ruta no encontrada<span class="accent">.</span></h1>
-    <p class="page-subtitle" style="margin-bottom: 40px;">
-      El sistema no ha podido resolver la ruta especificada. Puede que el enlace esté roto o que la página haya sido movida.
-    </p>
+  <main>
+    <!-- CONTENIDO 404 -->
+    <section class="page-header" style="padding-top: 120px; padding-bottom: 80px;">
+      
+      <span class="eyebrow" id="error-eyebrow">Error 404</span>
+      <h1 class="page-title" id="error-title">Cargando...</h1>
+      <p class="page-subtitle" id="error-desc" style="margin-bottom: 40px;"></p>
 
-    <!-- Simulación de terminal -->
-    <div class="card" style="max-width: 520px; margin: 0 auto; text-align: left; padding: 24px; background: var(--surface);">
-      <div style="font-family: var(--font-mono); font-size: 13px; color: var(--text-soft); line-height: 1.8;">
-        <span style="color: var(--accent);">root@portfolio</span>:<span style="color: #6aa8ff;">~</span>$ ping destino<br>
-        <span style="color: var(--text-muted);">ping: cannot resolve destino: Unknown host</span><br>
+      <!-- Simulación de terminal -->
+      <div class="card" style="max-width: 520px; margin: 0 auto; text-align: left; padding: 24px; background: var(--surface);">
+        <div style="font-family: var(--font-mono); font-size: 13px; color: var(--text-soft); line-height: 1.8;" id="terminal-output"></div>
       </div>
-    </div>
 
-    <div style="margin-top: 40px;">
-      <a href="index.html" class="btn btn-primary">Volver al inicio</a>
-    </div>
-  </section>
+      <div style="margin-top: 40px;">
+        <a href="index.html" class="btn btn-primary">Volver al inicio</a>
+      </div>
+    </section>
+  </main>
 
   <footer class="footer">
     <p>© 2026 · Nico Talens · Hecho con HTML &amp; CSS</p>
@@ -115,5 +115,107 @@
   <button id="back-to-top" aria-label="Volver arriba">↑</button>
 
   <script src="ui.js"></script>
+
+  <!-- SCRIPT DE MENSAJES ALEATORIOS (Versión con humor) -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const mensajes = [
+        // 1. El clásico perdido
+        {
+          eyebrow: "Error 404 // Búsqueda fallida",
+          title: "Te has perdido.",
+          desc: "Esta página no existe. Puede que hayas escrito mal la URL, o que mis habilidades como desarrollador no hayan llegado a crear esta ruta. Volvamos al inicio, ¿no?",
+          terminal: `<span style="color: var(--accent);">root@portfolio</span>:<span style="color: #6aa8ff;">~</span>$ buscar pagina-perdida<br>
+                     <span style="color: var(--text-muted);">Buscando... 0 resultados.</span><br>
+                     <span style="color: var(--accent);">root@portfolio</span>:<span style="color: #6aa8ff;">~</span>$ echo "¿Dónde está?"<br>
+                     <span style="color: var(--text-muted);">En ningún lado. 404.</span>`
+        },
+        // 2. El error de Windows
+        {
+          eyebrow: "Error 404 // Blue Screen",
+          title: "Ups, pantalla azul.",
+          desc: "El sistema ha colapsado al no encontrar esta página. No te preocupes, no has roto mi código. Simplemente, esta URL ha decidido tomarse un día libre.",
+          terminal: `<span style="color: var(--accent);">root@portfolio</span>:<span style="color: #6aa8ff;">~</span>$ reiniciar_pc.exe<br>
+                     <span style="color: var(--text-muted);">Error crítico: Página no encontrada.</span><br>
+                     <span style="color: var(--text-muted);">Reiniciando en 3... 2... 1... (es broma).</span>`
+        },
+        // 3. El DNS
+        {
+          eyebrow: "Error 404 // DNS Failure",
+          title: "Ni Google sabe dónde está.",
+          desc: "He preguntado a los servidores DNS y nadie sabe qué es esta página. Puede que el enlace esté roto. O que nunca haya existido. El caso es que aquí no está.",
+          terminal: `<span style="color: var(--accent);">root@portfolio</span>:<span style="color: #6aa8ff;">~</span>$ nslookup donde-esta-mi-pagina.com<br>
+                     <span style="color: var(--text-muted);">Server: 8.8.8.8</span><br>
+                     <span style="color: var(--text-muted);">** server can't find donde-esta-mi-pagina.com: NXDOMAIN</span>`
+        },
+        // 4. Zona restringida
+        {
+          eyebrow: "Error 404 // Acceso Denegado",
+          title: "Alto ahí, cowboy.",
+          desc: "No tienes permiso para ver esto. Y aunque lo tuvieras, la página no existe. Así que relájate, vuelve al inicio y no intentes hackear el portfolio, que te veo venir.",
+          terminal: `<span style="color: var(--accent);">root@portfolio</span>:<span style="color: #6aa8ff;">~</span>$ sudo entrar<br>
+                     <span style="color: var(--text-muted);">Permiso denegado. Y además, 404.</span><br>
+                     <span style="color: var(--accent);">root@portfolio</span>:<span style="color: #6aa8ff;">~</span>$ exit<br>
+                     <span style="color: var(--text-muted);">Adiós.</span>`
+        },
+        // 5. Null Pointer
+        {
+          eyebrow: "Error 404 // Null Pointer",
+          title: "Aquí no hay nada.",
+          desc: "La página que buscas devuelve 'null'. Ni siquiera existe en el vacío de internet. Eso sí, mi portfolio principal sigue funcionando. Ese no ha dado error.",
+          terminal: `<span style="color: var(--accent);">root@portfolio</span>:<span style="color: #6aa8ff;">~</span>$ abrir_pagina<br>
+                     <span style="color: var(--text-muted);">ReferenceError: pagina is not defined</span><br>
+                     <span style="color: var(--accent);">root@portfolio</span>:<span style="color: #6aa8ff;">~</span>$ echo "Menos mal que el resto sí va."`
+        },
+        // 6. Firewall
+        {
+          eyebrow: "Error 404 // Firewall Block",
+          title: "Te he pillado.",
+          desc: "Mi firewall ha interceptado tu petición. Esta página no existe y punto. ¿Intentando escanear mi web? Vuelve a la página de inicio, que aquí no hay nada que ver.",
+          terminal: `<span style="color: var(--accent);">root@portfolio</span>:<span style="color: #6aa8ff;">~</span>$ iptables -L -n<br>
+                     <span style="color: var(--text-muted);">Chain INPUT (policy DROP)</span><br>
+                     <span style="color: var(--text-muted);">DROP all -- 0.0.0.0/0 0.0.0.0/0</span><br>
+                     <span style="color: var(--text-muted);">Paquete descartado. Siguiente, por favor.</span>`
+        },
+        // 7. El archivo perdido
+        {
+          eyebrow: "Error 404 // File Not Found",
+          title: "Se lo llevó el viento.",
+          desc: "He buscado esta página por todo el sistema. No está. A veces las páginas se pierden, se borran o nunca se crean. Lo importante es que llegues a casa (al inicio).",
+          terminal: `<span style="color: var(--accent);">root@portfolio</span>:<span style="color: #6aa8ff;">~</span>$ find / -name "esta-pagina"<br>
+                     <span style="color: var(--text-muted);">find: 'esta-pagina': No such file or directory</span><br>
+                     <span style="color: var(--accent);">root@portfolio</span>:<span style="color: #6aa8ff;">~</span>$ echo "Bueno, lo intentamos."`
+        },
+        // 8. Redirección a ninguna parte
+        {
+          eyebrow: "Error 404 // Redirect Loop",
+          title: "Bucle infinito.",
+          desc: "Te has metido en un bucle temporal. Esta página te redirige a la nada. Tranquilo, sal de ahí, respira y pulsa el botón de abajo para volver a la realidad.",
+          terminal: `<span style="color: var(--accent);">root@portfolio</span>:<span style="color: #6aa8ff;">~</span>$ while true; do cargar_pagina; done<br>
+                     <span style="color: var(--text-muted);">Cargando... 404. Cargando... 404. Cargando... 404.</span><br>
+                     <span style="color: var(--text-muted);">Ctrl+C para salir del bucle.</span>`
+        },
+        // 9. EL SECRETO
+        {
+          eyebrow: "Error 404 // ¿Buscando algo?",
+          title: "Casi lo tienes.",
+          desc: "Esta página no existe, pero si eres de los que inspecciona el código buscando secretos, has llegado al lugar correcto. Sigue mirando, hay algo escondido en lo más profundo del sistema.",
+          terminal: `<span style="color: var(--accent);">root@portfolio</span>:<span style="color: #6aa8ff;">~</span>$ grep -r "secreto" /var/www/<br>
+                     <span style="color: var(--text-muted);">...rastreando archivos...</span><br>
+                     <span style="color: var(--text-muted); font-style: italic;"># Pista: Mira bien el código fuente de index.html</span>`
+        }
+      ];
+
+      // Elegimos uno al azar
+      const randomIndex = Math.floor(Math.random() * mensajes.length);
+      const msg = mensajes[randomIndex];
+
+      // Inyectamos el texto
+      document.getElementById("error-eyebrow").textContent = msg.eyebrow;
+      document.getElementById("error-title").innerHTML = msg.title.replace(".", '<span class="accent">.</span>');
+      document.getElementById("error-desc").textContent = msg.desc;
+      document.getElementById("terminal-output").innerHTML = msg.terminal;
+    });
+  </script>
 </body>
 </html>
