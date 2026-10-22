@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Proyectos · Nico Talens</title>
-        <script>
+    
+    <script>
         // Evitar el parpadeo (FOUC) al cargar la página
         (function() {
             const savedTheme = localStorage.getItem('theme');
@@ -21,20 +22,6 @@
     
     <!-- Favicon Dinámico -->
     <link rel="icon" type="image/png" href="assets/img/favicon_oscuro.png" id="dynamic-favicon">
-  <script>
-    // Evitar el parpadeo (FOUC) al cargar la página
-    (function() {
-      const savedTheme = localStorage.getItem('theme');
-      const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-      if (savedTheme === 'light' || (!savedTheme && systemPrefersLight)) {
-        document.documentElement.setAttribute('data-theme', 'light');
-      } else {
-        document.documentElement.setAttribute('data-theme', 'dark');
-      }
-    })();
-  </script>
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
     <!-- SEO Básico -->
     <meta name="description"
@@ -46,11 +33,12 @@
     <meta property="og:description"
         content="Estudiante de SMX apasionado por la informática, las redes y el desarrollo web.">
     <meta property="og:type" content="website">
-    <!-- NOTA: Esta imagen es la que saldrá al compartir el link. Asegúrate de que existe o cambia la ruta -->
     <meta property="og:image" content="assets/img/image.png">
 </head>
 
 <body>
+    <div id="scroll-progress"></div>
+
     <nav class="navbar">
         <div class="nav-links">
             <a href="index.html">Inicio</a>
@@ -60,8 +48,6 @@
             <a href="contacto.html">Contacto</a>
         </div>
         <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema">☀️</button>
-        <div id="scroll-progress"></div>
-
     </nav>
 
     <!-- CABECERA -->
@@ -77,25 +63,19 @@
     <section class="section">
         <div class="projects-grid">
 
-            <!-- ==============================
-           PROYECTO 1
-           ============================== -->
+            <!-- PROYECTO 1 -->
             <a class="project-card" href="https://github.com/NizaTF/nizatf.github.io" target="_blank" rel="noopener">
                 <div class="project-thumb">
                     <img src="assets/img/image.png" alt="Vista previa del proyecto" class="project-img">
                 </div>
                 <div class="project-body">
 
-                    <!-- AÑADE ESTE BLOQUE DE BADGES -->
                     <div class="project-badges">
-
-                        <!-- Estado con lucecita -->
                         <span class="badge is-active">
                             <span class="badge-dot"></span>
                             activo
                         </span>
 
-                        <!-- Nivel de seriedad -->
                         <div class="badge-level" title="Nivel de seriedad: 5/5">
                             <span class="badge-label">nivel</span>
                             <span class="lvl-dot is-on"></span>
@@ -104,7 +84,6 @@
                             <span class="lvl-dot is-on"></span>
                             <span class="lvl-dot is-on"></span>
                         </div>
-
                     </div>
 
                     <div class="project-top">
@@ -120,9 +99,7 @@
                 </div>
             </a>
 
-            <!-- ==============================
-           PROYECTO 2
-           ============================== -->
+            <!-- PROYECTO 2 -->
             <a class="project-card" href="https://youtu.be/dQw4w9WgXcQ?si=ZB4BDuuiD07nctol" target="_blank"
                 rel="noopener">
                 <div class="project-thumb">
@@ -130,16 +107,12 @@
                 </div>
                 <div class="project-body">
 
-                    <!-- AÑADE ESTE BLOQUE DE BADGES -->
                     <div class="project-badges">
-
-                        <!-- Estado con lucecita -->
                         <span class="badge is-building">
                             <span class="badge-dot"></span>
                             en proceso
                         </span>
 
-                        <!-- Nivel de seriedad -->
                         <div class="badge-level" title="Nivel de seriedad: 4/5">
                             <span class="badge-label">nivel</span>
                             <span class="lvl-dot is-on"></span>
@@ -148,7 +121,6 @@
                             <span class="lvl-dot is-on"></span>
                             <span class="lvl-dot is-off"></span>
                         </div>
-
                     </div>
 
                     <div class="project-top">
@@ -163,10 +135,7 @@
                 </div>
             </a>
 
-
-             <!-- ==============================
-           PROYECTO 3
-           ============================== -->
+            <!-- PROYECTO 3 -->
             <a class="project-card" href="https://youtu.be/dQw4w9WgXcQ?si=ZB4BDuuiD07nctol" target="_blank"
                 rel="noopener">
                 <div class="project-thumb">
@@ -174,16 +143,12 @@
                 </div>
                 <div class="project-body">
 
-                    <!-- AÑADE ESTE BLOQUE DE BADGES -->
                     <div class="project-badges">
-
-                        <!-- Estado con lucecita -->
                         <span class="badge is-planned">
                             <span class="badge-dot"></span>
                             planeado
                         </span>
 
-                        <!-- Nivel de seriedad -->
                         <div class="badge-level" title="Nivel de seriedad: 3/5">
                             <span class="badge-label">nivel</span>
                             <span class="lvl-dot is-on"></span>
@@ -192,7 +157,6 @@
                             <span class="lvl-dot is-off"></span>
                             <span class="lvl-dot is-off"></span>
                         </div>
-
                     </div>
 
                     <div class="project-top">
@@ -207,10 +171,7 @@
                 </div>
             </a>
 
-
-                         <!-- ==============================
-           PROYECTO 3
-           ============================== -->
+            <!-- PROYECTO 4 -->
             <a class="project-card" href="https://youtu.be/dQw4w9WgXcQ?si=ZB4BDuuiD07nctol" target="_blank"
                 rel="noopener">
                 <div class="project-thumb">
@@ -218,16 +179,12 @@
                 </div>
                 <div class="project-body">
 
-                    <!-- AÑADE ESTE BLOQUE DE BADGES -->
                     <div class="project-badges">
-
-                        <!-- Estado con lucecita -->
                         <span class="badge is-inactive">
                             <span class="badge-dot"></span>
                             inactivo
                         </span>
 
-                        <!-- Nivel de seriedad -->
                         <div class="badge-level" title="Nivel de seriedad: 2/5">
                             <span class="badge-label">nivel</span>
                             <span class="lvl-dot is-on"></span>
@@ -236,7 +193,6 @@
                             <span class="lvl-dot is-off"></span>
                             <span class="lvl-dot is-off"></span>
                         </div>
-
                     </div>
 
                     <div class="project-top">
@@ -251,15 +207,15 @@
                 </div>
             </a>
         </div>
-
     </section>
 
     <footer class="footer">
         <p>© 2026 · Nico Talens · Hecho con HTML &amp; CSS</p>
     </footer>
-    <script src="ui.js"></script>
+    
     <button id="back-to-top" aria-label="Volver arriba">↑</button>
-
+    
+    <script src="ui.js"></script>
 </body>
 
 </html>

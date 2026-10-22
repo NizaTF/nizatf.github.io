@@ -6,21 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
   <title>Error 404 · Nico Talens</title>
-      <script>
-        // Evitar el parpadeo (FOUC) al cargar la página
-        (function() {
-            const savedTheme = localStorage.getItem('theme');
-            const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-            if (savedTheme === 'light' || (!savedTheme && systemPrefersLight)) {
-                document.documentElement.setAttribute('data-theme', 'light');
-            } else {
-                document.documentElement.setAttribute('data-theme', 'dark');
-            }
-        })();
-    </script>
-    
-    <!-- Favicon Dinámico -->
-    <link rel="icon" type="image/png" href="assets/img/favicon_oscuro.png" id="dynamic-favicon">
+  
   <script>
     // Evitar el parpadeo (FOUC) al cargar la página
     (function() {
@@ -33,8 +19,9 @@
       }
     })();
   </script>
-  <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  
+  <!-- Favicon Dinámico -->
+  <link rel="icon" type="image/png" href="assets/img/favicon_oscuro.png" id="dynamic-favicon">
   
   <!-- SEO: Evitar que Google indexe la página de error -->
   <meta name="robots" content="noindex">
@@ -131,11 +118,10 @@
 
   <script src="ui.js"></script>
 
-  <!-- SCRIPT DE MENSAJES ALEATORIOS (Versión con humor) -->
+  <!-- SCRIPT DE MENSAJES ALEATORIOS -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const mensajes = [
-        // 1. El clásico perdido
         {
           eyebrow: "Error 404 // Búsqueda fallida",
           title: "Te has perdido.",
@@ -145,7 +131,6 @@
                      <span style="color: var(--accent);">root@portfolio</span>:<span style="color: #6aa8ff;">~</span>$ echo "¿Dónde está?"<br>
                      <span style="color: var(--text-muted);">En ningún lado. 404.</span>`
         },
-        // 2. El error de Windows
         {
           eyebrow: "Error 404 // Blue Screen",
           title: "Ups, pantalla azul.",
@@ -154,7 +139,6 @@
                      <span style="color: var(--text-muted);">Error crítico: Página no encontrada.</span><br>
                      <span style="color: var(--text-muted);">Reiniciando en 3... 2... 1... (es broma).</span>`
         },
-        // 3. El DNS
         {
           eyebrow: "Error 404 // DNS Failure",
           title: "Ni Google sabe dónde está.",
@@ -163,7 +147,6 @@
                      <span style="color: var(--text-muted);">Server: 8.8.8.8</span><br>
                      <span style="color: var(--text-muted);">** server can't find donde-esta-mi-pagina.com: NXDOMAIN</span>`
         },
-        // 4. Zona restringida
         {
           eyebrow: "Error 404 // Acceso Denegado",
           title: "Alto ahí, cowboy.",
@@ -173,7 +156,6 @@
                      <span style="color: var(--accent);">root@portfolio</span>:<span style="color: #6aa8ff;">~</span>$ exit<br>
                      <span style="color: var(--text-muted);">Adiós.</span>`
         },
-        // 5. Null Pointer
         {
           eyebrow: "Error 404 // Null Pointer",
           title: "Aquí no hay nada.",
@@ -182,7 +164,6 @@
                      <span style="color: var(--text-muted);">ReferenceError: pagina is not defined</span><br>
                      <span style="color: var(--accent);">root@portfolio</span>:<span style="color: #6aa8ff;">~</span>$ echo "Menos mal que el resto sí va."`
         },
-        // 6. Firewall
         {
           eyebrow: "Error 404 // Firewall Block",
           title: "Te he pillado.",
@@ -192,7 +173,6 @@
                      <span style="color: var(--text-muted);">DROP all -- 0.0.0.0/0 0.0.0.0/0</span><br>
                      <span style="color: var(--text-muted);">Paquete descartado. Siguiente, por favor.</span>`
         },
-        // 7. El archivo perdido
         {
           eyebrow: "Error 404 // File Not Found",
           title: "Se lo llevó el viento.",
@@ -201,7 +181,6 @@
                      <span style="color: var(--text-muted);">find: 'esta-pagina': No such file or directory</span><br>
                      <span style="color: var(--accent);">root@portfolio</span>:<span style="color: #6aa8ff;">~</span>$ echo "Bueno, lo intentamos."`
         },
-        // 8. Redirección a ninguna parte
         {
           eyebrow: "Error 404 // Redirect Loop",
           title: "Bucle infinito.",
@@ -210,7 +189,6 @@
                      <span style="color: var(--text-muted);">Cargando... 404. Cargando... 404. Cargando... 404.</span><br>
                      <span style="color: var(--text-muted);">Ctrl+C para salir del bucle.</span>`
         },
-        // 9. EL SECRETO
         {
           eyebrow: "Error 404 // ¿Buscando algo?",
           title: "Casi lo tienes.",
@@ -221,11 +199,9 @@
         }
       ];
 
-      // Elegimos uno al azar
       const randomIndex = Math.floor(Math.random() * mensajes.length);
       const msg = mensajes[randomIndex];
 
-      // Inyectamos el texto
       document.getElementById("error-eyebrow").textContent = msg.eyebrow;
       document.getElementById("error-title").innerHTML = msg.title.replace(".", '<span class="accent">.</span>');
       document.getElementById("error-desc").textContent = msg.desc;

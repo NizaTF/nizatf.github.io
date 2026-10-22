@@ -6,22 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
   <title>Habilidades · Nico Talens</title>
-      <script>
-        // Evitar el parpadeo (FOUC) al cargar la página
-        (function() {
-            const savedTheme = localStorage.getItem('theme');
-            const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-            if (savedTheme === 'light' || (!savedTheme && systemPrefersLight)) {
-                document.documentElement.setAttribute('data-theme', 'light');
-            } else {
-                document.documentElement.setAttribute('data-theme', 'dark');
-            }
-        })();
-    </script>
-    
-    <!-- Favicon Dinámico -->
-    <link rel="icon" type="image/png" href="assets/img/favicon_oscuro.png" id="dynamic-favicon">
-     <script>
+  
+  <script>
     // Evitar el parpadeo (FOUC) al cargar la página
     (function() {
       const savedTheme = localStorage.getItem('theme');
@@ -33,8 +19,9 @@
       }
     })();
   </script>
-    <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  
+  <!-- Favicon Dinámico -->
+  <link rel="icon" type="image/png" href="assets/img/favicon_oscuro.png" id="dynamic-favicon">
 
   <!-- SEO Básico -->
   <meta name="description" content="Portfolio de Nico Talens, estudiante de Sistemas Microinformáticos y Redes (SMX). Especializado en hardware, redes y desarrollo web.">
@@ -44,11 +31,12 @@
   <meta property="og:title" content="Nico Talens · Portfolio">
   <meta property="og:description" content="Estudiante de SMX apasionado por la informática, las redes y el desarrollo web.">
   <meta property="og:type" content="website">
-  <!-- NOTA: Esta imagen es la que saldrá al compartir el link. Asegúrate de que existe o cambia la ruta -->
   <meta property="og:image" content="assets/img/image.png"> 
 </head>
 
 <body>
+  <div id="scroll-progress"></div>
+
   <nav class="navbar">
     <div class="nav-links">
       <a href="index.html">Inicio</a>
@@ -57,9 +45,7 @@
       <a href="habilidades.html" class="active">Habilidades</a>
       <a href="contacto.html">Contacto</a>
     </div>
-            <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema">☀️</button>
-          <div id="scroll-progress"></div>
-
+    <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema">☀️</button>
   </nav>
 
   <!-- CABECERA -->
@@ -224,8 +210,9 @@
   <footer class="footer">
     <p>© 2026 · Nico Talens · Hecho con HTML &amp; CSS</p>
   </footer>
-  <script src="ui.js"></script>
+  
   <button id="back-to-top" aria-label="Volver arriba">↑</button>
-
+  
+  <script src="ui.js"></script>
 </body>
 </html>
