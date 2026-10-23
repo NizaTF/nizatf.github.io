@@ -22,5 +22,26 @@
       "GitHub API",
       "Diseño UI/UX"
     ]
+  },
+  {
+    "id": "1792755344415",
+    "title": "Proyecto Intermodular SMX",
+    "desc": "El proyecto final del ciclo de SMX. Una integración de todos los conocimientos de hardware, redes y sistemas. Actualmente en fase de planificación y organización.",
+    "link": "",
+    "blog": "## 🎓 El Reto Final\nEl Proyecto Intermodular representa la culminación de dos años de esfuerzo en el Grado Medio de Sistemas Microinformáticos y Redes. Es el momento de demostrar que no solo sabemos estudiar, sino que somos capaces de integrar todos los módulos (redes, hardware, sistemas operativos, seguridad y desarrollo) en un proyecto real.\n\n> *\"Aún no tenemos del todo claro de qué va a tratar nuestro proyecto de final de curso, pero por ahora nos hemos organizado muy bien. ¡Tengo ganas de empezar ya!\"*\n\n## 🧠 Fase Actual: Ideación y Organización\nEn estos momentos, el proyecto se encuentra en la fase de **planificación y definición**. Como equipo, estamos explorando diferentes ideas que nos permitan aplicar todo lo aprendido durante el ciclo. \n\nLa organización está siendo impecable. Hemos establecido una metodología de trabajo clara, definiendo los roles de cada miembro y estableciendo un cronograma para cumplir con los plazos de entrega.\n\n## 🛠️ ¿Qué áreas va a cubrir?\nAl ser un proyecto intermodular, el resultado final tocará casi todas las ramas de la informática:\n* **Infraestructura**: Montaje de servidores y despliegue de cableado estructurado.\n* **Redes y Sistemas**: Configuración de servicios de red, direccionamiento IP y administración de sistemas operativos en red.\n* **Seguridad**: Implementación de políticas de acceso, copias de seguridad y protección de datos.\n* **Documentación**: Redacción técnica del proyecto, memorias y presentación final.\n\n## 🚀 Próximos pasos\nEstamos en la recta final del grado y la motivación está por las nubes. En las próximas semanas definiremos la idea central, asignaremos las tareas técnicas y empezaremos a montar los entornos de pruebas. Este espacio se irá actualizando con los avances, los retos a los que nos enfrentemos y, finalmente, con el resultado final del proyecto.",
+    "images": [
+      "assets/img/projects/1792755342471_a6cdac8c77f6b6d77913ee398a7617a9.jpg"
+    ],
+    "imageFit": "contain",
+    "status": "planned",
+    "level": 1,
+    "skills": [
+      "Gestión de Proyectos",
+      "Hardware",
+      "Redes",
+      "Sistemas Operativos",
+      "Seguridad",
+      "Documentación"
+    ]
   }
 ]
