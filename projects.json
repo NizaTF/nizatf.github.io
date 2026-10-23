@@ -7,14 +7,5 @@
     "image": "assets/img/image.png",
     "status": "active",
     "level": 5
-  },
-  {
-    "id": "2",
-    "title": "pladiholdi",
-    "desc": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore dolorum sunt, obcaecati sequi distinctio et tempora!",
-    "link": "https://youtu.be/dQw4w9WgXcQ",
-    "image": "assets/img/placeholder.webp",
-    "status": "building",
-    "level": 4
   }
 ]
