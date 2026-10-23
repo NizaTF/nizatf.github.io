@@ -1,23 +1,5 @@
 [
   {
-    "id": "1",
-    "title": "Web Portfolio",
-    "desc": "Portfolio personal...",
-    "link": "...",
-    "images": [
-      "..."
-    ],
-    "imageFit": "cover",
-    "status": "active",
-    "level": 5,
-    "skills": [
-      "HTML5",
-      "CSS3",
-      "JavaScript",
-      "Git"
-    ]
-  },
-  {
     "id": "1792755136005",
     "title": "Portfolio Web Personal",
     "desc": "Un CMS estático construido desde cero. Panel de administración conectado a la API de GitHub, alertas en Telegram y un sistema de diseño propio.",
