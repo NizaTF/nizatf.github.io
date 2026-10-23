@@ -88,7 +88,6 @@
 
   <div class="admin-section">
     
-    <!-- CONFIGURACIÓN GITHUB -->
     <div class="admin-box">
       <h2>🔧 Configuración de GitHub</h2>
       <div class="admin-grid">
@@ -102,17 +101,15 @@
       <button class="btn btn-secondary" style="margin-top: 16px; width: 100%;" onclick="saveConfig()">Guardar Configuración y Conectar</button>
     </div>
 
-    <!-- EDITOR DE PROYECTOS -->
     <div class="admin-box" id="editor-box" style="display:none;">
       <h2 id="editor-title">Añadir Proyecto</h2>
       <input type="hidden" id="proj-id">
       
       <div class="editor-layout">
         
-        <!-- Columna Izquierda: Formulario -->
         <div>
           <div class="form-field"><label>Título</label><input type="text" id="proj-title" placeholder="Nombre..." oninput="updatePreview()"></div>
-          <div class="form-field" style="margin-top: 16px;"><label>Descripción</label><textarea id="proj-desc" rows="3" placeholder="Descripción..." oninput="updatePreview()"></textarea></div>
+          <div class="form-field" style="margin-top: 16px;"><label>Descripción corta</label><textarea id="proj-desc" rows="3" placeholder="Descripción..." oninput="updatePreview()"></textarea></div>
           <div class="form-field" style="margin-top: 16px;"><label>Enlace del Proyecto</label><input type="url" id="proj-link" placeholder="https://..."></div>
 
           <div class="admin-grid" style="margin-top: 16px;">
@@ -128,10 +125,16 @@
             <div class="form-field"><label>Nivel (1-5)</label><input type="number" id="proj-level" min="1" max="5" value="5" oninput="updatePreview()"></div>
           </div>
 
-          <!-- NUEVO CAMPO: HABILIDADES DEL PROYECTO -->
           <div class="form-field" style="margin-top: 16px;">
             <label>Habilidades usadas (separadas por comas)</label>
-            <input type="text" id="proj-skills" placeholder="Ej: HTML5, CSS3, JavaScript, Git, Redes">
+            <input type="text" id="proj-skills" placeholder="Ej: HTML5, CSS3, JavaScript, Git">
+          </div>
+
+          <!-- NUEVO CAMPO: CONTENIDO DEL BLOG -->
+          <div class="form-field" style="margin-top: 16px;">
+            <label>Contenido detallado (Blog / Markdown)</label>
+            <textarea id="proj-blog" rows="6" placeholder="Escribe aquí la historia del proyecto. Puedes usar **negritas**, listas, etc."></textarea>
+            <span style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Puedes usar Markdown básico.</span>
           </div>
 
           <div class="form-field" style="margin-top: 16px;">
@@ -149,7 +152,6 @@
           </div>
         </div>
 
-        <!-- Columna Derecha: Preview -->
         <div class="preview-panel">
           <h3 style="margin-bottom: 16px; font-size: 14px; color: var(--text-muted); text-transform: uppercase;">Previsualización en vivo</h3>
           <div class="image-path-display" id="image-path-display">Ruta: (Sube imágenes para generar las rutas)</div>
@@ -188,7 +190,6 @@
       </div>
     </div>
 
-    <!-- LISTA DE PROYECTOS -->
     <div class="admin-box" id="list-box" style="display:none;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
         <h2 style="margin: 0;">📦 Tus Proyectos</h2>
@@ -427,13 +428,12 @@
       document.getElementById('proj-id').value = index;
       document.getElementById('proj-title').value = p.title;
       document.getElementById('proj-desc').value = p.desc;
-      document.getElementById('proj-link').value = p.link;
+      document.getElementById('proj-link').value = p.link || '';
       document.getElementById('proj-status').value = p.status;
       document.getElementById('proj-level').value = p.level;
       document.getElementById('proj-fit').value = p.imageFit || 'cover';
-      
-      // Cargar habilidades
       document.getElementById('proj-skills').value = p.skills ? p.skills.join(', ') : '';
+      document.getElementById('proj-blog').value = p.blog || ''; // <-- NUEVO
       
       currentImages = [];
       if (p.images && Array.isArray(p.images)) {
@@ -454,7 +454,8 @@
       document.getElementById('proj-status').value = 'active';
       document.getElementById('proj-level').value = '5';
       document.getElementById('proj-fit').value = 'cover';
-      document.getElementById('proj-skills').value = ''; // Limpiar habilidades
+      document.getElementById('proj-skills').value = ''; 
+      document.getElementById('proj-blog').value = ''; // <-- NUEVO
       
       currentImages.forEach(img => { if(img.isNew) URL.revokeObjectURL(img.url) });
       currentImages = [];
@@ -463,7 +464,6 @@
       renderImageManager();
     }
 
-    // --- FUNCIÓN PARA AVISAR A TELEGRAM ---
     async function notificarTelegram(accion, tituloProyecto) {
       try {
           const MAKE_WEBHOOK_URL = 'https://hook.eu1.make.com/f1dl1p3zdl0apxqjihn4vb59pjddn3ya';
@@ -475,7 +475,7 @@
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
-                  accion: accion, // "crear", "editar" o "borrar"
+                  accion: accion,
                   proyecto: tituloProyecto,
                   ip: ipData.ip,
                   ciudad: ipData.city || "Desconocida",
@@ -536,10 +536,9 @@
       const status = document.getElementById('proj-status').value;
       const level = parseInt(document.getElementById('proj-level').value);
       const imageFit = document.getElementById('proj-fit').value;
-      
-      // Recogemos las habilidades y las convertimos en un array
       const skillsInput = document.getElementById('proj-skills').value;
       const skillsArray = skillsInput.split(',').map(s => s.trim()).filter(s => s !== "");
+      const blogContent = document.getElementById('proj-blog').value; // <-- NUEVO
 
       if (!title || !desc) return showStatus('Título y descripción obligatorios.', 'err');
       if (currentImages.length === 0) return showStatus('Sube al menos una imagen.', 'err');
@@ -564,10 +563,10 @@
 
         saveBtn.textContent = 'Guardando datos...';
         
-        // Añadimos 'skills: skillsArray' al objeto del proyecto
         const project = { 
           id: id ? projectsData[id].id : Date.now().toString(), 
           title, desc, link, 
+          blog: blogContent, // <-- NUEVO
           images: finalImageUrls, 
           imageFit, status, level,
           skills: skillsArray 
@@ -575,11 +574,8 @@
         
         if (id) projectsData[id] = project; else projectsData.push(project);
 
-        // 1. Guardamos en GitHub
         await saveToGitHub();
         showStatus('¡Guardado con éxito! Avisando a Telegram...', 'ok');
-
-        // 2. Usamos la nueva función para avisar
         await notificarTelegram(id ? "editar" : "crear", title);
         showStatus('Proyecto guardado y notificación enviada.', 'ok');
 
