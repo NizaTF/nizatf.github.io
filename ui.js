@@ -95,4 +95,59 @@ document.addEventListener('DOMContentLoaded', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
+    // --- 7. TRANSICIÓN SUAVE ENTRE PESTAÑAS (Fade Out) ---
+  const navLinks = document.querySelectorAll('.nav-links a, .card, .btn'); // Añadimos botones y tarjetas
+  
+  navLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      const href = this.getAttribute('href');
+      
+      // Ignorar si es la página actual, si es un enlace externo o si abre en otra pestaña
+      if (this.classList.contains('active') || !href || href.startsWith('http') || href.startsWith('#') || this.target === '_blank') {
+        return;
+      }
+
+      e.preventDefault();
+      
+      // Creamos la capa de fundido
+      const overlay = document.createElement('div');
+      overlay.style.position = 'fixed';
+      overlay.style.inset = '0';
+      overlay.style.backgroundColor = 'var(--bg)'; // Color de fondo de tu web
+      overlay.style.zIndex = '99999';
+      overlay.style.opacity = '0';
+      overlay.style.transition = 'opacity 0.3s ease';
+      overlay.style.pointerEvents = 'none';
+      document.body.appendChild(overlay);
+
+      // Hacemos que la capa aparezca suavemente
+      requestAnimationFrame(() => {
+        overlay.style.opacity = '1';
+      });
+
+      // Esperamos 300ms (lo que dura el fundido) y cambiamos de página
+      setTimeout(() => {
+        window.location.href = href;
+      }, 300);
+    });
+  });
+    // --- 11. STATUS DEL SISTEMA (Footer) ---
+  const sysLastDeploy = document.getElementById('sys-last-deploy');
+  
+  if (sysLastDeploy) {
+    // Obtenemos la fecha y hora actual
+    const now = new Date();
+    
+    // Formateamos la fecha (Año-Mes-Día Hora:Minutos)
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    
+    const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}`;
+    
+    // Lo inyectamos en el HTML
+    sysLastDeploy.textContent = `LAST DEPLOY: ${formattedDate}`;
+  }
 });

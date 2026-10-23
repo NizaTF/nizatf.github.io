@@ -2882,3 +2882,98 @@ body,
 .theme-toggle:hover .theme-icon-img {
   transform: scale(1.15) rotate(15deg);
 }
+
+/* ============================
+   ANIMACIÓN DE ENTRADA DE PÁGINA
+   ============================ */
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+body {
+  animation: pageEnter 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Evitar la animación si el usuario prefiere menos movimiento */
+@media (prefers-reduced-motion: reduce) {
+  body {
+    animation: none;
+  }
+}
+
+/* ============================
+   FOOTER Y STATUS DEL SISTEMA
+   ============================ */
+.footer {
+  text-align: center;
+  padding: 30px var(--pad-x);
+  border-top: 1px solid var(--border);
+  margin-top: 40px;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer p {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--text-dim);
+}
+
+/* Widget de estado */
+.sys-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  background: var(--surface);
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+}
+
+.sys-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* La lucecita verde pulsante */
+.sys-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--green);
+  box-shadow: 0 0 0 2px rgba(61, 220, 151, 0.2);
+  animation: sysPulse 2s ease-in-out infinite;
+}
+
+@keyframes sysPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+.sys-divider {
+  color: var(--border-strong);
+}
+
+/* En móviles, los separadores pueden sobrar si se apilan */
+@media (max-width: 600px) {
+  .sys-divider { display: none; }
+  .sys-status { flex-direction: column; border-radius: var(--r-md); padding: 10px; gap: 6px; }
+}

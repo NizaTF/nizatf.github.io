@@ -42,8 +42,22 @@
     <p style="text-align: center; padding: 100px; color: var(--text-muted); font-family: var(--font-mono);">Cargando proyecto...</p>
   </main>
 
-  <footer class="footer">
-    <p>© 2026 · Nico Talens · Hecho con HTML &amp; CSS</p>
+    <footer class="footer">
+    <div class="footer-content">
+      <p>© 2026 · Nico Talens · Hecho con HTML &amp; CSS</p>
+      
+      <!-- WIDGET DE ESTADO DEL SISTEMA -->
+      <div class="sys-status">
+        <span class="sys-item">
+          <span class="sys-dot"></span>
+          SYS.STATUS: <span style="color: var(--green);">ONLINE</span>
+        </span>
+        <span class="sys-divider">|</span>
+        <span class="sys-item">UPTIME: 99.9%</span>
+        <span class="sys-divider">|</span>
+        <span class="sys-item" id="sys-last-deploy">LAST DEPLOY: Cargando...</span>
+      </div>
+    </div>
   </footer>
   
   <button id="back-to-top" aria-label="Volver arriba">↑</button>
