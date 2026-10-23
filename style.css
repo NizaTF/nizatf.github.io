@@ -2838,3 +2838,47 @@ body,
   .blog-nav.prev { left: 10px; }
   .blog-nav.next { right: 10px; }
 }
+
+/* ============================
+   ICONO PERSONALIZADO DEL TEMA
+   ============================ */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px; /* Ajusta el padding si tu icono es muy grande */
+}
+
+.theme-icon-img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  /* Si tu icono no tiene color, puedes usar un filtro para que se adapte al tema */
+  /* filter: invert(1); (Descomenta esta línea si quieres que cambie de color) */
+}
+
+.theme-toggle:hover .theme-icon-img {
+  transform: scale(1.15) rotate(15deg);
+}
+
+/* ============================
+   ICONO PERSONALIZADO DEL TEMA
+   ============================ */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px; /* Un poco más de padding lateral para que respire */
+}
+
+.theme-icon-img {
+  width: 58px;  /* 👈 Aumentado de 22px a 28px */
+  height: 58px; /* 👈 Aumentado de 22px a 28px */
+  object-fit: contain;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.theme-toggle:hover .theme-icon-img {
+  transform: scale(1.15) rotate(15deg);
+}

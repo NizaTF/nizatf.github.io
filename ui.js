@@ -44,11 +44,25 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- 5. ACTUALIZAR TODO ---
+  // --- 5. ACTUALIZAR ICONO (AHORA CON TUS IMÁGENES) ---
   function updateIcon(theme) {
     if (themeToggle) {
-      themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+      // Definimos la ruta de la imagen dependiendo del tema
+      // (Si el tema es oscuro, mostramos el sol para pasar a claro. Y viceversa).
+      const iconSrc = theme === 'dark' ? 'assets/img/boton_oscuro.png' : 'assets/img/boton_claro.png';
+      
+      // Comprobamos si la etiqueta <img> ya existe dentro del botón
+      let iconImg = document.getElementById('theme-icon-img');
+      
+      if (!iconImg) {
+        // Si no existe, la creamos (reemplazando el emoji que hubiera)
+        themeToggle.innerHTML = `<img id="theme-icon-img" src="${iconSrc}" alt="Cambiar tema" class="theme-icon-img">`;
+      } else {
+        // Si ya existe, solo actualizamos la ruta (mucho más eficiente)
+        iconImg.src = iconSrc;
+      }
     }
+    
     // Llamamos a la función que actualiza favicon y logo con un pequeño delay para evitar lag
     setTimeout(() => {
       updateAssets(theme);
