@@ -16,5 +16,29 @@
       "JavaScript",
       "Git"
     ]
+  },
+  {
+    "id": "1792755136005",
+    "title": "Portfolio Web Personal",
+    "desc": "Un CMS estático construido desde cero. Panel de administración conectado a la API de GitHub, alertas en Telegram y un sistema de diseño propio.",
+    "link": "https://github.com/NizaTF/nizatf.github.io",
+    "blog": "## 🎯 El Objetivo\nEl objetivo de este proyecto no era solo crear un portfolio para mostrar mi trabajo, sino construir una plataforma **100% estática pero dinámica**. Quería un sistema donde pudiera gestionar mis proyectos (añadir fotos, cambiar estados, escribir artículos) sin tener que tocar una sola línea de código HTML, todo desde un panel de administración propio.\n\n## 🛠️ El Stack Técnico\nPara demostrar solidez en los fundamentos, decidí huir de frameworks pesados y usar:\n* **HTML5, CSS3 y Vanilla JavaScript**: Sin React, sin Bootstrap. Todo hecho a mano.\n* **GitHub Pages**: Para el alojamiento gratuito y el despliegue continuo.\n* **GitHub API (REST)**: Utilizada como una base de datos para leer y escribir el archivo `projects.json` directamente desde mi panel.\n* **Make (Integromat) + Telegram Bot**: Para crear un sistema de alertas de seguridad en tiempo real.\n\n## 🧠 Retos y Soluciones\nUno de los mayores retos fue crear el **panel de administración (CMS)**. Al no tener un servidor backend (Node.js o PHP), necesitaba una forma segura de guardar los cambios.\nLa solución fue implementar la API de GitHub mediante un Token de Acceso Personal (Fine-grained). Cuando guardo un proyecto, la web sube las imágenes en formato Base64 y actualiza el JSON. \n\nAdemás, integré un **sistema de notificaciones**: cada vez que alguien (incluido yo) crea, edita o borra un proyecto, la web obtiene la IP pública y la ciudad, y me envía un mensaje a Telegram con los detalles. Si recibo una alerta desde una ubicación sospechosa, sé que mi token está comprometido.\n\n## 🚀 Características Destacadas\n* **Modo Claro / Oscuro**: Implementado con variables CSS y guardado en `localStorage` para evitar parpadeos.\n* **Carrusel de Imágenes**: Cada proyecto puede tener múltiples fotos. El carrusel tiene autoplay, botones de navegación y se pausa si el usuario pasa el ratón por encima.\n* **Filtros Dinámicos**: Los visitantes pueden filtrar los proyectos por texto o por las habilidades técnicas asociadas a cada uno.\n* **Easter Egg**: Hay una página secreta oculta en el código fuente para los más curiosos.\n\n## 📚 Lo que he aprendido\nConstruir este portfolio me ha permitido entender cómo funcionan las peticiones asíncronas (`fetch`), la codificación Base64, la manipulación del DOM sin librerías y la importancia de la seguridad a la hora de exponer tokens en el frontend. Ha sido el proyecto perfecto para unir mis conocimientos de sistemas y mi pasión por el desarrollo web.",
+    "images": [
+      "assets/img/projects/1792755129142_Capturadepantalla2026-10-23021017.png",
+      "assets/img/projects/1792755131124_Capturadepantalla2026-10-23021112.png",
+      "assets/img/projects/1792755132642_Capturadepantalla2026-10-23021044.png",
+      "assets/img/projects/1792755134383_Capturadepantalla2026-10-23021138.png"
+    ],
+    "imageFit": "contain",
+    "status": "active",
+    "level": 5,
+    "skills": [
+      "HTML5",
+      "CSS3",
+      "JavaScript",
+      "Git",
+      "GitHub API",
+      "Diseño UI/UX"
+    ]
   }
 ]
