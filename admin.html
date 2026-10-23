@@ -128,6 +128,12 @@
             <div class="form-field"><label>Nivel (1-5)</label><input type="number" id="proj-level" min="1" max="5" value="5" oninput="updatePreview()"></div>
           </div>
 
+          <!-- NUEVO CAMPO: HABILIDADES DEL PROYECTO -->
+          <div class="form-field" style="margin-top: 16px;">
+            <label>Habilidades usadas (separadas por comas)</label>
+            <input type="text" id="proj-skills" placeholder="Ej: HTML5, CSS3, JavaScript, Git, Redes">
+          </div>
+
           <div class="form-field" style="margin-top: 16px;">
             <label>Ajuste de la imagen</label>
             <select id="proj-fit" onchange="updatePreview()">
@@ -426,6 +432,9 @@
       document.getElementById('proj-level').value = p.level;
       document.getElementById('proj-fit').value = p.imageFit || 'cover';
       
+      // Cargar habilidades
+      document.getElementById('proj-skills').value = p.skills ? p.skills.join(', ') : '';
+      
       currentImages = [];
       if (p.images && Array.isArray(p.images)) {
         currentImages = p.images.map(url => ({ id: Date.now()+Math.random(), url, file: null, isNew: false }));
@@ -445,6 +454,8 @@
       document.getElementById('proj-status').value = 'active';
       document.getElementById('proj-level').value = '5';
       document.getElementById('proj-fit').value = 'cover';
+      document.getElementById('proj-skills').value = ''; // Limpiar habilidades
+      
       currentImages.forEach(img => { if(img.isNew) URL.revokeObjectURL(img.url) });
       currentImages = [];
       previewIndex = 0;
@@ -525,6 +536,10 @@
       const status = document.getElementById('proj-status').value;
       const level = parseInt(document.getElementById('proj-level').value);
       const imageFit = document.getElementById('proj-fit').value;
+      
+      // Recogemos las habilidades y las convertimos en un array
+      const skillsInput = document.getElementById('proj-skills').value;
+      const skillsArray = skillsInput.split(',').map(s => s.trim()).filter(s => s !== "");
 
       if (!title || !desc) return showStatus('Título y descripción obligatorios.', 'err');
       if (currentImages.length === 0) return showStatus('Sube al menos una imagen.', 'err');
@@ -548,7 +563,16 @@
         }
 
         saveBtn.textContent = 'Guardando datos...';
-        const project = { id: id ? projectsData[id].id : Date.now().toString(), title, desc, link, images: finalImageUrls, imageFit, status, level };
+        
+        // Añadimos 'skills: skillsArray' al objeto del proyecto
+        const project = { 
+          id: id ? projectsData[id].id : Date.now().toString(), 
+          title, desc, link, 
+          images: finalImageUrls, 
+          imageFit, status, level,
+          skills: skillsArray 
+        };
+        
         if (id) projectsData[id] = project; else projectsData.push(project);
 
         // 1. Guardamos en GitHub

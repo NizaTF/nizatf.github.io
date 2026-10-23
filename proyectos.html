@@ -22,7 +22,120 @@
   <link rel="icon" type="image/png" href="assets/img/favicon_oscuro.png" id="dynamic-favicon">
   
   <style>
-    /* Estilos exclusivos del carrusel público */
+    /* ============================
+       ESTILOS DE LA BARRA DE FILTROS
+       ============================ */
+    .filter-section {
+      max-width: var(--max-content);
+      margin: 0 auto;
+      padding: 0 var(--pad-x) 40px;
+    }
+
+    .filter-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 20px;
+    }
+
+    .filter-search {
+      position: relative;
+      width: 100%;
+    }
+
+    .filter-search input {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 14px 16px 14px 44px;
+      font-family: var(--font-sans);
+      font-size: 15px;
+      color: var(--text);
+      transition: all 0.2s ease;
+    }
+
+    .filter-search input:focus {
+      outline: none;
+      border-color: var(--border-accent);
+      box-shadow: 0 0 0 3px rgba(255, 77, 94, 0.1);
+    }
+
+    .filter-search .search-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-dim);
+      font-size: 18px;
+      pointer-events: none;
+    }
+
+    .filter-tags-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .filter-label {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-right: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .filter-tag {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-soft);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .filter-tag:hover {
+      border-color: var(--border-strong);
+      color: var(--text);
+    }
+
+    .filter-tag.is-active {
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-color: var(--border-accent);
+    }
+
+    .filter-tag.is-active::before {
+      content: "✓ ";
+      font-weight: bold;
+    }
+
+    .clear-filters-btn {
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 6px;
+      margin-left: auto;
+    }
+
+    .clear-filters-btn:hover { color: var(--accent); }
+
+    /* ============================
+       ESTILOS DEL CARRUSEL
+       ============================ */
     .project-carousel {
       position: relative;
       width: 100%;
@@ -40,7 +153,6 @@
 
     .project-carousel img.active { opacity: 1; z-index: 2; }
 
-    /* Controles del carrusel */
     .carousel-nav {
       position: absolute;
       top: 50%; transform: translateY(-50%);
@@ -61,7 +173,6 @@
 
     .carousel-nav button:hover { background: var(--accent); border-color: var(--accent); }
 
-    /* Puntitos indicadores */
     .carousel-dots {
       position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
       display: flex; gap: 6px; z-index: 10;
@@ -73,10 +184,7 @@
       cursor: pointer;
     }
 
-    .carousel-dots span.active {
-      background: #fff; transform: scale(1.3);
-    }
-
+    .carousel-dots span.active { background: #fff; transform: scale(1.3); }
     .carousel-dots span:hover { background: rgba(255,255,255,0.7); }
   </style>
 </head>
@@ -98,10 +206,29 @@
   <section class="page-header">
     <span class="eyebrow">01 // proyectos</span>
     <h1 class="page-title">Mis <span class="accent">proyectos</span></h1>
-    <p class="page-subtitle">Una selección de trabajos reales y personales.</p>
+    <p class="page-subtitle">
+      Una selección de trabajos reales y personales.
+    </p>
   </section>
 
-  <section class="section">
+  <!-- BARRA DE FILTROS -->
+  <section class="filter-section">
+    <div class="filter-bar">
+      <div class="filter-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="search-input" placeholder="Buscar por título o descripción...">
+      </div>
+      
+      <div class="filter-tags-container" id="filter-tags-container">
+        <span class="filter-label">Habilidades:</span>
+        <!-- Los tags se generan con JS -->
+        <button class="clear-filters-btn" id="clear-filters-btn" style="display:none;">Limpiar filtros</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GRID DE PROYECTOS -->
+  <section class="section" style="padding-top: 0;">
     <div class="projects-grid" id="projects-grid">
       <p style="color: var(--text-muted); font-family: var(--font-mono);">Cargando proyectos...</p>
     </div>
@@ -115,85 +242,185 @@
   <script src="ui.js"></script>
 
   <script>
+    // Variables globales para el filtrado
+    let allProjects = [];
+    let currentSearchText = '';
+    let currentSkillFilter = null;
+
+    const statusMap = {
+      active: { class: 'is-active', text: 'activo' },
+      building: { class: 'is-building', text: 'en proceso' },
+      planned: { class: 'is-planned', text: 'planeado' },
+      inactive: { class: 'is-inactive', text: 'inactivo' }
+    };
+
     document.addEventListener("DOMContentLoaded", () => {
+      // 1. Leemos si venimos desde "habilidades.html" con un filtro en la URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlSkill = urlParams.get('skill');
+      if (urlSkill) currentSkillFilter = urlSkill;
+
+      // 2. Referencias al DOM
       const grid = document.getElementById("projects-grid");
+      const searchInput = document.getElementById("search-input");
+      const tagsContainer = document.getElementById("filter-tags-container");
+      const clearBtn = document.getElementById("clear-filters-btn");
 
-      const statusMap = {
-        active: { class: 'is-active', text: 'activo' },
-        building: { class: 'is-building', text: 'en proceso' },
-        planned: { class: 'is-planned', text: 'planeado' },
-        inactive: { class: 'is-inactive', text: 'inactivo' }
-      };
-
+      // 3. Cargamos los datos
       fetch(`projects.json?v=${new Date().getTime()}`)
         .then(res => res.json())
         .then(projects => {
-          grid.innerHTML = '';
-          if (projects.length === 0) {
-            grid.innerHTML = '<p style="color: var(--text-muted);">No hay proyectos aún.</p>';
-            return;
-          }
+          allProjects = projects;
+          
+          generateFilterTags(); // Creamos los botones de los tags
+          filterAndRender();    // Pintamos los proyectos
 
-          projects.forEach((p, index) => {
-            const st = statusMap[p.status] || statusMap.inactive;
-            let dotsLvl = '';
-            for (let i = 1; i <= 5; i++) dotsLvl += `<span class="lvl-dot ${i <= p.level ? 'is-on' : ''}"></span>`;
-
-            let imagesHTML = '';
-            let navHTML = '';
-            let dotsHTML = '';
-            
-            let projectImages = p.images || (p.image ? [p.image] : []);
-            const fitMode = p.imageFit || 'cover';
-
-            if (projectImages.length > 0) {
-              projectImages.forEach((imgUrl, i) => {
-                imagesHTML += `<img src="${imgUrl}" alt="${p.title}" style="object-fit: ${fitMode};" class="${i === 0 ? 'active' : ''}">`;
-              });
-              
-              if (projectImages.length > 1) {
-                navHTML = `
-                  <div class="carousel-nav">
-                    <button onclick="event.preventDefault(); moveSlide(${index}, -1, this)">❮</button>
-                    <button onclick="event.preventDefault(); moveSlide(${index}, 1, this)">❯</button>
-                  </div>
-                `;
-                dotsHTML = `<div class="carousel-dots">`;
-                projectImages.forEach((_, i) => {
-                  dotsHTML += `<span class="${i === 0 ? 'active' : ''}" onclick="event.preventDefault(); jumpToSlide(${index}, ${i}, this)"></span>`;
-                });
-                dotsHTML += `</div>`;
-              }
-            }
-
-            const card = `
-              <a class="project-card" href="${p.link}" target="_blank" rel="noopener" id="proj-card-${index}">
-                <div class="project-thumb project-carousel" data-current="0">
-                  ${imagesHTML || '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--text-dim);font-family:var(--font-mono);">Sin imágenes</div>'}
-                  ${navHTML}
-                  ${dotsHTML}
-                </div>
-                <div class="project-body">
-                  <div class="project-badges">
-                    <span class="badge ${st.class}"><span class="badge-dot"></span>${st.text}</span>
-                    <div class="badge-level" title="Nivel: ${p.level}/5"><span class="badge-label">nivel</span>${dotsLvl}</div>
-                  </div>
-                  <div class="project-top">
-                    <h2 class="project-title">${p.title}</h2>
-                    <span class="project-arrow" aria-hidden="true">↗</span>
-                  </div>
-                  <p class="project-desc">${p.desc}</p>
-                </div>
-              </a>
-            `;
-            grid.innerHTML += card;
+          // 4. Eventos de los filtros
+          searchInput.addEventListener('input', (e) => {
+            currentSearchText = e.target.value.toLowerCase();
+            filterAndRender();
           });
 
-          startCarousels();
+          clearBtn.addEventListener('click', () => {
+            currentSearchText = '';
+            currentSkillFilter = null;
+            searchInput.value = '';
+            // Quitar la clase activa a los tags
+            document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('is-active'));
+            // Limpiar la URL
+            window.history.replaceState({}, document.title, window.location.pathname);
+            filterAndRender();
+          });
         })
-        .catch(err => { grid.innerHTML = `<p style="color: var(--accent);">Error al cargar los proyectos.</p>`; });
+        .catch(err => { 
+          grid.innerHTML = `<p style="color: var(--accent);">Error al cargar los proyectos.</p>`; 
+        });
+
+      // --- FUNCIÓN: Generar los tags de habilidades dinámicamente ---
+      function generateFilterTags() {
+        // Extraemos todas las habilidades únicas de todos los proyectos
+        const allSkills = new Set();
+        allProjects.forEach(p => {
+          if (p.skills) p.skills.forEach(s => allSkills.add(s));
+        });
+
+        // Creamos un botón por cada habilidad
+        allSkills.forEach(skill => {
+          const btn = document.createElement('span');
+          btn.className = 'filter-tag';
+          btn.textContent = skill;
+          
+          // Si viene seleccionado por URL, lo marcamos
+          if (currentSkillFilter && skill.toLowerCase() === currentSkillFilter.toLowerCase()) {
+            btn.classList.add('is-active');
+          }
+
+          btn.addEventListener('click', () => {
+            // Toggle: si ya estaba activo, lo quitamos
+            if (currentSkillFilter === skill) {
+              currentSkillFilter = null;
+              btn.classList.remove('is-active');
+            } else {
+              currentSkillFilter = skill;
+              document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('is-active'));
+              btn.classList.add('is-active');
+            }
+            filterAndRender();
+          });
+
+          tagsContainer.insertBefore(btn, clearBtn);
+        });
+      }
+
+      // --- FUNCIÓN: Filtrar y Renderizar ---
+      function filterAndRender() {
+        // Mostrar u ocultar el botón de limpiar
+        if (currentSearchText || currentSkillFilter) {
+          clearBtn.style.display = 'block';
+        } else {
+          clearBtn.style.display = 'none';
+        }
+
+        // Aplicar filtros
+        let filtered = allProjects.filter(p => {
+          const matchesSearch = p.title.toLowerCase().includes(currentSearchText) || 
+                                p.desc.toLowerCase().includes(currentSearchText);
+          
+          let matchesSkill = true;
+          if (currentSkillFilter) {
+            matchesSkill = p.skills && p.skills.some(s => s.toLowerCase() === currentSkillFilter.toLowerCase());
+          }
+
+          return matchesSearch && matchesSkill;
+        });
+
+        // Renderizar
+        grid.innerHTML = '';
+        if (filtered.length === 0) {
+          grid.innerHTML = `<p style="color: var(--text-muted); font-family: var(--font-mono); grid-column: 1/-1; text-align: center; padding: 40px;">No se han encontrado proyectos.</p>`;
+          return;
+        }
+
+        filtered.forEach((p, index) => {
+          const st = statusMap[p.status] || statusMap.inactive;
+          let dotsLvl = '';
+          for (let i = 1; i <= 5; i++) dotsLvl += `<span class="lvl-dot ${i <= p.level ? 'is-on' : ''}"></span>`;
+
+          let imagesHTML = '';
+          let navHTML = '';
+          let dotsHTML = '';
+          
+          let projectImages = p.images || (p.image ? [p.image] : []);
+          const fitMode = p.imageFit || 'cover';
+
+          if (projectImages.length > 0) {
+            projectImages.forEach((imgUrl, i) => {
+              imagesHTML += `<img src="${imgUrl}" alt="${p.title}" style="object-fit: ${fitMode};" class="${i === 0 ? 'active' : ''}">`;
+            });
+            
+            if (projectImages.length > 1) {
+              navHTML = `
+                <div class="carousel-nav">
+                  <button onclick="event.preventDefault(); moveSlide(${index}, -1, this)">❮</button>
+                  <button onclick="event.preventDefault(); moveSlide(${index}, 1, this)">❯</button>
+                </div>
+              `;
+              dotsHTML = `<div class="carousel-dots">`;
+              projectImages.forEach((_, i) => {
+                dotsHTML += `<span class="${i === 0 ? 'active' : ''}" onclick="event.preventDefault(); jumpToSlide(${index}, ${i}, this)"></span>`;
+              });
+              dotsHTML += `</div>`;
+            }
+          }
+
+          const card = `
+            <a class="project-card" href="${p.link}" target="_blank" rel="noopener" id="proj-card-${index}">
+              <div class="project-thumb project-carousel" data-current="0">
+                ${imagesHTML || '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--text-dim);font-family:var(--font-mono);">Sin imágenes</div>'}
+                ${navHTML}
+                ${dotsHTML}
+              </div>
+              <div class="project-body">
+                <div class="project-badges">
+                  <span class="badge ${st.class}"><span class="badge-dot"></span>${st.text}</span>
+                  <div class="badge-level" title="Nivel: ${p.level}/5"><span class="badge-label">nivel</span>${dotsLvl}</div>
+                </div>
+                <div class="project-top">
+                  <h2 class="project-title">${p.title}</h2>
+                  <span class="project-arrow" aria-hidden="true">↗</span>
+                </div>
+                <p class="project-desc">${p.desc}</p>
+              </div>
+            </a>
+          `;
+          grid.innerHTML += card;
+        });
+
+        startCarousels();
+      }
     });
 
+    // --- LÓGICA DEL CARRUSEL ---
     function updateCarouselUI(carousel, newIndex) {
       const images = carousel.querySelectorAll('img');
       const dots = carousel.querySelectorAll('.carousel-dots span');
@@ -218,15 +445,14 @@
       updateCarouselUI(carousel, targetIndex);
     }
 
-        function startCarousels() {
-      setInterval(() => {
+    let carouselInterval = null;
+    function startCarousels() {
+      if (carouselInterval) clearInterval(carouselInterval);
+      carouselInterval = setInterval(() => {
         document.querySelectorAll('.project-carousel').forEach(carousel => {
           const images = carousel.querySelectorAll('img');
           if (images.length <= 1) return;
-          
-          // 👇 AQUÍ ESTÁ EL CAMBIO: Solo pausa si el ratón está sobre el contenedor de la imagen
           if (carousel.matches(':hover')) return; 
-          
           let current = parseInt(carousel.dataset.current);
           current = (current + 1) % images.length;
           updateCarouselUI(carousel, current);
@@ -235,4 +461,5 @@
     }
   </script>
 </body>
+
 </html>
