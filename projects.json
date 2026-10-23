@@ -4,7 +4,13 @@
     "title": "Web portfolio",
     "desc": "Portfolio personal desarrollado desde cero. Diseñé la estructura, el sistema de diseño (Dev Clean) y la lógica de la web. Utilicé IA como asistente para agilizar la escritura del código.",
     "link": "https://github.com/NizaTF/nizatf.github.io",
-    "image": "assets/img/image.png",
+    "images": [
+      "assets/img/projects/1792714359611_Capturadepantalla2026-10-23021138.png",
+      "assets/img/projects/1792714361375_Capturadepantalla2026-10-23021112.png",
+      "assets/img/projects/1792714363307_Capturadepantalla2026-10-23021044.png",
+      "assets/img/projects/1792714364973_Capturadepantalla2026-10-23021017.png"
+    ],
+    "imageFit": "contain",
     "status": "active",
     "level": 5
   }
