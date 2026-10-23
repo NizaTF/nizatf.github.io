@@ -53,15 +53,10 @@
     .image-path-display { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); background: var(--bg); padding: 8px 12px; border-radius: var(--r-sm); margin-bottom: 16px; word-break: break-all; border-left: 2px solid var(--accent); }
 
     /* Carrusel en Preview */
-    .preview-carousel {
-      position: relative; width: 100%; aspect-ratio: 16 / 10; background: var(--bg); overflow: hidden; border-bottom: 1px solid var(--border);
-    }
-    .preview-carousel img {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.3s ease; object-position: center;
-    }
+    .preview-carousel { position: relative; width: 100%; aspect-ratio: 16 / 10; background: var(--bg); overflow: hidden; border-bottom: 1px solid var(--border); }
+    .preview-carousel img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.3s ease; object-position: center; }
     .preview-carousel img.active { opacity: 1; z-index: 2; }
     
-    /* Controles del carrusel */
     .preview-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 100%; display: flex; justify-content: space-between; padding: 0 10px; z-index: 5; pointer-events: none; }
     .preview-nav button { pointer-events: auto; background: rgba(0,0,0,0.5); color: #fff; border: none; border-radius: 50%; width: 28px; height: 28px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
     .preview-nav button:hover { background: var(--accent); }
@@ -93,6 +88,7 @@
 
   <div class="admin-section">
     
+    <!-- CONFIGURACIÓN GITHUB -->
     <div class="admin-box">
       <h2>🔧 Configuración de GitHub</h2>
       <div class="admin-grid">
@@ -106,12 +102,14 @@
       <button class="btn btn-secondary" style="margin-top: 16px; width: 100%;" onclick="saveConfig()">Guardar Configuración y Conectar</button>
     </div>
 
+    <!-- EDITOR DE PROYECTOS -->
     <div class="admin-box" id="editor-box" style="display:none;">
       <h2 id="editor-title">Añadir Proyecto</h2>
       <input type="hidden" id="proj-id">
       
       <div class="editor-layout">
         
+        <!-- Columna Izquierda: Formulario -->
         <div>
           <div class="form-field"><label>Título</label><input type="text" id="proj-title" placeholder="Nombre..." oninput="updatePreview()"></div>
           <div class="form-field" style="margin-top: 16px;"><label>Descripción</label><textarea id="proj-desc" rows="3" placeholder="Descripción..." oninput="updatePreview()"></textarea></div>
@@ -145,6 +143,7 @@
           </div>
         </div>
 
+        <!-- Columna Derecha: Preview -->
         <div class="preview-panel">
           <h3 style="margin-bottom: 16px; font-size: 14px; color: var(--text-muted); text-transform: uppercase;">Previsualización en vivo</h3>
           <div class="image-path-display" id="image-path-display">Ruta: (Sube imágenes para generar las rutas)</div>
@@ -183,6 +182,7 @@
       </div>
     </div>
 
+    <!-- LISTA DE PROYECTOS -->
     <div class="admin-box" id="list-box" style="display:none;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
         <h2 style="margin: 0;">📦 Tus Proyectos</h2>
@@ -240,7 +240,6 @@
       if (currentImages.length > 0) {
         placeholder.style.display = 'none';
         
-        // Renderizar imágenes
         currentImages.forEach((imgData, index) => {
           const img = document.createElement('img');
           img.src = imgData.url;
@@ -249,13 +248,11 @@
           carousel.insertBefore(img, nav);
         });
 
-        // Renderizar puntitos
         dotsContainer.innerHTML = '';
         if(currentImages.length > 1) {
           currentImages.forEach((_, i) => {
             const dot = document.createElement('span');
             if(i === previewIndex) dot.classList.add('active');
-            // Añadimos clic a los puntitos también en el preview
             dot.onclick = () => { previewIndex = i; updatePreview(); };
             dotsContainer.appendChild(dot);
           });
@@ -279,19 +276,16 @@
     }
 
     function startPreviewAutoplay() {
-      // Limpiamos cualquier temporizador anterior para evitar duplicidades
       if (previewInterval) clearInterval(previewInterval);
       
       previewInterval = setInterval(() => {
         if (currentImages.length <= 1) return;
         
-        // 👇 PAUSA SOLO SI EL RATÓN ESTÁ ENCIMA DE LA FOTO
         const carousel = document.getElementById('preview-carousel');
         if (carousel && carousel.matches(':hover')) return;
 
         previewIndex = (previewIndex + 1) % currentImages.length;
         
-        // Actualizamos solo las clases para que sea fluido
         const imgs = carousel.querySelectorAll('img');
         const dots = document.querySelectorAll('#preview-dots span');
         imgs.forEach((img, i) => img.classList.toggle('active', i === previewIndex));
@@ -371,7 +365,7 @@
       renderImageManager();
     }
 
-    // --- LÓGICA GITHUB ---
+    // --- LÓGICA GITHUB Y NOTIFICACIONES ---
     function loadConfig() {
       const user = localStorage.getItem('gh_user'), repo = localStorage.getItem('gh_repo'), token = localStorage.getItem('gh_token');
       if (user && repo && token) {
@@ -458,10 +452,45 @@
       renderImageManager();
     }
 
-    function deleteProject(index) {
-      if (!confirm('¿Borrar proyecto?')) return;
+    // --- FUNCIÓN PARA AVISAR A TELEGRAM ---
+    async function notificarTelegram(accion, tituloProyecto) {
+      try {
+          const MAKE_WEBHOOK_URL = 'https://hook.eu1.make.com/f1dl1p3zdl0apxqjihn4vb59pjddn3ya';
+          
+          const ipRes = await fetch('https://ipapi.co/json/');
+          const ipData = await ipRes.json();
+
+          await fetch(MAKE_WEBHOOK_URL, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                  accion: accion, // "crear", "editar" o "borrar"
+                  proyecto: tituloProyecto,
+                  ip: ipData.ip,
+                  ciudad: ipData.city || "Desconocida",
+                  pais: ipData.country_name || "Desconocido"
+              })
+          });
+      } catch (error) {
+          console.error("Error al enviar a Telegram:", error);
+      }
+    }
+
+    async function deleteProject(index) {
+      if (!confirm('¿Seguro que quieres borrar este proyecto?')) return;
+      
+      const tituloProyecto = projectsData[index].title;
       projectsData.splice(index, 1);
-      saveToGitHub();
+      
+      showStatus('Borrando proyecto...', 'ok');
+      try {
+        await saveToGitHub();
+        showStatus('Proyecto borrado. Avisando a Telegram...', 'ok');
+        await notificarTelegram("borrar", tituloProyecto);
+        showStatus('Proyecto borrado y notificación enviada.', 'ok');
+      } catch (err) {
+        showStatus(err.message, 'err');
+      }
     }
 
     function fileToBase64(file) {
@@ -522,10 +551,21 @@
         const project = { id: id ? projectsData[id].id : Date.now().toString(), title, desc, link, images: finalImageUrls, imageFit, status, level };
         if (id) projectsData[id] = project; else projectsData.push(project);
 
+        // 1. Guardamos en GitHub
         await saveToGitHub();
-        showStatus('¡Guardado con éxito!', 'ok');
-      } catch (err) { showStatus(err.message, 'err'); } 
-      finally { saveBtn.disabled = false; saveBtn.textContent = 'Guardar Proyecto'; startPreviewAutoplay(); }
+        showStatus('¡Guardado con éxito! Avisando a Telegram...', 'ok');
+
+        // 2. Usamos la nueva función para avisar
+        await notificarTelegram(id ? "editar" : "crear", title);
+        showStatus('Proyecto guardado y notificación enviada.', 'ok');
+
+      } catch (err) {
+        showStatus(err.message, 'err');
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Guardar Proyecto';
+        startPreviewAutoplay();
+      }
     }
 
     async function saveToGitHub() {
