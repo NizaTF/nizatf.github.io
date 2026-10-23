@@ -4,17 +4,26 @@
     "title": "Web portfolio",
     "desc": "Portfolio personal desarrollado desde cero. Diseñé la estructura, el sistema de diseño (Dev Clean) y la lógica de la web. Utilicé IA como asistente para agilizar la escritura del código.",
     "link": "https://github.com/NizaTF/nizatf.github.io",
-    "image": "assets/img/image.png",
+    "images": [
+      "assets/img/projects/1792714359611_Capturadepantalla2026-10-23021138.png",
+      "assets/img/projects/1792714361375_Capturadepantalla2026-10-23021112.png",
+      "assets/img/projects/1792714363307_Capturadepantalla2026-10-23021044.png",
+      "assets/img/projects/1792714364973_Capturadepantalla2026-10-23021017.png"
+    ],
+    "imageFit": "contain",
     "status": "active",
     "level": 5
   },
   {
-    "id": "2",
-    "title": "pladiholdi",
-    "desc": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore dolorum sunt, obcaecati sequi distinctio et tempora!",
-    "link": "https://youtu.be/dQw4w9WgXcQ",
-    "image": "assets/img/placeholder.webp",
-    "status": "building",
-    "level": 4
+    "id": "1792714508468",
+    "title": "Proyecto 2º GM SMX",
+    "desc": "Todavía no tenemos definido al cien por cien el enfoque de nuestro proyecto de fin de curso. Sin embargo, la planificación y organización del equipo están siendo excelentes. Personalmente, tengo muchas ganas de empezar a desarrollarlo.",
+    "link": "",
+    "images": [
+      "assets/img/projects/1792714506333_a6cdac8c77f6b6d77913ee398a7617a9.jpg"
+    ],
+    "imageFit": "contain",
+    "status": "planned",
+    "level": 1
   }
 ]
