@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Habilidades · Nico Talens</title>
+  
+  <script>
+    // Evitar el parpadeo (FOUC) al cargar la página
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+      if (savedTheme === 'light' || (!savedTheme && systemPrefersLight)) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+  
+  <!-- Favicon Dinámico -->
+  <link rel="icon" type="image/png" href="assets/img/favicon_oscuro.png" id="dynamic-favicon">
+
+  <!-- SEO Básico -->
+  <meta name="description" content="Portfolio de Nico Talens, estudiante de Sistemas Microinformáticos y Redes (SMX). Especializado en hardware, redes y desarrollo web.">
+  <meta name="author" content="Nico Talens">
+
+  <!-- Open Graph (Para LinkedIn, WhatsApp, etc.) -->
+  <meta property="og:title" content="Nico Talens · Portfolio">
+  <meta property="og:description" content="Estudiante de SMX apasionado por la informática, las redes y el desarrollo web.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/img/image.png"> 
+</head>
+
+<body>
+  <div id="scroll-progress"></div>
+
+  <nav class="navbar">
+    <div class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="sobre-mi.html">Sobre mí</a>
+      <a href="proyectos.html">Proyectos</a>
+      <a href="habilidades.html" class="active">Habilidades</a>
+      <a href="contacto.html">Contacto</a>
+    </div>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema">☀️</button>
+  </nav>
+
+  <!-- CABECERA -->
+  <section class="page-header">
+    <span class="eyebrow">01 // habilidades</span>
+    <h1 class="page-title">Mis <span class="accent">habilidades</span></h1>
+    <p class="page-subtitle">
+      Idiomas certificados y áreas técnicas que he trabajado durante el ciclo.
+    </p>
+  </section>
+
+  <!-- IDIOMAS -->
+  <section class="section">
+    <div class="section-head">
+      <span class="eyebrow">02 // idiomas</span>
+      <h2 class="section-title">Idiomas</h2>
+      <p class="section-desc">Niveles según el Marco Común Europeo de Referencia.</p>
+    </div>
+
+    <div class="lang-grid">
+
+      <article class="card lang-card">
+        <div class="lang-card-head">
+          <span class="lang-code">ES</span>
+          <div class="lang-card-info">
+            <h3>Español</h3>
+            <p>nativo</p>
+          </div>
+        </div>
+        <div class="cefr-row" aria-label="Nivel C2">
+          <span class="cefr-pip is-full">A1</span>
+          <span class="cefr-pip is-full">A2</span>
+          <span class="cefr-pip is-full">B1</span>
+          <span class="cefr-pip is-full">B2</span>
+          <span class="cefr-pip is-full">C1</span>
+          <span class="cefr-pip is-full">C2</span>
+        </div>
+      </article>
+
+      <article class="card lang-card">
+        <div class="lang-card-head">
+          <span class="lang-code">VA</span>
+          <div class="lang-card-info">
+            <h3>Valenciano</h3>
+            <p>nativo</p>
+          </div>
+        </div>
+        <div class="cefr-row" aria-label="Nivel C2">
+          <span class="cefr-pip is-full">A1</span>
+          <span class="cefr-pip is-full">A2</span>
+          <span class="cefr-pip is-full">B1</span>
+          <span class="cefr-pip is-full">B2</span>
+          <span class="cefr-pip is-full">C1</span>
+          <span class="cefr-pip is-full">C2</span>
+        </div>
+      </article>
+
+      <article class="card lang-card">
+        <div class="lang-card-head">
+          <span class="lang-code">EN</span>
+          <div class="lang-card-info">
+            <h3>Inglés</h3>
+            <p>B2 · EOI</p>
+          </div>
+        </div>
+        <div class="cefr-row" aria-label="Nivel B2, cursando C1">
+          <span class="cefr-pip is-full">A1</span>
+          <span class="cefr-pip is-full">A2</span>
+          <span class="cefr-pip is-full">B1</span>
+          <span class="cefr-pip is-full">B2</span>
+          <span class="cefr-pip is-current">C1</span>
+          <span class="cefr-pip">C2</span>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- CONOCIMIENTOS TÉCNICOS (TABS INTERACTIVAS) -->
+  <section class="section">
+    <div class="section-head">
+      <span class="eyebrow">03 // técnico</span>
+      <h2 class="section-title">Áreas de Conocimiento</h2>
+      <p class="section-desc">Selecciona una asignatura para ver las habilidades y los proyectos asociados.</p>
+    </div>
+
+    <div class="tabs-layout">
+      
+      <!-- Menú de Asignaturas (Izquierda) -->
+      <div class="tabs-nav">
+        <button class="tab-btn active" data-target="tab-hardware">
+          <span class="tab-icon">🔧</span> Hardware y Ofimática
+        </button>
+        <button class="tab-btn" data-target="tab-sistemas">
+          <span class="tab-icon">🖥️</span> Sistemas y Virtualización
+        </button>
+        <button class="tab-btn" data-target="tab-redes">
+          <span class="tab-icon">🌐</span> Redes y Comunicaciones
+        </button>
+        <button class="tab-btn" data-target="tab-seguridad">
+          <span class="tab-icon">🔒</span> Ciberseguridad
+        </button>
+        <button class="tab-btn" data-target="tab-web">
+          <span class="tab-icon">💻</span> Desarrollo Web
+        </button>
+        <button class="tab-btn" data-target="tab-proyecto">
+          <span class="tab-icon">📋</span> Transversales
+        </button>
+      </div>
+
+      <!-- Paneles de Contenido (Derecha) -->
+      <div class="tabs-content">
+        
+        <!-- Panel Hardware y Ofimática -->
+        <div class="tab-panel active" id="tab-hardware">
+          <div class="panel-header">
+            <span class="panel-icon">🔧</span>
+            <h3 class="panel-title">Hardware y Ofimática</h3>
+          </div>
+          <p class="panel-desc">Montaje de equipos, mantenimiento y suites de oficina.</p>
+          <div class="panel-skills">
+            <div class="skill-pill" onclick="filterProjects('Montaje')">
+              <span>🔩 Montaje de Equipos</span>
+              <span class="skill-count" data-skill="Montaje"></span>
+            </div>
+            <div class="skill-pill" onclick="filterProjects('Diagnóstico')">
+              <span>🩺 Diagnóstico y Mantenimiento</span>
+              <span class="skill-count" data-skill="Diagnóstico"></span>
+            </div>
+            <div class="skill-pill" onclick="filterProjects('Ofimática')">
+              <span>📄 Word / Excel / LibreOffice</span>
+              <span class="skill-count" data-skill="Ofimática"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel Sistemas y Virtualización -->
+        <div class="tab-panel" id="tab-sistemas">
+          <div class="panel-header">
+            <span class="panel-icon">🖥️</span>
+            <h3 class="panel-title">Sistemas y Virtualización</h3>
+          </div>
+          <p class="panel-desc">Administración de entornos operativos, servidores y máquinas virtuales.</p>
+          <div class="panel-skills">
+            <div class="skill-pill" onclick="filterProjects('Windows')">
+              <span>🪟 Windows 10 / 11 / Server</span>
+              <span class="skill-count" data-skill="Windows"></span>
+            </div>
+            <div class="skill-pill" onclick="filterProjects('Ubuntu')">
+              <span>🐧 Ubuntu (Desktop / Server)</span>
+              <span class="skill-count" data-skill="Ubuntu"></span>
+            </div>
+            <div class="skill-pill" onclick="filterProjects('Kali')">
+              <span>🐉 Kali Linux</span>
+              <span class="skill-count" data-skill="Kali"></span>
+            </div>
+            <div class="skill-pill" onclick="filterProjects('Active Directory')">
+              <span>🗂️ Active Directory (AD)</span>
+              <span class="skill-count" data-skill="Active Directory"></span>
+            </div>
+            <div class="skill-pill" onclick="filterProjects('Bash')">
+              <span>⌨️ Terminal / Scripting Bash</span>
+              <span class="skill-count" data-skill="Bash"></span>
+            </div>
+            <div class="skill-pill" onclick="filterProjects('SSH')">
+              <span>🔑 Conexiones SSH</span>
+              <span class="skill-count" data-skill="SSH"></span>
+            </div>
+            <div class="skill-pill" onclick="filterProjects('Virtualización')">
+              <span>💠 VirtualBox / VMware</span>
+              <span class="skill-count" data-skill="Virtualización"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel Redes y Comunicaciones -->
+        <div class="tab-panel" id="tab-redes">
+          <div class="panel-header">
+            <span class="panel-icon">🌐</span>
+            <h3 class="panel-title">Redes y Comunicaciones</h3>
+          </div>
+          <p class="panel-desc">Infraestructura de red, direccionamiento y simulación.</p>
+          <div class="panel-skills">
+            <div class="skill-pill" onclick="filterProjects('Redes')">
+              <span>🌐 TCP/IP, DHCP, DNS</span>
+              <span class="skill-count" data-skill="Redes"></span>
+            </div>
+            <div class="skill-pill" onclick="filterProjects('Cableado')">
+              <span>🧵 Cableado Estructurado</span>
+              <span class="skill-count" data-skill="Cableado"></span>
+            </div>
+            <div class="skill-pill" onclick="filterProjects('Router')">
+              <span>🔌 Routers / Switches / APs</span>
+              <span class="skill-count" data-skill="Router"></span>
+            </div>
+            <div class="skill-pill" onclick="filterProjects('Packet Tracer')">
+              <span>🖱️ Cisco Packet Tracer</span>
+              <span class="skill-count" data-skill="Packet Tracer"></span>
+            </div>
+            <div class="skill-pill" onclick="filterProjects('GNS3')">
+              <span>🧪 GNS3</span>
+              <span class="skill-count" data-skill="GNS3"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel Ciberseguridad -->
+        <div class="tab-panel" id="tab-seguridad">
+          <div class="panel-header">
+            <span class="panel-icon">🔒</span>
+            <h3 class="panel-title">Ciberseguridad</h3>
+          </div>
+          <p class="panel-desc">Protección de sistemas, auditoría y análisis de vulnerabilidades.</p>
+          <div class="panel-skills">
+            <div class="skill-pill" onclick="filterProjects('Firewalls')">
+              <span>🛡️ Firewalls / Antivirus</span>
+              <span class="skill-count" data-skill="Firewalls"></span>
+            </div>
+            <div class="skill-pill" onclick="filterProjects('Backups')">
+              <span>💾 Copias de Seguridad</span>
+              <span class="skill-count" data-skill="Backups"></span>
+            </div>
+            <div class="skill-pill" onclick="filterProjects('Hacking')">
+              <span>💻 Hacking Ético / Pentesting</span>
+              <span class="skill-count" data-skill="Hacking"></span>
+            </div>
+            <div class="skill-pill" onclick="filterProjects('Wireshark')">
+              <span>🦈 Wireshark / Análisis de Tráfico</span>
+              <span class="skill-count" data-skill="Wireshark"></span>
+            </div>
+            <div class="skill-pill" onclick="filterProjects('VPN')">
+              <span>🔐 VPN / Túneles Seguros</span>
+              <span class="skill-count" data-skill="VPN"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel Desarrollo Web -->
+        <div class="tab-panel" id="tab-web">
+          <div class="panel-header">
+            <span class="panel-icon">💻</span>
+            <h3 class="panel-title">Desarrollo Web</h3>
+          </div>
+          <p class="panel-desc">Maquetación, interactividad y control de versiones.</p>
+          <div class="panel-skills">
+            <div class="skill-pill" onclick="filterProjects('HTML5')">
+              <span>🌐 HTML5</span>
+              <span class="skill-count" data-skill="HTML5"></span>
+            </div>
+            <div class="skill-pill" onclick="filterProjects('CSS3')">
+              <span>🎨 CSS3</span>
+              <span class="skill-count" data-skill="CSS3"></span>
+            </div>
+            <div class="skill-pill" onclick="filterProjects('JavaScript')">
+              <span>⚡ JavaScript</span>
+              <span class="skill-count" data-skill="JavaScript"></span>
+            </div>
+            <div class="skill-pill" onclick="filterProjects('Git')">
+              <span>🌿 Control de Versiones (Git)</span>
+              <span class="skill-count" data-skill="Git"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel Transversales -->
+        <div class="tab-panel" id="tab-proyecto">
+          <div class="panel-header">
+            <span class="panel-icon">📋</span>
+            <h3 class="panel-title">Transversales</h3>
+          </div>
+          <p class="panel-desc">Habilidades de gestión, sostenibilidad y digitalización aplicadas al ciclo.</p>
+          <div class="panel-skills">
+            <div class="skill-pill" onclick="filterProjects('Gestión de Proyectos')">
+              <span>📊 Gestión de Proyectos</span>
+              <span class="skill-count" data-skill="Gestión de Proyectos"></span>
+            </div>
+            <div class="skill-pill" onclick="filterProjects('Sostenibilidad')">
+              <span>♻️ Sostenibilidad</span>
+              <span class="skill-count" data-skill="Sostenibilidad"></span>
+            </div>
+            <div class="skill-pill" onclick="filterProjects('Digitalización')">
+              <span>📱 Digitalización</span>
+              <span class="skill-count" data-skill="Digitalización"></span>
+            </div>
+            <div class="skill-pill" onclick="filterProjects('Inglés Técnico')">
+              <span>🇬🇧 Inglés Técnico</span>
+              <span class="skill-count" data-skill="Inglés Técnico"></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+    <footer class="footer">
+    <div class="footer-content">
+      <p>© 2026 · Nico Talens · Hecho con HTML &amp; CSS</p>
+      
+      <!-- WIDGET DE ESTADO DEL SISTEMA -->
+      <div class="sys-status">
+        <span class="sys-item">
+          <span class="sys-dot"></span>
+          SYS.STATUS: <span style="color: var(--green);">ONLINE</span>
+        </span>
+        <span class="sys-divider">|</span>
+        <span class="sys-item">UPTIME: 99.9%</span>
+        <span class="sys-divider">|</span>
+        <span class="sys-item" id="sys-last-deploy">LAST DEPLOY: Cargando...</span>
+      </div>
+    </div>
+  </footer>
+  
+  <button id="back-to-top" aria-label="Volver arriba">↑</button>
+  <script src="ui.js"></script>
+
+  <!-- SCRIPT DE LAS PESTAÑAS Y CONTADORES -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // 1. Lógica de las pestañas
+      const tabBtns = document.querySelectorAll('.tab-btn');
+      const tabPanels = document.querySelectorAll('.tab-panel');
+
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          tabBtns.forEach(b => b.classList.remove('active'));
+          tabPanels.forEach(p => p.classList.remove('active'));
+
+          btn.classList.add('active');
+          const targetId = btn.dataset.target;
+          document.getElementById(targetId).classList.add('active');
+        });
+      });
+
+      // 2. Redirigir a proyectos con el filtro
+      window.filterProjects = (skillName) => {
+        window.location.href = `proyectos.html?skill=${encodeURIComponent(skillName)}`;
+      };
+
+      // 3. Contar proyectos por habilidad
+      fetch(`projects.json?v=${new Date().getTime()}`)
+        .then(res => res.json())
+        .then(projects => {
+          const counters = document.querySelectorAll('.skill-count');
+          
+          counters.forEach(counter => {
+            const skillName = counter.dataset.skill;
+            const count = projects.filter(p => p.skills && p.skills.includes(skillName)).length;
+            
+            if (count > 0) {
+              counter.textContent = `${count} proyecto${count > 1 ? 's' : ''}`;
+            } else {
+              counter.style.display = 'none';
+            }
+          });
+        })
+        .catch(err => console.log("Error cargando proyectos:", err));
+    });
+  </script>
+</body>
+
+</html>

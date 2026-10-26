@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Contacto · Nico Talens</title>
+  
+  <script>
+    // Evitar el parpadeo (FOUC) al cargar la página
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+      if (savedTheme === 'light' || (!savedTheme && systemPrefersLight)) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+  
+  <!-- Favicon Dinámico -->
+  <link rel="icon" type="image/png" href="assets/img/favicon_oscuro.png" id="dynamic-favicon">
+
+  <!-- SEO Básico -->
+  <meta name="description" content="Portfolio de Nico Talens, estudiante de Sistemas Microinformáticos y Redes (SMX). Especializado en hardware, redes y desarrollo web.">
+  <meta name="author" content="Nico Talens">
+
+  <!-- Open Graph (Para LinkedIn, WhatsApp, etc.) -->
+  <meta property="og:title" content="Nico Talens · Portfolio">
+  <meta property="og:description" content="Estudiante de SMX apasionado por la informática, las redes y el desarrollo web.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/img/image.png"> 
+</head>
+
+<body>
+  <div id="scroll-progress"></div>
+
+  <nav class="navbar">
+    <div class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="sobre-mi.html">Sobre mí</a>
+      <a href="proyectos.html">Proyectos</a>
+      <a href="habilidades.html">Habilidades</a>
+      <a href="contacto.html" class="active">Contacto</a>
+    </div>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema">☀️</button>
+  </nav>
+
+  <!-- CABECERA -->
+  <section class="page-header">
+    <span class="eyebrow">01 // contacto</span>
+    <h1 class="page-title">Hablemos<span class="accent">.</span></h1>
+    <p class="page-subtitle">
+      ¿Prácticas, colaboración o simplemente saludar? Mi bandeja está abierta.
+    </p>
+  </section>
+
+  <!-- CANALES -->
+  <section class="section">
+    <div class="section-head">
+      <span class="eyebrow">02 // canales</span>
+      <h2 class="section-title">Dónde encontrarme</h2>
+      <p class="section-desc">Elige el canal que prefieras. Respondo lo antes posible.</p>
+    </div>
+
+    <div class="contact-grid">
+
+      <a href="mailto:nicotalensfresquet@gmail.com" class="card contact-card">
+        <div class="card-icon">✉️</div>
+        <div class="contact-info">
+          <span class="contact-label">email</span>
+          <span class="contact-value">nicotalensfresquet@gmail.com</span>
+        </div>
+        <span class="contact-arrow" aria-hidden="true">↗</span>
+      </a>
+
+      <a href="https://github.com/NizaTF" target="_blank" rel="noopener" class="card contact-card">
+        <div class="card-icon">🌿</div>
+        <div class="contact-info">
+          <span class="contact-label">github</span>
+          <span class="contact-value">@NizaTF</span>
+        </div>
+        <span class="contact-arrow" aria-hidden="true">↗</span>
+      </a>
+
+      <a href="https://www.linkedin.com/in/nizatf/" target="_blank" rel="noopener" class="card contact-card">
+        <div class="card-icon">💼</div>
+        <div class="contact-info">
+          <span class="contact-label">linkedin</span>
+          <span class="contact-value">in/NizaTF</span>
+        </div>
+        <span class="contact-arrow" aria-hidden="true">↗</span>
+      </a>
+
+      <div class="card contact-card is-static">
+        <div class="card-icon">📍</div>
+        <div class="contact-info">
+          <span class="contact-label">ubicación</span>
+          <span class="contact-value">Valencia, España</span>
+        </div>
+        <span class="contact-arrow is-off" aria-hidden="true">·</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section">
+    <div class="contact-cta">
+      <span class="status">
+        <span class="status-dot"></span>
+        disponible para prácticas
+      </span>
+
+      <h2 class="contact-big">Escríbeme.</h2>
+
+      <a href="mailto:nicotalensfresquet@gmail.com" class="contact-email">
+        nicotalensfresquet@gmail.com
+      </a>
+
+      <p class="contact-hint">
+        Si prefieres, también puedes rellenar el formulario de abajo.
+      </p>
+    </div>
+  </section>
+
+  <!-- FORMULARIO -->
+  <section class="section">
+    <div class="section-head">
+      <span class="eyebrow">03 // formulario</span>
+      <h2 class="section-title">Formulario de contacto</h2>
+      <p class="section-desc">Rellena los campos y te responderé lo antes posible.</p>
+    </div>
+
+    <form class="contact-form" id="contact-form" action="https://formspree.io/f/xgaojlwg" method="POST">
+
+      <input type="hidden" name="_subject" value="Nuevo mensaje desde tu portfolio">
+      <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="nombre">nombre</label>
+          <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+        </div>
+
+        <div class="form-field">
+          <label for="email">email</label>
+          <input type="email" id="email" name="email" placeholder="tu@email.com" required>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="mensaje">mensaje</label>
+        <textarea id="mensaje" name="mensaje" rows="6" placeholder="Cuéntame qué necesitas..." required></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Enviar mensaje</button>
+    </form>
+  </section>
+
+    <footer class="footer">
+    <div class="footer-content">
+      <p>© 2026 · Nico Talens · Hecho con HTML &amp; CSS</p>
+      
+      <!-- WIDGET DE ESTADO DEL SISTEMA -->
+      <div class="sys-status">
+        <span class="sys-item">
+          <span class="sys-dot"></span>
+          SYS.STATUS: <span style="color: var(--green);">ONLINE</span>
+        </span>
+        <span class="sys-divider">|</span>
+        <span class="sys-item">UPTIME: 99.9%</span>
+        <span class="sys-divider">|</span>
+        <span class="sys-item" id="sys-last-deploy">LAST DEPLOY: Cargando...</span>
+      </div>
+    </div>
+  </footer>
+
+  <button id="back-to-top" aria-label="Volver arriba">↑</button>
+  
+  <script src="ui.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('contact-form');
+      const submitButton = form.querySelector('button[type="submit"]');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        submitButton.disabled = true;
+        submitButton.textContent = 'Enviando...';
+
+        const formData = new FormData(form);
+
+        try {
+          const response = await fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: { 'Accept': 'application/json' }
+          });
+
+          if (response.ok) {
+            // Ocultar el formulario
+            form.style.display = 'none';
+
+            // Crear el bloque de éxito DINÁMICAMENTE (no existe en el HTML)
+            const success = document.createElement('div');
+            success.className = 'form-success';
+            success.setAttribute('role', 'status');
+            success.innerHTML = `
+              <span class="success-icon">✓</span>
+              <p>¡Mensaje enviado! Te responderé lo antes posible.</p>
+            `;
+
+            // Insertarlo justo después del formulario
+            form.parentNode.insertBefore(success, form.nextSibling);
+          } else {
+            const errorData = await response.json();
+            alert('Error al enviar: ' + (errorData.error || 'Inténtalo de nuevo.'));
+            submitButton.disabled = false;
+            submitButton.textContent = 'Enviar mensaje';
+          }
+        } catch (error) {
+          alert('Error de conexión. Revisa tu internet e inténtalo de nuevo.');
+          submitButton.disabled = false;
+          submitButton.textContent = 'Enviar mensaje';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Environment Variables</title>
+  <style>
+    /* Hacemos que parezca un archivo abierto en el navegador */
+    body { background: #fff; color: #000; font-family: monospace; padding: 20px; font-size: 14px; white-space: pre; margin: 0; }
+  </style>
+</head>
+<body>APP_NAME=Portfolio
+APP_ENV=production
+APP_KEY=base64:3Fj8kL9zX2wQ1pR5tY7uI0oP=
+APP_DEBUG=false
+APP_URL=https://nizatf.github.io
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=portfolio_db
+DB_USERNAME=root
+DB_PASSWORD=SuperSecretPassword2026!
+
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+
+JWT_SECRET=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+<script>
+  // El usuario leerá esto y pensará: "¡Tengo las contraseñas!"
+  // A los 4 segundos de estar leyendo, le cae el Rickroll.
+  setTimeout(() => {
+    window.location.href = "/secret.html";
+  }, 4000);
+</script>
+</body>
+</html>

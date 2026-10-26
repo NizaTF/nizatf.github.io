@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Proyecto · Nico Talens</title>
+  
+  <!-- Librería para renderizar Markdown -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+      if (savedTheme === 'light' || (!savedTheme && systemPrefersLight)) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+  
+  <link rel="icon" type="image/png" href="assets/img/favicon_oscuro.png" id="dynamic-favicon">
+</head>
+<body>
+
+  <div id="scroll-progress"></div>
+
+  <nav class="navbar">
+    <div class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="sobre-mi.html">Sobre mí</a>
+      <a href="proyectos.html" class="active">Proyectos</a>
+      <a href="habilidades.html">Habilidades</a>
+      <a href="contacto.html">Contacto</a>
+    </div>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema">☀️</button>
+  </nav>
+
+  <main id="blog-container">
+    <p style="text-align: center; padding: 100px; color: var(--text-muted); font-family: var(--font-mono);">Cargando proyecto...</p>
+  </main>
+
+    <footer class="footer">
+    <div class="footer-content">
+      <p>© 2026 · Nico Talens · Hecho con HTML &amp; CSS</p>
+      
+      <!-- WIDGET DE ESTADO DEL SISTEMA -->
+      <div class="sys-status">
+        <span class="sys-item">
+          <span class="sys-dot"></span>
+          SYS.STATUS: <span style="color: var(--green);">ONLINE</span>
+        </span>
+        <span class="sys-divider">|</span>
+        <span class="sys-item">UPTIME: 99.9%</span>
+        <span class="sys-divider">|</span>
+        <span class="sys-item" id="sys-last-deploy">LAST DEPLOY: Cargando...</span>
+      </div>
+    </div>
+  </footer>
+  
+  <button id="back-to-top" aria-label="Volver arriba">↑</button>
+  <script src="ui.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const container = document.getElementById('blog-container');
+      
+      // 1. Obtener el ID de la URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const projectId = urlParams.get('id');
+
+      if (!projectId) {
+        container.innerHTML = `<div class="section"><h2 style="text-align:center;">Proyecto no encontrado</h2><p style="text-align:center; margin-top:20px;"><a href="proyectos.html" class="btn btn-primary">Volver a proyectos</a></p></div>`;
+        return;
+      }
+
+      // 2. Buscar el proyecto en el JSON
+      fetch(`projects.json?v=${new Date().getTime()}`)
+        .then(res => res.json())
+        .then(projects => {
+          const p = projects.find(proj => proj.id === projectId);
+          
+          if (!p) {
+            container.innerHTML = `<div class="section"><h2 style="text-align:center;">Proyecto no encontrado</h2></div>`;
+            return;
+          }
+
+          // 3. Generar las imágenes del carrusel
+          let projectImages = p.images || (p.image ? [p.image] : []);
+          const fitMode = p.imageFit || 'cover';
+          let imagesHTML = '';
+          
+          if (projectImages.length > 0) {
+            projectImages.forEach((imgUrl, i) => {
+              imagesHTML += `<img src="${imgUrl}" alt="${p.title}" style="object-fit: ${fitMode};" class="${i === 0 ? 'active' : ''}">`;
+            });
+          }
+
+          // 4. Renderizar el contenido principal
+          let markdownHTML = '';
+          if (p.blog) {
+            // Convertimos el Markdown a HTML
+            markdownHTML = marked.parse(p.blog);
+          }
+
+          // Botón condicional (solo si existe el link)
+          const externalBtnHTML = p.link ? `
+            <div style="margin-top: 40px; text-align: center;">
+              <a href="${p.link}" target="_blank" rel="noopener" class="btn btn-primary" style="font-size: 16px; padding: 16px 32px;">
+                Visitar el proyecto en vivo ↗
+              </a>
+            </div>
+          ` : '';
+
+          container.innerHTML = `
+            <section class="section blog-header">
+              <a href="proyectos.html" class="back-link">← Volver a proyectos</a>
+              <h1 class="page-title">${p.title}</h1>
+              <p class="page-subtitle">${p.desc}</p>
+            </section>
+
+            ${projectImages.length > 0 ? `
+              <section class="section" style="padding-top: 0;">
+                <div class="blog-hero-carousel" id="blog-carousel">
+                  ${imagesHTML}
+                  ${projectImages.length > 1 ? `
+                    <button class="blog-nav prev" onclick="changeImg(-1)">❮</button>
+                    <button class="blog-nav next" onclick="changeImg(1)">❯</button>
+                  ` : ''}
+                </div>
+              </section>
+            ` : ''}
+
+            <section class="section blog-content-section">
+              <div class="blog-markdown">
+                ${markdownHTML || '<p><em>No hay contenido detallado para este proyecto todavía.</em></p>'}
+              </div>
+              
+              ${externalBtnHTML}
+            </section>
+          `;
+
+          // Lógica para el carrusel en la página del blog
+          let currentImg = 0;
+          const imgs = document.querySelectorAll('#blog-carousel img');
+          
+          window.changeImg = (dir) => {
+            if (imgs.length <= 1) return;
+            imgs[currentImg].classList.remove('active');
+            currentImg = (currentImg + dir + imgs.length) % imgs.length;
+            imgs[currentImg].classList.add('active');
+          };
+
+        })
+        .catch(err => {
+          container.innerHTML = `<p style="color: var(--accent); text-align:center; padding:100px;">Error al cargar el proyecto.</p>`;
+        });
+    });
+  </script>
+</body>
+</html>

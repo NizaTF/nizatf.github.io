@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Style Guide · Nico Talens</title>
+  
+  <script>
+    // Evitar el parpadeo (FOUC) al cargar la página
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+      if (savedTheme === 'light' || (!savedTheme && systemPrefersLight)) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+  
+  <!-- Favicon Dinámico -->
+  <link rel="icon" type="image/png" href="assets/img/favicon_oscuro.png" id="dynamic-favicon">
+</head>
+
+<body>
+  <div id="scroll-progress"></div>
+
+  <nav class="navbar">
+    <div class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="sobre-mi.html">Sobre mí</a>
+      <a href="proyectos.html">Proyectos</a>
+      <a href="habilidades.html">Habilidades</a>
+      <a href="contacto.html">Contacto</a>
+    </div>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema">☀️</button>
+  </nav>
+
+  <!-- CABECERA -->
+  <section class="page-header">
+    <span class="eyebrow">00 // style-guide</span>
+    <h1 class="page-title">Dev <span class="accent">Clean</span></h1>
+    <p class="page-subtitle">
+      Todos los componentes del sistema en un solo sitio.
+    </p>
+  </section>
+
+  <!-- 01 // TARJETAS BASE Y DE NAVEGACIÓN -->
+  <section class="section">
+    <div class="section-head">
+      <span class="eyebrow">01 // explora</span>
+      <h2 class="section-title">Tarjetas de Navegación (Index)</h2>
+    </div>
+
+    <div class="cards-grid">
+      <a href="#" class="card">
+        <span class="card-number">01</span>
+        <div class="card-icon">👤</div>
+        <h3>Sobre mí</h3>
+        <p>Mi historia, formación y enfoque como técnico en sistemas.</p>
+      </a>
+
+      <a href="#" class="card">
+        <span class="card-number">02</span>
+        <div class="card-icon">💼</div>
+        <h3>Proyectos</h3>
+        <p>Una selección de trabajos reales y personales.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- 02 // TARJETAS DE PROYECTOS -->
+  <section class="section">
+    <div class="section-head">
+      <span class="eyebrow">02 // proyectos</span>
+      <h2 class="section-title">Tarjetas de Proyecto (Proyectos)</h2>
+    </div>
+
+    <div class="projects-grid">
+      <a href="#" class="project-card">
+        <div class="project-thumb">
+          <div style="width: 100%; height: 100%; background: var(--surface-2); display: flex; align-items: center; justify-content: center; color: var(--text-dim); font-family: var(--font-mono);">Preview Image</div>
+        </div>
+        <div class="project-body">
+          <div class="project-badges">
+            <span class="badge is-active"><span class="badge-dot"></span>activo</span>
+            <div class="badge-level" title="Nivel de seriedad: 5/5">
+              <span class="badge-label">nivel</span>
+              <span class="lvl-dot is-on"></span><span class="lvl-dot is-on"></span><span class="lvl-dot is-on"></span><span class="lvl-dot is-on"></span><span class="lvl-dot is-on"></span>
+            </div>
+          </div>
+          <div class="project-top">
+            <h2 class="project-title">Portfolio Personal</h2>
+            <span class="project-arrow" aria-hidden="true">↗</span>
+          </div>
+          <p class="project-desc">Portfolio personal desarrollado desde cero. Diseñé la estructura, el sistema de diseño y la lógica de la web.</p>
+        </div>
+      </a>
+
+      <a href="#" class="project-card">
+        <div class="project-thumb">
+          <div style="width: 100%; height: 100%; background: var(--surface-2); display: flex; align-items: center; justify-content: center; color: var(--text-dim); font-family: var(--font-mono);">Preview Image</div>
+        </div>
+        <div class="project-body">
+          <div class="project-badges">
+            <span class="badge is-building"><span class="badge-dot"></span>en construcción</span>
+            <div class="badge-level" title="Nivel de seriedad: 3/5">
+              <span class="badge-label">nivel</span>
+              <span class="lvl-dot is-on"></span><span class="lvl-dot is-on"></span><span class="lvl-dot is-on"></span><span class="lvl-dot"></span><span class="lvl-dot"></span>
+            </div>
+          </div>
+          <div class="project-top">
+            <h2 class="project-title">App de Inventario</h2>
+            <span class="project-arrow" aria-hidden="true">↗</span>
+          </div>
+          <p class="project-desc">Gestor de inventario para taller informático. Desarrollado con Python y SQLite.</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 03 // TARJETAS DE IDIOMAS -->
+  <section class="section">
+    <div class="section-head">
+      <span class="eyebrow">03 // habilidades</span>
+      <h2 class="section-title">Tarjetas de Idiomas (Habilidades)</h2>
+    </div>
+
+    <div class="lang-grid">
+      <article class="card lang-card">
+        <div class="lang-card-head">
+          <span class="lang-code">ES</span>
+          <div class="lang-card-info">
+            <h3>Español</h3>
+            <p>nativo</p>
+          </div>
+        </div>
+        <div class="cefr-row">
+          <span class="cefr-pip is-full">A1</span>
+          <span class="cefr-pip is-full">A2</span>
+          <span class="cefr-pip is-full">B1</span>
+          <span class="cefr-pip is-full">B2</span>
+          <span class="cefr-pip is-full">C1</span>
+          <span class="cefr-pip is-full">C2</span>
+        </div>
+      </article>
+
+      <article class="card lang-card">
+        <div class="lang-card-head">
+          <span class="lang-code">EN</span>
+          <div class="lang-card-info">
+            <h3>Inglés</h3>
+            <p>B2 · EOI</p>
+          </div>
+        </div>
+        <div class="cefr-row">
+          <span class="cefr-pip is-full">A1</span>
+          <span class="cefr-pip is-full">A2</span>
+          <span class="cefr-pip is-full">B1</span>
+          <span class="cefr-pip is-full">B2</span>
+          <span class="cefr-pip is-current">C1</span>
+          <span class="cefr-pip">C2</span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 04 // TARJETAS DE CONTACTO -->
+  <section class="section">
+    <div class="section-head">
+      <span class="eyebrow">04 // contacto</span>
+      <h2 class="section-title">Tarjetas de Contacto (Contacto)</h2>
+    </div>
+
+    <div class="contact-grid">
+      <a href="#" class="card contact-card">
+        <div class="card-icon">✉️</div>
+        <div class="contact-info">
+          <span class="contact-label">email</span>
+          <span class="contact-value">ejemplo@correo.com</span>
+        </div>
+        <span class="contact-arrow" aria-hidden="true">↗</span>
+      </a>
+
+      <div class="card contact-card is-static">
+        <div class="card-icon">📍</div>
+        <div class="contact-info">
+          <span class="contact-label">ubicación</span>
+          <span class="contact-value">Valencia, España</span>
+        </div>
+        <span class="contact-arrow is-off" aria-hidden="true">·</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 // TARJETAS DEL TIMELINE -->
+  <section class="section">
+    <div class="section-head">
+      <span class="eyebrow">05 // trayectoria</span>
+      <h2 class="section-title">Tarjetas del Timeline (Sobre mí)</h2>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item is-done">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <span class="timeline-date">2025 — 2026</span>
+          <h3>Primer año de SMX</h3>
+          <p>Montaje y mantenimiento de equipos, sistemas operativos monopuesto, redes locales y aplicaciones ofimáticas.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item is-current">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <span class="timeline-badge">actual</span>
+          <span class="timeline-date">2026 — 2027</span>
+          <h3>Segundo año de SMX</h3>
+          <p>Estoy en el último tramo del ciclo. Ya he cursado los módulos de hardware, sistemas operativos, redes locales, seguridad y ofimática.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item is-future">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <span class="timeline-date">Próximamente</span>
+          <h3>DAM y DAW</h3>
+          <p>Tras finalizar el ciclo, mi objetivo es estudiar DAM y DAW conjuntamente.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 // ESTADOS Y TAGS -->
+  <section class="section">
+    <div class="section-head">
+      <span class="eyebrow">06 // componentes</span>
+      <h2 class="section-title">Tags y Estados (Global)</h2>
+    </div>
+
+    <div style="margin-bottom: 30px;">
+      <span class="status"><span class="status-dot"></span>Disponible para prácticas</span>
+    </div>
+
+    <div class="tags-row" style="max-width: 100%; margin: 0;">
+      <span class="tag" data-icon="🔧">hardware</span>
+      <span class="tag" data-icon="🪟">windows</span>
+      <span class="tag" data-icon="🐧">linux</span>
+      <span class="tag" data-icon="🌐">redes</span>
+      <span class="tag" data-icon="🔒">ciberseguridad</span>
+      <span class="tag" data-icon="📄">ofimática</span>
+      <span class="tag" data-icon="🎨">css</span>
+      <span class="tag" data-icon="⚡">javascript</span>
+      <span class="tag" data-icon="🌿">git</span>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>© 2026 · Nico Talens · style guide</p>
+  </footer>
+
+  <button id="back-to-top" aria-label="Volver arriba">↑</button>
+  
+  <script src="ui.js"></script>
+</body>
+</html>

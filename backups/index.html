@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Index of /backups</title>
+  <style>
+    /* CSS por defecto de un servidor Apache antiguo */
+    body { background-color: #fff; color: #000; font-family: monospace; margin: 20px; }
+    h1 { font-size: 24px; font-weight: normal; border-bottom: 1px solid #ccc; padding-bottom: 10px; }
+    table { border-collapse: collapse; width: 100%; max-width: 800px; font-size: 14px; text-align: left; }
+    th { text-align: left; font-weight: normal; padding: 5px 10px; border-bottom: 2px solid #ccc; }
+    td { padding: 5px 10px; border-bottom: 1px solid #eee; }
+    a { color: #0000ee; text-decoration: none; }
+    a:visited { color: #551a8b; }
+    a:hover { text-decoration: underline; }
+    .size, .date { color: #666; }
+    /* Estilo para simular la descarga */
+    #fake-dl { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; border: 1px solid #ccc; padding: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.2); font-family: Arial, sans-serif; font-size: 14px; color: #333; }
+  </style>
+</head>
+<body>
+  <h1>Index of /backups</h1>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Last modified</th>
+      <th>Size</th>
+    </tr>
+    <tr>
+      <td><a href="#" onclick="downloadFake(event, 'db_dump.sql')">db_dump.sql</a></td>
+      <td class="date">2026-10-25 03:14</td>
+      <td class="size">4.2M</td>
+    </tr>
+    <tr>
+      <td><a href="#" onclick="downloadFake(event, 'users_passwords.txt')">users_passwords.txt</a></td>
+      <td class="date">2026-10-24 18:20</td>
+      <td class="size">12K</td>
+    </tr>
+    <tr>
+      <td><a href="#" onclick="downloadFake(event, '.env')">.env</a></td>
+      <td class="date">2026-10-20 09:10</td>
+      <td class="size">1K</td>
+    </tr>
+  </table>
+
+  <div id="fake-dl">
+    <span id="dl-text">Descargando...</span>
+  </div>
+
+  <script>
+    function downloadFake(e, file) {
+      e.preventDefault();
+      const box = document.getElementById('fake-dl');
+      const text = document.getElementById('dl-text');
+      
+      box.style.display = 'block';
+      text.innerHTML = `Descargando <strong>${file}</strong>...`;
+      
+      // Simulamos que tarda en descargar para que se emocionen
+      setTimeout(() => {
+        text.innerHTML = `Descarga completada. Abriendo archivo...`;
+      }, 1500);
+
+      // Rickroll
+      setTimeout(() => {
+        window.location.href = "../secret.html";
+      }, 2500);
+    }
+  </script>
+</body>
+</html>

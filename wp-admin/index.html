@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>phpMyAdmin</title>
+  <style>
+    /* CSS exacto para simular phpMyAdmin antiguo/clásico */
+    body {
+      background-color: #f5f5f5;
+      color: #000;
+      font-family: sans-serif;
+      font-size: 13px;
+      margin: 0;
+      padding: 0;
+    }
+    a { color: #235a81; text-decoration: none; }
+    
+    /* Cabecera */
+    #header {
+      background: linear-gradient(to bottom, #f9f9f9, #e6e6e6);
+      border-bottom: 1px solid #ccc;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    #header h1 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: normal;
+      color: #333;
+    }
+    #header h1 span { color: #d97706; } /* Color naranja de phpMyAdmin */
+    
+    /* Contenedor principal */
+    .login-container {
+      width: 400px;
+      margin: 50px auto;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .login-header {
+      background: #e6e6e6;
+      border-bottom: 1px solid #ccc;
+      padding: 10px 15px;
+      font-weight: bold;
+    }
+    .login-body { padding: 20px; }
+    
+    /* Formulario */
+    .form-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .form-row label {
+      width: 100px;
+      font-weight: bold;
+      text-align: right;
+      padding-right: 10px;
+    }
+    .form-row input, .form-row select {
+      flex: 1;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+    .submit-row {
+      text-align: right;
+      margin-top: 20px;
+    }
+    .submit-row button {
+      background: #e6e6e6;
+      border: 1px solid #ccc;
+      padding: 5px 15px;
+      border-radius: 3px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .submit-row button:hover { background: #d4d4d4; }
+
+    /* Terminal falsa que aparecerá después */
+    #sql-terminal {
+      display: none;
+      background: #000;
+      color: #0f0;
+      font-family: monospace;
+      padding: 20px;
+      font-size: 12px;
+      line-height: 1.5;
+      margin-top: 20px;
+      border-radius: 4px;
+      border: 1px solid #333;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="header">
+    <h1><span>php</span>MyAdmin</h1>
+    <span>Idioma: Español - Español</span>
+  </div>
+
+  <div class="login-container">
+    <div class="login-header">Bienvenido a phpMyAdmin</div>
+    <div class="login-body" id="login-form-area">
+      <form onsubmit="fakeLogin(event)">
+        <div class="form-row">
+          <label>Servidor:</label>
+          <input type="text" value="localhost" disabled style="background:#eee; color:#888;">
+        </div>
+        <div class="form-row">
+          <label>Usuario:</label>
+          <input type="text" id="user" placeholder="root">
+        </div>
+        <div class="form-row">
+          <label>Contraseña:</label>
+          <input type="password" id="pass" placeholder="••••••••">
+        </div>
+        <div class="form-row">
+          <label>Base de datos:</label>
+          <select>
+            <option>portfolio_db</option>
+            <option>mysql</option>
+            <option>information_schema</option>
+          </select>
+        </div>
+        <div class="submit-row">
+          <button type="submit">Continuar</button>
+        </div>
+      </form>
+      <div id="sql-terminal"></div>
+    </div>
+  </div>
+
+  <script>
+    function fakeLogin(e) {
+      e.preventDefault();
+      
+      // Ocultamos el formulario
+      document.getElementById('login-form-area').innerHTML = '<div id="sql-terminal"></div>';
+      const term = document.getElementById('sql-terminal');
+      term.style.display = 'block';
+
+      // Simulamos los logs reales de conexión a MySQL
+      const logs = [
+        "Conectando al servidor MySQL en localhost...",
+        "[OK] Conexión establecida.",
+        "Autenticando usuario 'root'...",
+        "[OK] Acceso concedido.",
+        "Seleccionando base de datos 'portfolio_db'...",
+        "Obteniendo lista de tablas...",
+        "> users (5 columnas, 1240 registros)",
+        "> projects (8 columnas, 42 registros)",
+        "> config (3 columnas, 1 registro)",
+        "> admins (4 columnas, 1 registro)",
+        "Accediendo a la tabla 'admins'...",
+        "Cargando interfaz gráfica..."
+      ];
+
+      let i = 0;
+      const interval = setInterval(() => {
+        if (i < logs.length) {
+          // Pintamos el texto simulando una terminal real
+          term.innerHTML += `<div>> ${logs[i]}</div>`;
+          i++;
+        } else {
+          clearInterval(interval);
+          
+          // La Falsa Esperanza
+          term.innerHTML += `<br><div style="color:#fff; font-weight:bold;">¡Conexión exitosa! Redirigiendo al panel de control...</div>`;
+          
+          // El Golpe final
+          setTimeout(() => {
+            window.location.href = "../secret.html";
+          }, 1000);
+        }
+      }, 400);
+    }
+  </script>
+</body>
+</html>

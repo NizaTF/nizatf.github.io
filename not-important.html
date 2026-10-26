@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Admin · Proyectos</title>
+  
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+      if (savedTheme === 'light' || (!savedTheme && systemPrefersLight)) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+  
+  <link rel="icon" type="image/png" href="assets/img/favicon_oscuro.png" id="dynamic-favicon">
+  
+  <style>
+    .admin-section { max-width: 1150px; margin: 40px auto; padding: 0 20px; }
+    .admin-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 24px; margin-bottom: 24px; }
+    .admin-box h2 { font-size: 18px; margin-bottom: 16px; color: var(--text); }
+    .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .project-row { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid var(--border); }
+    .project-row:last-child { border-bottom: none; }
+    .project-row h3 { font-size: 15px; color: var(--text); }
+    .project-actions button { padding: 6px 12px; font-size: 12px; border-radius: var(--r-sm); cursor: pointer; border: none; color: #fff; }
+    .btn-edit { background: #6aa8ff; margin-right: 8px; }
+    .btn-delete { background: var(--accent); }
+    .status-msg { margin-top: 10px; font-family: var(--font-mono); font-size: 13px; text-align: center; }
+    .status-msg.ok { color: var(--green); }
+    .status-msg.err { color: var(--accent); }
+
+    .editor-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start; }
+
+    /* Gestor de imágenes */
+    .image-manager-list { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; max-height: 250px; overflow-y: auto; padding-right: 5px; }
+    .image-item { display: flex; align-items: center; gap: 10px; background: var(--surface-2); padding: 8px; border-radius: var(--r-sm); border: 1px solid var(--border); }
+    .image-item img { width: 50px; height: 40px; object-fit: cover; border-radius: 4px; background: var(--bg); }
+    .image-item-info { flex: 1; font-size: 12px; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .image-item-actions { display: flex; gap: 4px; }
+    .image-item-actions button { background: var(--border-strong); color: var(--text); border: none; width: 24px; height: 24px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+    .image-item-actions button:hover { background: var(--accent); color: #fff; }
+    
+    input[type="file"] { width: 100%; font-family: var(--font-sans); font-size: 13px; color: var(--text-muted); background: var(--surface-2); padding: 10px; border-radius: var(--r-md); border: 1px solid var(--border); }
+    input[type="file"]::file-selector-button { background: var(--border-strong); color: var(--text); border: none; padding: 6px 12px; border-radius: var(--r-sm); cursor: pointer; margin-right: 10px; }
+
+    .preview-panel { position: sticky; top: 100px; }
+    .image-path-display { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); background: var(--bg); padding: 8px 12px; border-radius: var(--r-sm); margin-bottom: 16px; word-break: break-all; border-left: 2px solid var(--accent); }
+
+    /* Carrusel en Preview */
+    .preview-carousel { position: relative; width: 100%; aspect-ratio: 16 / 10; background: var(--bg); overflow: hidden; border-bottom: 1px solid var(--border); }
+    .preview-carousel img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.3s ease; object-position: center; }
+    .preview-carousel img.active { opacity: 1; z-index: 2; }
+    
+    .preview-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 100%; display: flex; justify-content: space-between; padding: 0 10px; z-index: 5; pointer-events: none; }
+    .preview-nav button { pointer-events: auto; background: rgba(0,0,0,0.5); color: #fff; border: none; border-radius: 50%; width: 28px; height: 28px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+    .preview-nav button:hover { background: var(--accent); }
+    
+    .preview-dots { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; z-index: 5; }
+    .preview-dots span { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.3); transition: 0.2s; cursor: pointer; }
+    .preview-dots span.active { background: #fff; transform: scale(1.2); }
+
+    @media (max-width: 900px) { .editor-layout { grid-template-columns: 1fr; } .preview-panel { position: static; } }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="sobre-mi.html">Sobre mí</a>
+      <a href="proyectos.html">Proyectos</a>
+      <a href="habilidades.html">Habilidades</a>
+      <a href="contacto.html">Contacto</a>
+    </div>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema">☀️</button>
+  </nav>
+
+  <section class="page-header">
+    <span class="eyebrow">panel de control</span>
+    <h1 class="page-title">Admin <span class="accent">Proyectos</span></h1>
+  </section>
+
+  <div class="admin-section">
+    
+    <div class="admin-box">
+      <h2>🔧 Configuración de GitHub</h2>
+      <div class="admin-grid">
+        <div class="form-field"><label>Usuario GitHub</label><input type="text" id="gh-user" placeholder="Ej: NizaTF"></div>
+        <div class="form-field"><label>Repositorio</label><input type="text" id="gh-repo" placeholder="Ej: nizatf.github.io"></div>
+      </div>
+      <div class="form-field" style="margin-top: 16px;">
+        <label>Token de GitHub (Fine-grained)</label>
+        <input type="password" id="gh-token" placeholder="github_pat_...">
+      </div>
+      <button class="btn btn-secondary" style="margin-top: 16px; width: 100%;" onclick="saveConfig()">Guardar Configuración y Conectar</button>
+    </div>
+
+    <div class="admin-box" id="editor-box" style="display:none;">
+      <h2 id="editor-title">Añadir Proyecto</h2>
+      <input type="hidden" id="proj-id">
+      
+      <div class="editor-layout">
+        
+        <div>
+          <div class="form-field"><label>Título</label><input type="text" id="proj-title" placeholder="Nombre..." oninput="updatePreview()"></div>
+          <div class="form-field" style="margin-top: 16px;"><label>Descripción corta</label><textarea id="proj-desc" rows="3" placeholder="Descripción..." oninput="updatePreview()"></textarea></div>
+          <div class="form-field" style="margin-top: 16px;"><label>Enlace del Proyecto</label><input type="url" id="proj-link" placeholder="https://..."></div>
+
+          <div class="admin-grid" style="margin-top: 16px;">
+            <div class="form-field">
+              <label>Estado</label>
+              <select id="proj-status" onchange="updatePreview()">
+                <option value="active">Activo</option>
+                <option value="building">En proceso</option>
+                <option value="planned">Planeado</option>
+                <option value="inactive">Inactivo</option>
+              </select>
+            </div>
+            <div class="form-field"><label>Nivel (1-5)</label><input type="number" id="proj-level" min="1" max="5" value="5" oninput="updatePreview()"></div>
+          </div>
+
+          <div class="form-field" style="margin-top: 16px;">
+            <label>Habilidades usadas (separadas por comas)</label>
+            <input type="text" id="proj-skills" placeholder="Ej: HTML5, CSS3, JavaScript, Git">
+          </div>
+
+          <!-- NUEVO CAMPO: CONTENIDO DEL BLOG -->
+          <div class="form-field" style="margin-top: 16px;">
+            <label>Contenido detallado (Blog / Markdown)</label>
+            <textarea id="proj-blog" rows="6" placeholder="Escribe aquí la historia del proyecto. Puedes usar **negritas**, listas, etc."></textarea>
+            <span style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Puedes usar Markdown básico.</span>
+          </div>
+
+          <div class="form-field" style="margin-top: 16px;">
+            <label>Ajuste de la imagen</label>
+            <select id="proj-fit" onchange="updatePreview()">
+              <option value="cover">Cover (Rellenar)</option>
+              <option value="contain">Contain (Entera)</option>
+            </select>
+          </div>
+
+          <div class="form-field" style="margin-top: 16px;">
+            <label>Fotografías del Proyecto</label>
+            <input type="file" id="proj-images-file" accept="image/*" multiple onchange="handleFilesSelect(event)">
+            <div class="image-manager-list" id="image-manager-list"></div>
+          </div>
+        </div>
+
+        <div class="preview-panel">
+          <h3 style="margin-bottom: 16px; font-size: 14px; color: var(--text-muted); text-transform: uppercase;">Previsualización en vivo</h3>
+          <div class="image-path-display" id="image-path-display">Ruta: (Sube imágenes para generar las rutas)</div>
+
+          <div class="project-card">
+            <div class="project-thumb preview-carousel" id="preview-carousel">
+              <div id="prev-img-placeholder" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:var(--text-dim); font-family:var(--font-mono); font-size:12px;">Sin imágenes</div>
+              <div class="preview-nav" id="preview-nav" style="display:none;">
+                <button onclick="cyclePreview(-1)">❮</button>
+                <button onclick="cyclePreview(1)">❯</button>
+              </div>
+              <div class="preview-dots" id="preview-dots"></div>
+            </div>
+            <div class="project-body">
+              <div class="project-badges">
+                <span class="badge is-active" id="prev-badge"><span class="badge-dot"></span><span id="prev-badge-text">activo</span></span>
+                <div class="badge-level" id="prev-level-box">
+                  <span class="badge-label">nivel</span>
+                  <span class="lvl-dot is-on"></span><span class="lvl-dot is-on"></span><span class="lvl-dot is-on"></span><span class="lvl-dot is-on"></span><span class="lvl-dot is-on"></span>
+                </div>
+              </div>
+              <div class="project-top">
+                <h2 class="project-title" id="prev-title">Título del proyecto</h2>
+                <span class="project-arrow" aria-hidden="true">↗</span>
+              </div>
+              <p class="project-desc" id="prev-desc">Aquí aparecerá la descripción...</p>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 10px; margin-top: 24px;">
+            <button class="btn btn-primary" onclick="saveProject()" id="save-btn" style="flex: 1;">Guardar Proyecto</button>
+            <button class="btn btn-secondary" onclick="resetForm()">Cancelar</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="admin-box" id="list-box" style="display:none;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h2 style="margin: 0;">📦 Tus Proyectos</h2>
+        <button class="btn btn-primary" style="padding: 8px 16px; font-size: 13px;" onclick="resetForm()">+ Añadir Nuevo</button>
+      </div>
+      <div id="projects-list"></div>
+    </div>
+
+    <div class="status-msg" id="status-msg"></div>
+  </div>
+
+  <script>
+    let projectsData = [];
+    let fileSha = null;
+    let currentImages = []; 
+    let previewIndex = 0;
+    let previewInterval = null;
+    
+    const API_URL = () => {
+      const user = localStorage.getItem('gh_user');
+      const repo = localStorage.getItem('gh_repo');
+      return `https://api.github.com/repos/${user}/${repo}/contents/projects.json`;
+    };
+
+    // --- PREVISUALIZACIÓN Y AUTOPLAY ---
+    function updatePreview() {
+      const title = document.getElementById('proj-title').value || 'Título del proyecto';
+      const desc = document.getElementById('proj-desc').value || 'Aquí aparecerá la descripción...';
+      const status = document.getElementById('proj-status').value;
+      const level = parseInt(document.getElementById('proj-level').value) || 1;
+      const fit = document.getElementById('proj-fit').value;
+
+      document.getElementById('prev-title').textContent = title;
+      document.getElementById('prev-desc').textContent = desc;
+
+      const badge = document.getElementById('prev-badge');
+      badge.className = 'badge';
+      const statusMap = { active: 'is-active', building: 'is-building', planned: 'is-planned', inactive: 'is-inactive' };
+      badge.classList.add(statusMap[status]);
+      document.getElementById('prev-badge-text').textContent = status;
+
+      document.querySelectorAll('#prev-level-box .lvl-dot').forEach((dot, i) => {
+        dot.classList.toggle('is-on', i < level);
+      });
+
+      const carousel = document.getElementById('preview-carousel');
+      carousel.querySelectorAll('img').forEach(el => el.remove());
+      
+      const placeholder = document.getElementById('prev-img-placeholder');
+      const nav = document.getElementById('preview-nav');
+      const dotsContainer = document.getElementById('preview-dots');
+
+      clearInterval(previewInterval);
+
+      if (currentImages.length > 0) {
+        placeholder.style.display = 'none';
+        
+        currentImages.forEach((imgData, index) => {
+          const img = document.createElement('img');
+          img.src = imgData.url;
+          img.style.objectFit = fit;
+          img.className = index === previewIndex ? 'active' : '';
+          carousel.insertBefore(img, nav);
+        });
+
+        dotsContainer.innerHTML = '';
+        if(currentImages.length > 1) {
+          currentImages.forEach((_, i) => {
+            const dot = document.createElement('span');
+            if(i === previewIndex) dot.classList.add('active');
+            dot.onclick = () => { previewIndex = i; updatePreview(); };
+            dotsContainer.appendChild(dot);
+          });
+          nav.style.display = 'flex';
+          startPreviewAutoplay();
+        } else {
+          nav.style.display = 'none';
+        }
+
+      } else {
+        placeholder.style.display = 'flex';
+        nav.style.display = 'none';
+        dotsContainer.innerHTML = '';
+      }
+    }
+
+    function cyclePreview(dir) {
+      if (currentImages.length <= 1) return;
+      previewIndex = (previewIndex + dir + currentImages.length) % currentImages.length;
+      updatePreview(); 
+    }
+
+    function startPreviewAutoplay() {
+      if (previewInterval) clearInterval(previewInterval);
+      
+      previewInterval = setInterval(() => {
+        if (currentImages.length <= 1) return;
+        
+        const carousel = document.getElementById('preview-carousel');
+        if (carousel && carousel.matches(':hover')) return;
+
+        previewIndex = (previewIndex + 1) % currentImages.length;
+        
+        const imgs = carousel.querySelectorAll('img');
+        const dots = document.querySelectorAll('#preview-dots span');
+        imgs.forEach((img, i) => img.classList.toggle('active', i === previewIndex));
+        dots.forEach((dot, i) => dot.classList.toggle('active', i === previewIndex));
+      }, 3000);
+    }
+
+    // --- GESTIÓN DE IMÁGENES ---
+    function handleFilesSelect(event) {
+      const files = event.target.files;
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const url = URL.createObjectURL(file);
+        currentImages.push({ id: Date.now() + '_' + i, url: url, file: file, isNew: true });
+      }
+      event.target.value = ''; 
+      renderImageManager();
+    }
+
+    function renderImageManager() {
+      const list = document.getElementById('image-manager-list');
+      list.innerHTML = '';
+      if (currentImages.length === 0) {
+        list.innerHTML = '<div style="font-size:12px; color:var(--text-dim); text-align:center; padding:10px;">No hay imágenes.</div>';
+      }
+
+      currentImages.forEach((imgData, index) => {
+        const item = document.createElement('div');
+        item.className = 'image-item';
+        let filename = imgData.isNew ? imgData.file.name : imgData.url.split('/').pop();
+        filename = filename.length > 20 ? filename.substring(0, 17) + '...' : filename;
+
+        item.innerHTML = `
+          <img src="${imgData.url}" alt="thumb">
+          <div class="image-item-info" title="${filename}">
+            ${filename} ${imgData.isNew ? '<span style="color:var(--green)">(Nueva)</span>' : ''}
+          </div>
+          <div class="image-item-actions">
+            <button onclick="moveImage(${index}, -1)" ${index === 0 ? 'disabled' : ''}>↑</button>
+            <button onclick="moveImage(${index}, 1)" ${index === currentImages.length - 1 ? 'disabled' : ''}>↓</button>
+            <button onclick="removeImage(${index})" style="background:var(--accent); color:#fff;">×</button>
+          </div>
+        `;
+        list.appendChild(item);
+      });
+
+      if (previewIndex >= currentImages.length) previewIndex = Math.max(0, currentImages.length - 1);
+      
+      const pathDisplay = document.getElementById('image-path-display');
+      if (currentImages.length > 0) {
+        pathDisplay.innerHTML = `Rutas: <br>` + currentImages.map(img => {
+          if (img.isNew) {
+             const fname = Date.now() + '_' + img.file.name.replace(/[^a-zA-Z0-9.\-_]/g, '');
+             return `<span style="color:var(--accent)">assets/img/projects/${fname}</span>`;
+          } else {
+             return `<span style="color:var(--text-soft)">${img.url}</span>`;
+          }
+        }).join('<br>');
+      } else {
+        pathDisplay.textContent = 'Ruta: (Sube imágenes para generar las rutas)';
+      }
+      updatePreview();
+    }
+
+    function moveImage(index, dir) {
+      if (index + dir < 0 || index + dir >= currentImages.length) return;
+      const temp = currentImages[index];
+      currentImages[index] = currentImages[index + dir];
+      currentImages[index + dir] = temp;
+      renderImageManager();
+    }
+
+    function removeImage(index) {
+      if(currentImages[index].isNew) URL.revokeObjectURL(currentImages[index].url);
+      currentImages.splice(index, 1);
+      if (previewIndex >= currentImages.length) previewIndex = Math.max(0, currentImages.length - 1);
+      renderImageManager();
+    }
+
+    // --- LÓGICA GITHUB Y NOTIFICACIONES ---
+    function loadConfig() {
+      const user = localStorage.getItem('gh_user'), repo = localStorage.getItem('gh_repo'), token = localStorage.getItem('gh_token');
+      if (user && repo && token) {
+        document.getElementById('gh-user').value = user;
+        document.getElementById('gh-repo').value = repo;
+        document.getElementById('gh-token').value = token;
+        fetchProjects();
+      }
+    }
+
+    function saveConfig() {
+      const user = document.getElementById('gh-user').value.trim();
+      const repo = document.getElementById('gh-repo').value.trim();
+      const token = document.getElementById('gh-token').value.trim();
+      if (!user || !repo || !token) return showStatus('Rellena todos los campos.', 'err');
+      localStorage.setItem('gh_user', user); localStorage.setItem('gh_repo', repo); localStorage.setItem('gh_token', token);
+      showStatus('Configuración guardada...', 'ok');
+      fetchProjects();
+    }
+
+    async function fetchProjects() {
+      const token = localStorage.getItem('gh_token');
+      if (!token) return;
+      try {
+        showStatus('Cargando proyectos...', 'ok');
+        const res = await fetch(API_URL(), { headers: { 'Authorization': `token ${token}` } });
+        if (!res.ok) throw new Error('Error al conectar.');
+        const data = await res.json();
+        fileSha = data.sha;
+        projectsData = JSON.parse(decodeURIComponent(escape(atob(data.content))));
+        document.getElementById('editor-box').style.display = 'block';
+        document.getElementById('list-box').style.display = 'block';
+        renderList();
+        resetForm();
+        showStatus('Proyectos cargados.', 'ok');
+      } catch (err) { showStatus(err.message, 'err'); }
+    }
+
+    function renderList() {
+      const list = document.getElementById('projects-list');
+      list.innerHTML = projectsData.length === 0 ? '<p style="color: var(--text-muted); font-size: 14px;">No hay proyectos.</p>' : '';
+      projectsData.forEach((p, index) => {
+        const row = document.createElement('div');
+        row.className = 'project-row';
+        row.innerHTML = `<h3>${p.title}</h3><div class="project-actions"><button class="btn-edit" onclick="editProject(${index})">Editar</button><button class="btn-delete" onclick="deleteProject(${index})">Borrar</button></div>`;
+        list.appendChild(row);
+      });
+    }
+
+    function editProject(index) {
+      const p = projectsData[index];
+      document.getElementById('editor-title').textContent = 'Editar Proyecto';
+      document.getElementById('proj-id').value = index;
+      document.getElementById('proj-title').value = p.title;
+      document.getElementById('proj-desc').value = p.desc;
+      document.getElementById('proj-link').value = p.link || '';
+      document.getElementById('proj-status').value = p.status;
+      document.getElementById('proj-level').value = p.level;
+      document.getElementById('proj-fit').value = p.imageFit || 'cover';
+      document.getElementById('proj-skills').value = p.skills ? p.skills.join(', ') : '';
+      document.getElementById('proj-blog').value = p.blog || ''; // <-- NUEVO
+      
+      currentImages = [];
+      if (p.images && Array.isArray(p.images)) {
+        currentImages = p.images.map(url => ({ id: Date.now()+Math.random(), url, file: null, isNew: false }));
+      }
+      previewIndex = 0;
+      document.getElementById('proj-images-file').value = '';
+      renderImageManager();
+      document.getElementById('editor-box').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function resetForm() {
+      document.getElementById('editor-title').textContent = 'Añadir Proyecto';
+      document.getElementById('proj-id').value = '';
+      document.getElementById('proj-title').value = '';
+      document.getElementById('proj-desc').value = '';
+      document.getElementById('proj-link').value = '';
+      document.getElementById('proj-status').value = 'active';
+      document.getElementById('proj-level').value = '5';
+      document.getElementById('proj-fit').value = 'cover';
+      document.getElementById('proj-skills').value = ''; 
+      document.getElementById('proj-blog').value = ''; // <-- NUEVO
+      
+      currentImages.forEach(img => { if(img.isNew) URL.revokeObjectURL(img.url) });
+      currentImages = [];
+      previewIndex = 0;
+      document.getElementById('proj-images-file').value = '';
+      renderImageManager();
+    }
+
+    async function notificarTelegram(accion, tituloProyecto) {
+      try {
+          const MAKE_WEBHOOK_URL = 'https://hook.eu1.make.com/f1dl1p3zdl0apxqjihn4vb59pjddn3ya';
+          
+          const ipRes = await fetch('https://ipapi.co/json/');
+          const ipData = await ipRes.json();
+
+          await fetch(MAKE_WEBHOOK_URL, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                  accion: accion,
+                  proyecto: tituloProyecto,
+                  ip: ipData.ip,
+                  ciudad: ipData.city || "Desconocida",
+                  pais: ipData.country_name || "Desconocido"
+              })
+          });
+      } catch (error) {
+          console.error("Error al enviar a Telegram:", error);
+      }
+    }
+
+    async function deleteProject(index) {
+      if (!confirm('¿Seguro que quieres borrar este proyecto?')) return;
+      
+      const tituloProyecto = projectsData[index].title;
+      projectsData.splice(index, 1);
+      
+      showStatus('Borrando proyecto...', 'ok');
+      try {
+        await saveToGitHub();
+        showStatus('Proyecto borrado. Avisando a Telegram...', 'ok');
+        await notificarTelegram("borrar", tituloProyecto);
+        showStatus('Proyecto borrado y notificación enviada.', 'ok');
+      } catch (err) {
+        showStatus(err.message, 'err');
+      }
+    }
+
+    function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+      });
+    }
+
+    async function uploadImageToGitHub(file) {
+      const token = localStorage.getItem('gh_token'), user = localStorage.getItem('gh_user'), repo = localStorage.getItem('gh_repo');
+      const filename = Date.now() + '_' + file.name.replace(/[^a-zA-Z0-9.\-_]/g, '');
+      const path = `assets/img/projects/${filename}`;
+      const url = `https://api.github.com/repos/${user}/${repo}/contents/${path}`;
+      const base64Data = await fileToBase64(file);
+      const res = await fetch(url, {
+        method: 'PUT',
+        headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: `Subir img: ${filename}`, content: base64Data.split(',')[1] })
+      });
+      if (!res.ok) throw new Error('Error al subir imagen a GitHub.');
+      return path;
+    }
+
+    async function saveProject() {
+      const id = document.getElementById('proj-id').value;
+      const title = document.getElementById('proj-title').value;
+      const desc = document.getElementById('proj-desc').value;
+      const link = document.getElementById('proj-link').value;
+      const status = document.getElementById('proj-status').value;
+      const level = parseInt(document.getElementById('proj-level').value);
+      const imageFit = document.getElementById('proj-fit').value;
+      const skillsInput = document.getElementById('proj-skills').value;
+      const skillsArray = skillsInput.split(',').map(s => s.trim()).filter(s => s !== "");
+      const blogContent = document.getElementById('proj-blog').value; // <-- NUEVO
+
+      if (!title || !desc) return showStatus('Título y descripción obligatorios.', 'err');
+      if (currentImages.length === 0) return showStatus('Sube al menos una imagen.', 'err');
+
+      const saveBtn = document.getElementById('save-btn');
+      saveBtn.disabled = true;
+      saveBtn.textContent = 'Procesando...';
+      clearInterval(previewInterval);
+
+      try {
+        let finalImageUrls = [];
+        for (let i = 0; i < currentImages.length; i++) {
+          const imgData = currentImages[i];
+          if (imgData.isNew && imgData.file) {
+            saveBtn.textContent = `Subiendo img ${i+1}/${currentImages.length}...`;
+            showStatus(`Subiendo imagen ${i+1}...`, 'ok');
+            finalImageUrls.push(await uploadImageToGitHub(imgData.file));
+          } else {
+            finalImageUrls.push(imgData.url);
+          }
+        }
+
+        saveBtn.textContent = 'Guardando datos...';
+        
+        const project = { 
+          id: id ? projectsData[id].id : Date.now().toString(), 
+          title, desc, link, 
+          blog: blogContent, // <-- NUEVO
+          images: finalImageUrls, 
+          imageFit, status, level,
+          skills: skillsArray 
+        };
+        
+        if (id) projectsData[id] = project; else projectsData.push(project);
+
+        await saveToGitHub();
+        showStatus('¡Guardado con éxito! Avisando a Telegram...', 'ok');
+        await notificarTelegram(id ? "editar" : "crear", title);
+        showStatus('Proyecto guardado y notificación enviada.', 'ok');
+
+      } catch (err) {
+        showStatus(err.message, 'err');
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Guardar Proyecto';
+        startPreviewAutoplay();
+      }
+    }
+
+    async function saveToGitHub() {
+      const token = localStorage.getItem('gh_token');
+      const contentString = JSON.stringify(projectsData, null, 2);
+      const contentBase64 = btoa(unescape(encodeURIComponent(contentString)));
+      const res = await fetch(API_URL(), {
+        method: 'PUT',
+        headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: 'Actualizar proyectos', content: contentBase64, sha: fileSha })
+      });
+      if (!res.ok) throw new Error('Error al guardar JSON.');
+      const data = await res.json();
+      fileSha = data.content.sha;
+      resetForm();
+      renderList();
+    }
+
+    function showStatus(msg, type) {
+      const el = document.getElementById('status-msg');
+      el.textContent = msg;
+      el.className = `status-msg ${type}`;
+    }
+
+    document.addEventListener('DOMContentLoaded', loadConfig);
+  </script>
+</body>
+</html>

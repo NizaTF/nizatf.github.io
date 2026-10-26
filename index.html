@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Inicio · Nico Talens</title>
+  <script>
+    // Evitar el parpadeo (FOUC) al cargar la página
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+      if (savedTheme === 'light' || (!savedTheme && systemPrefersLight)) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+  
+  <!-- Favicon dinámico -->
+  <link rel="icon" type="image/png" href="assets/img/favicon_oscuro.png" id="dynamic-favicon">
+
+  <!-- SEO Básico -->
+  <meta name="description"
+    content="Portfolio de Nico Talens, estudiante de Sistemas Microinformáticos y Redes (SMX). Especializado en hardware, redes y desarrollo web.">
+  <meta name="author" content="Nico Talens">
+
+  <!-- Open Graph (Para LinkedIn, WhatsApp, etc.) -->
+  <meta property="og:title" content="Nico Talens · Portfolio">
+  <meta property="og:description"
+    content="Estudiante de SMX apasionado por la informática, las redes y el desarrollo web.">
+  <meta property="og:type" content="website">
+  <!-- NOTA: Esta imagen es la que saldrá al compartir el link. Asegúrate de que existe o cambia la ruta -->
+  <meta property="og:image" content="assets/img/image.png">
+</head>
+
+<body>
+  <div id="scroll-progress"></div>
+
+  <nav class="navbar">
+    <div class="nav-links">
+      <a href="index.html" class="active">Inicio</a>
+      <a href="sobre-mi.html">Sobre mí</a>
+      <a href="proyectos.html">Proyectos</a>
+      <a href="habilidades.html">Habilidades</a>
+      <a href="contacto.html">Contacto</a>
+    </div>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema">☀️</button>
+  </nav>
+
+  <!-- HERO CENTRADO -->
+  <section class="hero-center">
+    <div class="hero-center-inner">
+      <span class="status">
+        <span class="status-dot"></span>
+        Disponible para prácticas
+      </span>
+      <h1 class="hero-headline">
+        Hola, soy <span class="accent">Nico</span><br>
+        Estudiante de SMX
+      </h1>
+      <p class="hero-subtitle">
+        Formándome en Sistemas Microinformáticos y Redes. Me interesa el hardware,
+        las redes y la seguridad, y complemento mi formación con desarrollo web.
+      </p>
+      <div class="hero-actions">
+        <a href="proyectos.html" class="btn btn-primary">Ver proyectos</a>
+        <a href="contacto.html" class="btn btn-secondary">Contactarme</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CURRENTLY -->
+  <section class="currently">
+    <div class="currently-card">
+      <div class="currently-head">
+        <span class="status">
+          <span class="status-dot"></span>
+          ahora mismo
+        </span>
+      </div>
+
+      <ul class="currently-list">
+        <li>
+          <span class="cur-icon">🎓</span>
+          <span class="cur-key">estudiando</span>
+          <span class="cur-val">Grado Medio en SMX</span>
+        </li>
+        <li>
+          <span class="cur-icon">🔍</span>
+          <span class="cur-key">buscando</span>
+          <span class="cur-val">prácticas en el extranjero</span>
+        </li>
+        <li>
+          <span class="cur-icon">🛠️</span>
+          <span class="cur-key">construyendo</span>
+          <span class="cur-val">proyectos personales</span>
+        </li>
+        <li>
+          <span class="cur-icon">📚</span>
+          <span class="cur-key">aprendiendo</span>
+          <span class="cur-val">HTML · CSS</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- EXPLORA -->
+  <section class="section">
+    <div class="section-head">
+      <span class="eyebrow">01 // explora</span>
+      <h2 class="section-title">¿Qué encontrarás aquí?</h2>
+    </div>
+
+    <div class="cards-grid">
+      <a href="sobre-mi.html" class="card">
+        <span class="card-number">01</span>
+        <div class="card-icon">👤</div>
+        <h3>Sobre mí</h3>
+        <p>Mi historia, formación y enfoque como técnico en sistemas.</p>
+      </a>
+
+      <a href="proyectos.html" class="card">
+        <span class="card-number">02</span>
+        <div class="card-icon">💼</div>
+        <h3>Proyectos</h3>
+        <p>Una selección de trabajos reales y personales.</p>
+      </a>
+
+      <a href="habilidades.html" class="card">
+        <span class="card-number">03</span>
+        <div class="card-icon">⚙️</div>
+        <h3>Habilidades</h3>
+        <p>Tecnologías, herramientas y nivel de dominio.</p>
+      </a>
+
+      <a href="contacto.html" class="card">
+        <span class="card-number">04</span>
+        <div class="card-icon">✉️</div>
+        <h3>Contacto</h3>
+        <p>Hablemos: propuestas, colaboraciones o dudas.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- STACK (MARQUESINA DE 2 LÍNEAS) -->
+  <section class="section">
+    <div class="section-head">
+      <span class="eyebrow">02 // stack</span>
+      <h2 class="section-title">Tecnologías y áreas</h2>
+      <p class="section-desc">
+        Lo que he aprendido durante el ciclo y lo que sigo explorando por mi cuenta.
+      </p>
+    </div>
+
+    <div class="tags-marquee-container">
+      
+      <!-- Línea 1: Se mueve de Izquierda a Derecha -->
+      <div class="tags-marquee-row">
+        <div class="tags-marquee-track track-ltr">
+          <!-- Bloque 1 -->
+          <span class="tag" data-icon="🔧">hardware</span>
+          <span class="tag" data-icon="💾">software</span>
+          <span class="tag" data-icon="🪟">windows</span>
+          <span class="tag" data-icon="🐧">linux</span>
+          <span class="tag" data-icon="🌐">redes</span>
+          <span class="tag" data-icon="🔒">ciberseguridad</span>
+          <span class="tag" data-icon="📄">ofimática</span>
+          <span class="tag" data-icon="🖥️">servidores</span>
+          
+          <!-- Bloque 2 (Duplicado para bucle) -->
+          <span class="tag" data-icon="🔧">hardware</span>
+          <span class="tag" data-icon="💾">software</span>
+          <span class="tag" data-icon="🪟">windows</span>
+          <span class="tag" data-icon="🐧">linux</span>
+          <span class="tag" data-icon="🌐">redes</span>
+          <span class="tag" data-icon="🔒">ciberseguridad</span>
+          <span class="tag" data-icon="📄">ofimática</span>
+          <span class="tag" data-icon="🖥️">servidores</span>
+        </div>
+      </div>
+
+      <!-- Línea 2: Se mueve de Derecha a Izquierda -->
+      <div class="tags-marquee-row">
+        <div class="tags-marquee-track track-rtl">
+          <!-- Bloque 1 -->
+          <span class="tag" data-icon="🌍">aplicaciones web</span>
+          <span class="tag" data-icon="⌨️">programación</span>
+          <span class="tag" data-icon="💠">virtualización</span>
+          <span class="tag" data-icon="🗂️">active directory</span>
+          <span class="tag" data-icon="🇬🇧">inglés técnico</span>
+          <span class="tag" data-icon="🛠️">gestión de incidencias</span>
+          <span class="tag" data-icon="♻️">sostenibilidad</span>
+          
+          <!-- Bloque 2 (Duplicado para bucle) -->
+          <span class="tag" data-icon="🌍">aplicaciones web</span>
+          <span class="tag" data-icon="⌨️">programación</span>
+          <span class="tag" data-icon="💠">virtualización</span>
+          <span class="tag" data-icon="🗂️">active directory</span>
+          <span class="tag" data-icon="🇬🇧">inglés técnico</span>
+          <span class="tag" data-icon="🛠️">gestión de incidencias</span>
+          <span class="tag" data-icon="♻️">sostenibilidad</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-content">
+      
+      <!-- Copyright y ENLACE SECRETO AL ADMIN -->
+      <p>© 2026 · Nico Talens · <a href="not-important.html" style="color: inherit; text-decoration: none; cursor: default;">Hecho con HTML &amp; CSS</a></p>
+      
+      <!-- WIDGET DE ESTADO DEL SISTEMA -->
+      <div class="sys-status">
+        <span class="sys-item">
+          <span class="sys-dot"></span>
+          SYS.STATUS: <span style="color: var(--green);">ONLINE</span>
+        </span>
+        <span class="sys-divider">|</span>
+        <span class="sys-item">UPTIME: 99.9%</span>
+        <span class="sys-divider">|</span>
+        <span class="sys-item" id="sys-last-deploy">LAST DEPLOY: Cargando...</span>
+      </div>
+      
+    </div>
+  </footer>
+  
+  <script src="ui.js"></script>
+  <button id="back-to-top" aria-label="Volver arriba">↑</button>
+  
+  <div>
+    <div>
+      <div>
+        <div>
+          <div>
+            <!-- BORRAR ESTO EN EL FUTURO!!!-->
+            <!-- https://nizatf.github.io/secret -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

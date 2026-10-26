@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Sobre mí · Nico Talens</title>
+    
+    <script>
+        // Evitar el parpadeo (FOUC) al cargar la página
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+            if (savedTheme === 'light' || (!savedTheme && systemPrefersLight)) {
+                document.documentElement.setAttribute('data-theme', 'light');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+    
+    <!-- Favicon Dinámico -->
+    <link rel="icon" type="image/png" href="assets/img/favicon_oscuro.png" id="dynamic-favicon">
+
+    <!-- SEO Básico -->
+    <meta name="description"
+        content="Portfolio de Nico Talens, estudiante de Sistemas Microinformáticos y Redes (SMX). Especializado en hardware, redes y desarrollo web.">
+    <meta name="author" content="Nico Talens">
+
+    <!-- Open Graph (Para LinkedIn, WhatsApp, etc.) -->
+    <meta property="og:title" content="Nico Talens · Portfolio">
+    <meta property="og:description"
+        content="Estudiante de SMX apasionado por la informática, las redes y el desarrollo web.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="assets/img/image.png">
+</head>
+
+<body>
+    <div id="scroll-progress"></div>
+
+    <nav class="navbar">
+        <div class="nav-links">
+            <a href="index.html">Inicio</a>
+            <a href="sobre-mi.html" class="active">Sobre mí</a>
+            <a href="proyectos.html">Proyectos</a>
+            <a href="habilidades.html">Habilidades</a>
+            <a href="contacto.html">Contacto</a>
+        </div>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema">☀️</button>
+    </nav>
+
+    <!-- CABECERA -->
+    <section class="page-header">
+        <span class="eyebrow">01 // sobre-mi</span>
+        <h1 class="page-title">Un poco sobre <span class="accent">mí</span></h1>
+        <p class="page-subtitle">
+            Quién soy, de dónde vengo y hacia dónde quiero ir.
+        </p>
+    </section>
+
+    <!-- PRESENTACIÓN -->
+    <section class="section">
+        <div class="about-grid">
+
+            <!-- Columna izquierda: foto + datos -->
+            <aside class="about-side">
+                
+                <!-- AVATAR INTERACTIVO (FLIP) -->
+                <div class="avatar avatar-flip" title="Pasa el ratón para ver mi logo">
+                    <!-- Cara frontal: Tu foto -->
+                    <div class="avatar-front">
+                        <img src="assets/img/foto-perfil.png" alt="Nico Talens" class="avatar-img">
+                    </div>
+                    <!-- Cara trasera: Tu logo dinámico -->
+                    <div class="avatar-back">
+                        <img src="assets/img/logo_oscuro.png" alt="Logo Nico Talens" class="logo-img" id="logo-dinamico">
+                    </div>
+                    <!-- Pista visual sutil -->
+                    <div class="flip-hint">🔄</div>
+                </div>
+
+                <ul class="fact-list">
+                    <li><span class="fact-key">ubicación:</span> Valencia, España</li>
+                    <li><span class="fact-key">formación:</span> Grado Medio en SMX</li>
+                    <li><span class="fact-key">enfoque:</span> Sistemas y redes</li>
+                    <li><span class="fact-key">estado:</span> Buscando prácticas</li>
+                </ul>
+            </aside>
+
+            <!-- Columna derecha: texto -->
+            <div class="about-main">
+                <h2 class="about-heading">Hola, soy <span class="accent">Nico Talens</span></h2>
+
+                <p>
+                    Soy estudiante del Grado Medio de <strong>Sistemas Microinformáticos y Redes (SMX)</strong>.
+                    Me interesa todo lo relacionado con la informática: desde montar un equipo
+                    pieza a pieza hasta configurar una red local o crear proyectos open source.
+                </p>
+
+                <p>
+                    Durante el ciclo he aprendido a trabajar con hardware, instalar y administrar
+                    sistemas operativos (Windows y Linux), montar redes locales y aplicar medidas
+                    básicas de seguridad. También manejo herramientas de ofimática y tengo soltura
+                    con el entorno web (HTML y CSS).
+                </p>
+
+                <p>
+                    Me considero una persona curiosa, constante y con ganas de aprender.
+                    Disfruto resolviendo problemas técnicos y entendiendo cómo funcionan las cosas
+                    por dentro. Este portafolio es mi forma de ir dejando constancia de lo que voy
+                    construyendo.
+                </p>
+
+                <!-- MARQUESINA DE TAGS (2 LÍNEAS) -->
+                <div class="tags-marquee-container">
+
+                    <!-- Línea 1: Se mueve de Izquierda a Derecha -->
+                    <div class="tags-marquee-row">
+                        <div class="tags-marquee-track track-ltr">
+                            <!-- Bloque 1 -->
+                            <span class="tag" data-icon="🔧">hardware</span>
+                            <span class="tag" data-icon="🪟">windows</span>
+                            <span class="tag" data-icon="🐧">linux</span>
+                            <span class="tag" data-icon="🌐">redes locales</span>
+                            <span class="tag" data-icon="🖥️">servidores</span>
+                            <span class="tag" data-icon="🗄️">active directory</span>
+                            <span class="tag" data-icon="💠">virtualización</span>
+                            <span class="tag" data-icon="🛡️">seguridad informática</span>
+                            <span class="tag" data-icon="📡">dhcp / dns</span>
+                            <span class="tag" data-icon="🔒">firewalls</span>
+                            <span class="tag" data-icon="📂">copias de seguridad</span>
+
+                            <!-- Bloque 2 (Copia exacta para el bucle infinito) -->
+                            <span class="tag" data-icon="🔧">hardware</span>
+                            <span class="tag" data-icon="🪟">windows</span>
+                            <span class="tag" data-icon="🐧">linux</span>
+                            <span class="tag" data-icon="🌐">redes locales</span>
+                            <span class="tag" data-icon="🖥️">servidores</span>
+                            <span class="tag" data-icon="🗄️">active directory</span>
+                            <span class="tag" data-icon="💠">virtualización</span>
+                            <span class="tag" data-icon="🛡️">seguridad informática</span>
+                            <span class="tag" data-icon="📡">dhcp / dns</span>
+                            <span class="tag" data-icon="🔒">firewalls</span>
+                            <span class="tag" data-icon="📂">copias de seguridad</span>
+                        </div>
+                    </div>
+
+                    <!-- Línea 2: Se mueve de Derecha a Izquierda -->
+                    <div class="tags-marquee-row">
+                        <div class="tags-marquee-track track-rtl">
+                            <!-- Bloque 1 -->
+                            <span class="tag" data-icon="🌐">html</span>
+                            <span class="tag" data-icon="🎨">css</span>
+                            <span class="tag" data-icon="⚡">javascript</span>
+                            <span class="tag" data-icon="🗄️">sql</span>
+                            <span class="tag" data-icon="🌿">git</span>
+                            <span class="tag" data-icon="⌨️">bash</span>
+                            <span class="tag" data-icon="📄">ofimática</span>
+                            <span class="tag" data-icon="🖱️">packet tracer</span>
+                            <span class="tag" data-icon="🔌">cableado estructurado</span>
+                            <span class="tag" data-icon="📋">gestión de incidencias</span>
+                            <span class="tag" data-icon="🇬🇧">inglés técnico</span>
+
+                            <!-- Bloque 2 (Copia exacta para el bucle infinito) -->
+                            <span class="tag" data-icon="🌐">html</span>
+                            <span class="tag" data-icon="🎨">css</span>
+                            <span class="tag" data-icon="⚡">javascript</span>
+                            <span class="tag" data-icon="🗄️">sql</span>
+                            <span class="tag" data-icon="🌿">git</span>
+                            <span class="tag" data-icon="⌨️">bash</span>
+                            <span class="tag" data-icon="📄">ofimática</span>
+                            <span class="tag" data-icon="🖱️">packet tracer</span>
+                            <span class="tag" data-icon="🔌">cableado estructurado</span>
+                            <span class="tag" data-icon="📋">gestión de incidencias</span>
+                            <span class="tag" data-icon="🇬🇧">inglés técnico</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="about-actions">
+                    <a href="proyectos.html" class="btn btn-primary">Ver mis proyectos</a>
+                    <a href="assets/docs/cv-nico-talens.pdf" class="btn btn-secondary" target="_blank" rel="noopener">
+                        Descargar CV
+                    </a>
+                    <a href="contacto.html" class="btn btn-secondary">Contactarme</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- TRAYECTORIA -->
+    <section class="section">
+        <div class="section-head">
+            <span class="eyebrow">02 // trayectoria</span>
+            <h2 class="section-title">Mi recorrido</h2>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-item is-done">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">2025 — 2026</span>
+                    <h3>Primer año de SMX</h3>
+                    <p>
+                        Montaje y mantenimiento de equipos, sistemas operativos monopuesto,
+                        redes locales y aplicaciones ofimáticas, todo con media de 8.
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item is-current">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-badge">actual</span>
+                    <span class="timeline-date">2026 — 2027</span>
+                    <h3>Segundo año de SMX</h3>
+                    <p>
+                        Estoy en el último tramo del ciclo. Ya he cursado los módulos de hardware,
+                        sistemas operativos, redes locales, seguridad y ofimática, y afronto la
+                        recta final con las prácticas y el proyecto de síntesis.
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item is-future">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">Próximamente</span>
+                    <h3>DAM y DAW</h3>
+                    <p>
+                        Tras finalizar el ciclo, mi objetivo es estudiar DAM y DAW conjuntamente, luego dar el salto al
+                        mundo laboral en soporte técnico, administración de sistemas o redes, sin dejar de
+                        aprender y de construir proyectos propios.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+    <div class="footer-content">
+      <p>© 2026 · Nico Talens · Hecho con HTML &amp; CSS</p>
+      
+      <!-- WIDGET DE ESTADO DEL SISTEMA -->
+      <div class="sys-status">
+        <span class="sys-item">
+          <span class="sys-dot"></span>
+          SYS.STATUS: <span style="color: var(--green);">ONLINE</span>
+        </span>
+        <span class="sys-divider">|</span>
+        <span class="sys-item">UPTIME: 99.9%</span>
+        <span class="sys-divider">|</span>
+        <span class="sys-item" id="sys-last-deploy">LAST DEPLOY: Cargando...</span>
+      </div>
+    </div>
+  </footer>
+
+    <button id="back-to-top" aria-label="Volver arriba">↑</button>
+
+    <script src="ui.js"></script>
+
+</body>
+
+</html>

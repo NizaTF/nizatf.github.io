@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>500 Internal Server Error</title>
+  <style>
+    /* Hacemos que parezca que el servidor ha escupido un error al leer el archivo */
+    body { background: #fff; color: #000; font-family: monospace; padding: 20px; font-size: 13px; }
+    .error-box { border-left: 4px solid #d9534f; background: #fdf7f7; padding: 15px; margin-bottom: 20px; }
+    .error-title { color: #d9534f; font-weight: bold; font-size: 16px; margin-bottom: 5px; }
+  </style>
+</head>
+<body>
+  <div class="error-box">
+    <div class="error-title">500 Internal Server Error</div>
+    <p>Configuration file error. Failed to parse .htaccess file.</p>
+  </div>
+
+  <pre>
+# BEGIN WordPress
+&lt;IfModule mod_rewrite.c&gt;
+RewriteEngine On
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+&lt;/IfModule&gt;
+
+# END WordPress
+
+# Contraseñas de la base de datos:
+# DB_USER: root
+# DB_PASS: Sup3rS3cr3tP4ssw0rd!
+  </pre>
+
+  <p style="color: #666;">[!] Fatal error: Uncaught Exception: Malformed .htaccess directive in /var/www/html/.htaccess:12</p>
+
+  <script>
+    // Falsa esperanza: 4 segundos para que se guarden las contraseñas falsas
+    setTimeout(() => {
+      window.location.href = "secret.html";
+    }, 4000);
+  </script>
+</body>
+</html>

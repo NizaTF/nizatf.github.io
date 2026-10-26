@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Swagger UI</title>
+  <style>
+    /* Interfaz clásica de Swagger */
+    body { font-family: sans-serif; background: #fafafa; margin: 0; padding: 20px; }
+    .header { background: #1b1b1b; color: #fff; padding: 15px 20px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; }
+    .header h1 { margin: 0; font-size: 20px; }
+    .endpoint { background: #fff; border: 1px solid #ccc; border-radius: 4px; margin-top: 20px; overflow: hidden; }
+    .endpoint-header { display: flex; align-items: center; padding: 10px; cursor: pointer; }
+    .method { background: #61affe; color: #fff; padding: 5px 10px; border-radius: 3px; font-weight: bold; font-size: 14px; margin-right: 15px; }
+    .path { font-family: monospace; font-size: 16px; color: #333; }
+    .endpoint-body { display: none; padding: 20px; border-top: 1px solid #ccc; background: #fafafa; }
+    .btn { background: #4990e2; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Portfolio API v1.0</h1>
+    <span>[ Base URL: /api/v1 ]</span>
+  </div>
+
+  <div class="endpoint">
+    <div class="endpoint-header" onclick="toggleBody()">
+      <span class="method">GET</span>
+      <span class="path">/admin/users</span>
+    </div>
+    <div class="endpoint-body" id="body">
+      <p>Returns a list of all registered administrators.</p>
+      <button class="btn" onclick="execute()">Execute</button>
+      <pre id="response" style="background:#333; color:#fff; padding:10px; margin-top:10px; display:none;"></pre>
+    </div>
+  </div>
+
+  <script>
+    function toggleBody() { document.getElementById('body').style.display = 'block'; }
+    
+    function execute() {
+      const res = document.getElementById('response');
+      res.style.display = 'block';
+      res.textContent = "Fetching data...";
+      
+      // Falsa esperanza: parece que la API ha respondido con éxito
+      setTimeout(() => {
+        res.textContent = JSON.stringify([{id: 1, user: "admin", token: "eyJhbGciOiJIUz..."}], null, 2);
+      }, 1000);
+
+      // El golpe
+      setTimeout(() => {
+        window.location.href = "../secret.html";
+      }, 2500);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>System Logs</title>
+  <style>
+    body { background: #1e1e1e; color: #d4d4d4; font-family: monospace; padding: 20px; font-size: 13px; margin: 0; }
+    h2 { color: #569cd6; margin-top: 0; }
+    .log-line { border-bottom: 1px solid #333; padding: 4px 0; }
+    .time { color: #808080; }
+    .ip { color: #ce9178; }
+    .action { color: #b5cea8; }
+    .warn { color: #d7ba7d; }
+    .err { color: #f48771; }
+  </style>
+</head>
+<body>
+  <h2>System Access Logs (Live)</h2>
+  
+  <div class="log-line"><span class="time">[2026-10-26 12:01:02]</span> <span class="ip">192.168.1.1</span> - <span class="action">GET /index.html 200 OK</span></div>
+  <div class="log-line"><span class="time">[2026-10-26 12:01:05]</span> <span class="ip">84.120.34.12</span> - <span class="action">GET /admin/ 200 OK</span></div>
+  <div class="log-line"><span class="time">[2026-10-26 12:01:10]</span> <span class="ip">84.120.34.12</span> - <span class="warn">POST /admin/login.php 401 Unauthorized</span></div>
+  <div class="log-line"><span class="time">[2026-10-26 12:01:15]</span> <span class="ip">84.120.34.12</span> - <span class="err">WARN: Brute force detected. IP blocked.</span></div>
+  <div class="log-line"><span class="time">[2026-10-26 12:01:20]</span> <span class="ip">84.120.34.12</span> - <span class="action">BYPASS: Firewall deactivated.</span></div>
+  <div class="log-line"><span class="time">[2026-10-26 12:01:25]</span> <span class="ip">84.120.34.12</span> - <span class="action">GET /secret_database.sql 200 OK</span></div>
+
+  <script>
+    // Falsa esperanza: Hacemos que parezca que el hacker ha bypasseado el firewall
+    // y ha descargado el archivo secreto. Le damos 3 segundos para que se sienta culpable.
+    setTimeout(() => {
+      window.location.replace("../secret.html");
+    }, 3500);
+  </script>
+</body>
+</html>
