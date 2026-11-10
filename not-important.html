@@ -70,6 +70,8 @@
 </head>
 <body>
 
+  <div id="scroll-progress"></div>
+
   <nav class="navbar">
     <div class="nav-links">
       <a href="index.html">Inicio</a>
@@ -78,7 +80,8 @@
       <a href="habilidades.html">Habilidades</a>
       <a href="contacto.html">Contacto</a>
     </div>
-    <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema">☀️</button>
+    <!-- El botón ahora está vacío, ui.js le inyectará tu icono -->
+    <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema"></button>
   </nav>
 
   <section class="page-header">
@@ -130,7 +133,6 @@
             <input type="text" id="proj-skills" placeholder="Ej: HTML5, CSS3, JavaScript, Git">
           </div>
 
-          <!-- NUEVO CAMPO: CONTENIDO DEL BLOG -->
           <div class="form-field" style="margin-top: 16px;">
             <label>Contenido detallado (Blog / Markdown)</label>
             <textarea id="proj-blog" rows="6" placeholder="Escribe aquí la historia del proyecto. Puedes usar **negritas**, listas, etc."></textarea>
@@ -201,6 +203,10 @@
     <div class="status-msg" id="status-msg"></div>
   </div>
 
+  <!-- 👇 AQUÍ ESTÁ EL SCRIPT QUE FALTABA 👇 -->
+  <script src="ui.js"></script>
+
+  <!-- Script con la lógica del panel de admin -->
   <script>
     let projectsData = [];
     let fileSha = null;
@@ -214,7 +220,6 @@
       return `https://api.github.com/repos/${user}/${repo}/contents/projects.json`;
     };
 
-    // --- PREVISUALIZACIÓN Y AUTOPLAY ---
     function updatePreview() {
       const title = document.getElementById('proj-title').value || 'Título del proyecto';
       const desc = document.getElementById('proj-desc').value || 'Aquí aparecerá la descripción...';
@@ -300,7 +305,6 @@
       }, 3000);
     }
 
-    // --- GESTIÓN DE IMÁGENES ---
     function handleFilesSelect(event) {
       const files = event.target.files;
       for (let i = 0; i < files.length; i++) {
@@ -372,7 +376,6 @@
       renderImageManager();
     }
 
-    // --- LÓGICA GITHUB Y NOTIFICACIONES ---
     function loadConfig() {
       const user = localStorage.getItem('gh_user'), repo = localStorage.getItem('gh_repo'), token = localStorage.getItem('gh_token');
       if (user && repo && token) {
@@ -433,7 +436,7 @@
       document.getElementById('proj-level').value = p.level;
       document.getElementById('proj-fit').value = p.imageFit || 'cover';
       document.getElementById('proj-skills').value = p.skills ? p.skills.join(', ') : '';
-      document.getElementById('proj-blog').value = p.blog || ''; // <-- NUEVO
+      document.getElementById('proj-blog').value = p.blog || '';
       
       currentImages = [];
       if (p.images && Array.isArray(p.images)) {
@@ -455,7 +458,7 @@
       document.getElementById('proj-level').value = '5';
       document.getElementById('proj-fit').value = 'cover';
       document.getElementById('proj-skills').value = ''; 
-      document.getElementById('proj-blog').value = ''; // <-- NUEVO
+      document.getElementById('proj-blog').value = '';
       
       currentImages.forEach(img => { if(img.isNew) URL.revokeObjectURL(img.url) });
       currentImages = [];
@@ -538,7 +541,7 @@
       const imageFit = document.getElementById('proj-fit').value;
       const skillsInput = document.getElementById('proj-skills').value;
       const skillsArray = skillsInput.split(',').map(s => s.trim()).filter(s => s !== "");
-      const blogContent = document.getElementById('proj-blog').value; // <-- NUEVO
+      const blogContent = document.getElementById('proj-blog').value;
 
       if (!title || !desc) return showStatus('Título y descripción obligatorios.', 'err');
       if (currentImages.length === 0) return showStatus('Sube al menos una imagen.', 'err');
@@ -566,7 +569,7 @@
         const project = { 
           id: id ? projectsData[id].id : Date.now().toString(), 
           title, desc, link, 
-          blog: blogContent, // <-- NUEVO
+          blog: blogContent,
           images: finalImageUrls, 
           imageFit, status, level,
           skills: skillsArray 

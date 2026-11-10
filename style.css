@@ -379,8 +379,6 @@ a { color: inherit; text-decoration: none; }
 /* ============================
    SOBRE MÍ
    ============================ */
-.about-grid { display: grid; grid-template-columns: 280px 1fr; gap: 56px; align-items: start; width: 100%; }
-.about-side { position: sticky; top: 100px; }
 
 .about-heading { font-size: clamp(22px, 3vw, 32px); font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; margin-bottom: 22px; color: var(--text); }
 .about-main { min-width: 0; }
@@ -494,13 +492,35 @@ a { color: inherit; text-decoration: none; }
 .cefr-pip.is-current { background: var(--accent); border-color: var(--accent); color: #ffffff; box-shadow: 0 0 0 2px rgba(255, 77, 94, 0.2); animation: cefrPulse 2s ease-in-out infinite; }
 @keyframes cefrPulse { 0%, 100% { box-shadow: 0 0 0 2px rgba(255, 77, 94, 0.2); } 50% { box-shadow: 0 0 0 4px rgba(255, 77, 94, 0.08); } }
 
-.tabs-layout { display: grid; grid-template-columns: 300px 1fr; gap: 30px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 30px; box-shadow: var(--shadow-md); min-height: 400px; }
+.tabs-layout {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr); /* 👈 minmax(0, 1fr) arregla el scroll */
+  gap: 30px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 30px;
+  box-shadow: var(--shadow-md);
+  min-height: 400px;
+}
+
+.tabs-content {
+  position: relative;
+  padding-left: 10px;
+  min-width: 0; /* 👈 Evita que los tags largos rompan la pantalla */
+  overflow-x: hidden;
+}
+
+/* Y en los tags, permitimos que bajen de línea si son muy largos */
+.skill-pill span {
+  white-space: normal;
+  word-break: break-word;
+}
 .tabs-nav { display: flex; flex-direction: column; gap: 8px; border-right: 1px solid var(--border); padding-right: 20px; }
 .tab-btn { display: flex; align-items: center; gap: 12px; background: transparent; border: none; border-left: 3px solid transparent; padding: 14px 16px; border-radius: 0 var(--r-md) var(--r-md) 0; font-family: var(--font-mono); font-size: 14px; font-weight: 500; color: var(--text-muted); cursor: pointer; text-align: left; transition: all 0.25s ease; }
 .tab-btn:hover { background: var(--surface-2); color: var(--text); }
 .tab-btn.active { background: var(--accent-soft); color: var(--accent); border-left-color: var(--accent); }
 .tab-icon { font-size: 18px; }
-.tabs-content { position: relative; padding-left: 10px; }
 .tab-panel { display: none; animation: fadeInPanel 0.4s ease forwards; }
 .tab-panel.active { display: block; }
 @keyframes fadeInPanel { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -750,5 +770,146 @@ body, .navbar, .card, .btn, .tag, .timeline-content, .contact-card, .skill-chip,
     text-overflow: clip;
     font-size: 13.5px; /* Un pelín más pequeño para que encaje mejor */
     line-height: 1.4;
+  }
+}
+/* En la sección de Sobre Mí */
+
+.about-main {
+  min-width: 0; /* 👈 Esto hace que el texto fluya bien en PC */
+}
+
+/* MÓVIL: Ya lo tenías configurado para que se apile en 1 columna */
+
+/* MÓVIL: 1 columna */
+@media (max-width: 850px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+/* ESCRITORIO: 3 columnas */
+.lang-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* MÓVIL: 1 columna */
+@media (max-width: 850px) {
+  .lang-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}
+/* ESCRITORIO */
+.tabs-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr; /* 👈 Vuelve a poner 300px */
+  gap: 30px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 30px;
+  box-shadow: var(--shadow-md);
+  min-height: 400px;
+}
+
+.tabs-content {
+  position: relative;
+  padding-left: 10px;
+  min-width: 0; /* 👈 Clave para que no haya scroll horizontal feo */
+}
+
+/* MÓVIL: Las pestañas pasan a estar arriba y el contenido abajo */
+@media (max-width: 850px) {
+  .tabs-layout {
+    grid-template-columns: 1fr;
+    padding: 20px;
+    gap: 20px;
+  }
+  
+  .tabs-nav {
+    flex-direction: row;
+    overflow-x: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding-right: 0;
+    padding-bottom: 16px;
+  }
+  
+  .tab-btn {
+    border-left: none;
+    border-bottom: 3px solid transparent;
+    border-radius: var(--r-md) var(--r-md) 0 0;
+    white-space: nowrap;
+  }
+  
+  .tab-btn.active {
+    border-left-color: transparent;
+    border-bottom-color: var(--accent);
+  }
+  
+  .tabs-content {
+    padding-left: 0;
+  }
+}
+/* ============================
+   SOBRE MÍ: DISEÑO VERTICAL (Foto arriba, texto abajo)
+   ============================ */
+.about-grid {
+  display: flex;
+  flex-direction: column; /* 👈 Ponemos los elementos uno encima de otro */
+  align-items: center;    /* Centramos todo horizontalmente */
+  gap: 40px;
+  width: 100%;
+  max-width: 800px;       /* Limitamos el ancho para que no se estire demasiado */
+  margin: 0 auto;         /* Centramos el bloque en la página */
+}
+
+/* Control del contenedor de la foto */
+.about-side {
+  width: 100%;
+  max-width: 280px;       /* 👈 Aquí controlas el tamaño máximo de la foto */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: static;       /* Quitamos cualquier sticky que pudiera quedar */
+}
+
+/* Ajustes del texto para que se lea perfecto */
+.about-main {
+  width: 100%;
+  text-align: left;       /* O pon 'center' si prefieres el texto centrado */
+}
+
+.about-heading {
+  text-align: center;     /* El título siempre centrado */
+  margin-bottom: 24px;
+}
+
+.about-main p {
+  font-size: 16px;        /* Un pelín más grande para leer mejor */
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+/* Los botones de abajo */
+.about-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center; /* Botones centrados */
+  margin-top: 30px;
+}
+
+/* Los tags (si los tienes en esta sección) */
+.about-tags {
+  justify-content: center;
+}
+
+/* En móvil, simplemente nos aseguramos de que la foto no sea gigante */
+@media (max-width: 480px) {
+  .about-side {
+    max-width: 220px; /* En móviles muy pequeños, la foto se hace un pelín más pequeña */
   }
 }
