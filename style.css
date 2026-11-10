@@ -98,10 +98,15 @@ body {
 body::before {
   content: "";
   position: fixed;
-  top: 0; left: 0; width: 100vw; height: 100vh;
+  inset: 0; /* 👈 ESTO es la magia: obliga a cubrir toda la pantalla siempre */
   z-index: -1;
-  background-image: radial-gradient(circle, rgba(255, 77, 94, 0.10) 3.2px, transparent 1.4px);
+  background-image: radial-gradient(
+    circle,
+    rgba(255, 77, 94, 0.10) 3.2px,
+    transparent 1.4px
+  );
   background-size: 100px 100px;
+  background-position: 0 0;
   animation: dotsDrift 5s linear infinite;
   pointer-events: none;
 }
