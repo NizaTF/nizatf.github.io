@@ -2,11 +2,46 @@
 <html lang="es">
 
 <head>
-  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
-  <title>Inicio · Nico Talens</title>
+  
+  <!-- 1. TÍTULO OPTIMIZADO (Nombre completo + Profesión) -->
+  <title>Nico Talens Fresquet | Estudiante de SMX y Desarrollo Web</title>
+  
+  <!-- 2. META DESCRIPCIÓN (Incluye variantes del nombre para búsquedas) -->
+  <meta name="description" content="Portfolio oficial de Nico Talens Fresquet (Nicolás Talens). Estudiante de Sistemas Microinformáticos y Redes (SMX). Especializado en hardware, redes, ciberseguridad y desarrollo web.">
+  <meta name="keywords" content="Nico Talens, Nicolas Talens Fresquet, NizaTF, SMX, Portfolio, Sistemas Microinformáticos, Redes, Desarrollo Web, Valencia">
+  <meta name="author" content="Nico Talens Fresquet">
+
+  <!-- Canonical (Evita contenido duplicado) -->
+  <link rel="canonical" href="https://nizatf.github.io/">
+
+  <!-- Open Graph (Para LinkedIn, WhatsApp, etc.) -->
+  <meta property="og:title" content="Nico Talens Fresquet | Portfolio">
+  <meta property="og:description" content="Estudiante de SMX apasionado por la informática, las redes y el desarrollo web.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nizatf.github.io/">
+  <meta property="og:image" content="https://nizatf.github.io/assets/img/image.png">
+
+  <!-- 3. DATOS ESTRUCTURADOS (Schema.org JSON-LD) -->
+  <!-- Esto le dice a Google: "Esta web es el perfil oficial de esta persona" -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Nico Talens Fresquet",
+    "alternateName": ["Nicolás Talens Fresquet", "Nizatf"],
+    "jobTitle": "Estudiante de Sistemas Microinformáticos y Redes",
+    "url": "https://nizatf.github.io",
+    "image": "https://nizatf.github.io/assets/img/foto-perfil.png",
+    "sameAs": [
+      "https://github.com/NizaTF",
+      "https://www.linkedin.com/in/nizatf/"
+    ]
+  }
+  </script>
+
   <script>
     // Evitar el parpadeo (FOUC) al cargar la página
     (function() {
@@ -20,21 +55,8 @@
     })();
   </script>
   
-  <!-- Favicon dinámico -->
+  <!-- Favicon Dinámico -->
   <link rel="icon" type="image/png" href="assets/img/favicon_oscuro.png" id="dynamic-favicon">
-
-  <!-- SEO Básico -->
-  <meta name="description"
-    content="Portfolio de Nico Talens, estudiante de Sistemas Microinformáticos y Redes (SMX). Especializado en hardware, redes y desarrollo web.">
-  <meta name="author" content="Nico Talens">
-
-  <!-- Open Graph (Para LinkedIn, WhatsApp, etc.) -->
-  <meta property="og:title" content="Nico Talens · Portfolio">
-  <meta property="og:description"
-    content="Estudiante de SMX apasionado por la informática, las redes y el desarrollo web.">
-  <meta property="og:type" content="website">
-  <!-- NOTA: Esta imagen es la que saldrá al compartir el link. Asegúrate de que existe o cambia la ruta -->
-  <meta property="og:image" content="assets/img/image.png">
 </head>
 
 <body>
@@ -48,7 +70,7 @@
       <a href="habilidades.html">Habilidades</a>
       <a href="contacto.html">Contacto</a>
     </div>
-    <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema">☀️</button>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema"></button>
   </nav>
 
   <!-- HERO CENTRADO -->
@@ -58,10 +80,13 @@
         <span class="status-dot"></span>
         Disponible para prácticas
       </span>
+      
+      <!-- 4. H1 OPTIMIZADO (Añadido el apellido para reforzar el SEO) -->
       <h1 class="hero-headline">
-        Hola, soy <span class="accent">Nico</span><br>
+        Hola, soy <span class="accent">Nico Talens</span><br>
         Estudiante de SMX
       </h1>
+      
       <p class="hero-subtitle">
         Formándome en Sistemas Microinformáticos y Redes. Me interesa el hardware,
         las redes y la seguridad, y complemento mi formación con desarrollo web.
@@ -211,9 +236,8 @@
 
   <footer class="footer">
     <div class="footer-content">
-      
-      <!-- Copyright y ENLACE SECRETO AL ADMIN -->
-      <p>© 2026 · Nico Talens · <a href="not-important.html" style="color: inherit; text-decoration: none; cursor: default;">Hecho con HTML &amp; CSS</a></p>
+      <!-- Enlace camuflado al admin en el texto "Hecho con HTML & CSS" -->
+      <p>© 2026 · Nico Talens · <a href="admin.html" style="color: inherit; text-decoration: none; cursor: default;">Hecho con HTML &amp; CSS</a></p>
       
       <!-- WIDGET DE ESTADO DEL SISTEMA -->
       <div class="sys-status">
@@ -226,25 +250,11 @@
         <span class="sys-divider">|</span>
         <span class="sys-item" id="sys-last-deploy">LAST DEPLOY: Cargando...</span>
       </div>
-      
     </div>
   </footer>
   
-  <script src="ui.js"></script>
   <button id="back-to-top" aria-label="Volver arriba">↑</button>
-  
-  <div>
-    <div>
-      <div>
-        <div>
-          <div>
-            <!-- BORRAR ESTO EN EL FUTURO!!!-->
-            <!-- https://nizatf.github.io/secret -->
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <script src="ui.js"></script>
 </body>
 
 </html>
