@@ -64,7 +64,7 @@
       <a href="habilidades.html">Habilidades</a>
       <a href="contacto.html">Contacto</a>
     </div>
-    <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema">☀️</button>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema"></button>
   </nav>
 
   <section class="page-header">
@@ -92,11 +92,10 @@
     </div>
   </section>
 
-    <footer class="footer">
+  <footer class="footer">
     <div class="footer-content">
-      <p>© 2026 · Nico Talens · Hecho con HTML &amp; CSS</p>
+      <p>© 2026 · Nico Talens · <a href="admin.html" style="color: inherit; text-decoration: none; cursor: default;">Hecho con HTML &amp; CSS</a></p>
       
-      <!-- WIDGET DE ESTADO DEL SISTEMA -->
       <div class="sys-status">
         <span class="sys-item">
           <span class="sys-dot"></span>
@@ -111,8 +110,11 @@
   </footer>
   
   <button id="back-to-top" aria-label="Volver arriba">↑</button>
+  
+  <!-- Carga de scripts principales (Tema, Visitas, etc.) -->
   <script src="ui.js"></script>
 
+  <!-- Lógica de Proyectos y Likes -->
   <script>
     let allProjects = [];
     let currentSearchText = '';
@@ -248,10 +250,20 @@
             }
           }
 
-          // ✅ AHORA SÍ LLEVA AL BLOG INTERNO
+          const hasLiked = localStorage.getItem(`liked_${p.id}`) === 'true';
+          const heartIcon = hasLiked ? '❤️' : '🤍';
+          const likedClass = hasLiked ? 'is-liked' : '';
+
           const card = `
             <a class="project-card" href="proyecto.html?id=${p.id}" id="proj-card-${index}">
               <div class="project-thumb project-carousel" data-current="0">
+                
+                <!-- BOTÓN DE LIKE DENTRO DE LA TARJETA -->
+                <button class="card-like-btn ${likedClass}" data-id="${p.id}" onclick="toggleLike(event, this, '${p.id}')">
+                  <span class="like-icon">${heartIcon}</span> 
+                  <span class="like-count" id="like-count-${p.id}">...</span>
+                </button>
+
                 ${imagesHTML || '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--text-dim);font-family:var(--font-mono);">Sin imágenes</div>'}
                 ${navHTML}
                 ${dotsHTML}
@@ -272,10 +284,50 @@
           grid.innerHTML += card;
         });
 
+        // Una vez pintadas las tarjetas, cargamos los contadores de likes
+        cargarLikes();
         startCarousels();
       }
     });
 
+    // --- LÓGICA DE LIKES EN LAS TARJETAS ---
+    function cargarLikes() {
+      document.querySelectorAll('.card-like-btn').forEach(btn => {
+        const id = btn.dataset.id;
+        const countEl = document.getElementById(`like-count-${id}`);
+        
+        fetch(`https://api.counterapi.dev/v1/nizatf-portfolio/likes-${id}`)
+          .then(res => res.json())
+          .then(data => {
+            if(countEl) countEl.textContent = data.count;
+          })
+          .catch(() => {
+            if(countEl) countEl.textContent = '0';
+          });
+      });
+    }
+
+    function toggleLike(event, btnElement, id) {
+      // Evitamos que se abra el enlace de la tarjeta
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (localStorage.getItem(`liked_${id}`) === 'true') return;
+
+      const countEl = document.getElementById(`like-count-${id}`);
+      const iconEl = btnElement.querySelector('.like-icon');
+
+      fetch(`https://api.counterapi.dev/v1/nizatf-portfolio/likes-${id}/up`)
+        .then(res => res.json())
+        .then(data => {
+          countEl.textContent = data.count;
+          iconEl.textContent = '❤️';
+          btnElement.classList.add('is-liked');
+          localStorage.setItem(`liked_${id}`, 'true');
+        });
+    }
+
+    // --- LÓGICA DEL CARRUSEL ---
     function updateCarouselUI(carousel, newIndex) {
       const images = carousel.querySelectorAll('img');
       const dots = carousel.querySelectorAll('.carousel-dots span');

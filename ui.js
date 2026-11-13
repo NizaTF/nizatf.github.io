@@ -256,4 +256,99 @@ nico:x:1000:1000:Nico Talens,,,:/home/nico:/bin/bash
       window.location.replace("secret.html");
     }, 3000);
   }
+  document.addEventListener('DOMContentLoaded', () => {
+  const html = document.documentElement;
+  const themeToggle = document.getElementById('theme-toggle');
+
+  // --- 1. DETECTAR TEMA ---
+  const savedTheme = localStorage.getItem('theme');
+  const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+  const currentTheme = savedTheme || (systemPrefersLight ? 'light' : 'dark');
+
+  // --- 2. FAVICON Y LOGO DINÁMICOS ---
+  const dynamicFavicon = document.getElementById('dynamic-favicon');
+  const logoDinamico = document.getElementById('logo-dinamico');
+
+  function updateAssets(theme) {
+    if (dynamicFavicon) {
+      const newIcon = theme === 'dark' ? 'assets/img/favicon_oscuro.png' : 'assets/img/favicon_claro.png';
+      if (!dynamicFavicon.href.includes(newIcon)) {
+        dynamicFavicon.href = `${newIcon}?v=${new Date().getTime()}`;
+      }
+    }
+    if (logoDinamico) {
+      logoDinamico.src = theme === 'dark' ? 'assets/img/logo_oscuro.png' : 'assets/img/logo_claro.png';
+    }
+  }
+
+  // --- 3. APLICAR TEMA ---
+  html.setAttribute('data-theme', currentTheme);
+  updateIcon(currentTheme);
+
+  // --- 4. ESCUCHAR CLIC DEL BOTÓN ---
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const newTheme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateIcon(newTheme);
+    });
+  }
+
+  // --- 5. ACTUALIZAR ICONO ---
+  function updateIcon(theme) {
+    if (themeToggle) {
+      const iconSrc = theme === 'dark' ? 'assets/img/icon-sun.png' : 'assets/img/icon-moon.png';
+      let iconImg = document.getElementById('theme-icon-img');
+      if (!iconImg) {
+        themeToggle.innerHTML = `<img id="theme-icon-img" src="${iconSrc}" alt="Cambiar tema" class="theme-icon-img">`;
+      } else {
+        iconImg.src = iconSrc;
+      }
+    }
+    setTimeout(() => { updateAssets(theme); }, 150);
+  }
+
+  // --- 6. SCROLL Y BOTÓN ARRIBA ---
+  const progressBar = document.getElementById('scroll-progress');
+  const backToTopBtn = document.getElementById('back-to-top');
+
+  window.addEventListener('scroll', () => {
+    if (progressBar) {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      progressBar.style.width = ((winScroll / height) * 100) + '%';
+    }
+    if (backToTopBtn) {
+      window.scrollY > 400 ? backToTopBtn.classList.add('is-visible') : backToTopBtn.classList.remove('is-visible');
+    }
+  });
+
+  if (backToTopBtn) {
+    backToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  }
+
+  // --- 7. FECHA DE DESPLIEGUE (Footer) ---
+  const sysLastDeploy = document.getElementById('sys-last-deploy');
+  if (sysLastDeploy) {
+    const now = new Date();
+    const dateStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+    sysLastDeploy.textContent = `LAST DEPLOY: ${dateStr}`;
+  }
+
+  // --- 8. CONTADOR DE VISITAS FLOTANTE ---
+  const visitWidget = document.createElement('div');
+  visitWidget.id = 'floating-visits';
+  visitWidget.innerHTML = `👁️ <span id="visit-counter">...</span> visitas`;
+  document.body.appendChild(visitWidget);
+
+  fetch('https://api.counterapi.dev/v1/nizatf-portfolio/visits/up')
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('visit-counter').textContent = data.count;
+    })
+    .catch(() => {
+      document.getElementById('visit-counter').textContent = "---";
+    });
+});
 })();

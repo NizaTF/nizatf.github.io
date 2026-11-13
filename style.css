@@ -299,7 +299,7 @@ a { color: inherit; text-decoration: none; }
 /* ============================
    CURRENTLY (Index)
    ============================ */
-.currently { max-width: var(--max-content); margin: 0 auto; padding: 0 var(--pad-x); }
+.currently { max-width: var(--max-content); margin:  auto; padding: 0 var(--pad-x); }
 .currently-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 28px 32px; }
 .currently-head { padding-bottom: 18px; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
 .currently-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
@@ -917,4 +917,146 @@ body, .navbar, .card, .btn, .tag, .timeline-content, .contact-card, .skill-chip,
   .about-side {
     max-width: 220px; /* En móviles muy pequeños, la foto se hace un pelín más pequeña */
   }
+}
+/* ============================
+   WIDGET FLOTANTE DE VISITAS
+   ============================ */
+#floating-visits {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border-accent);
+  color: var(--text-soft);
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: bold;
+  box-shadow: var(--shadow-md);
+  transition: all 0.3s ease;
+}
+
+#floating-visits:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-accent);
+}
+
+@media (max-width: 480px) {
+  #floating-visits {
+    bottom: 20px;
+    left: 20px;
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+}
+
+/* ============================
+   BOTÓN DE LIKE EN LAS TARJETAS
+   ============================ */
+.card-like-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 20;
+  background: rgba(10, 14, 23, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: all 0.2s ease;
+}
+
+.card-like-btn:hover {
+  background: rgba(255, 77, 94, 0.9);
+  border-color: var(--accent);
+  transform: scale(1.05);
+}
+
+.card-like-btn.is-liked {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+  cursor: default;
+}
+
+.card-like-btn.is-liked:hover {
+  transform: none;
+}
+/* ============================
+   FIX DEFINITIVO: SUBIR TODO EL BLOQUE
+   ============================ */
+
+/* 1. Quitamos cualquier margen o relleno inferior de la caja de arriba */
+.currently {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* 2. Subimos el bloque de estadísticas entero con margen negativo */
+.global-stats-section {
+  max-width: var(--max-content) !important;
+  padding: 0 var(--pad-x) !important;
+  
+  /* 👇 ESTO ES LO QUE SUBE TODO EL BLOQUE Y EL RESTO DE LA WEB */
+  margin: -40px auto 40px auto !important; 
+  
+  position: relative;
+  z-index: 10; /* Asegura que se pinte por encima si hay algún choque */
+}
+
+/* 3. Mantenemos las tarjetas rectas y con su diseño original */
+.stats-grid {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 20px !important;
+}
+
+.stat-card {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--r-lg) !important;
+  padding: 24px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+/* 4. En móviles, una columna */
+@media (max-width: 600px) {
+  .stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+/* ============================
+   FIX: SUBIR EL HERO Y CURRENTLY
+   ============================ */
+
+/* 1. Reducimos el padding superior del Hero (por defecto son 110px) */
+.hero-center {
+  padding-top: 40px !important; 
+  padding-bottom: 30px !important; 
+}
+
+/* 2. Subimos la caja de "Ahora mismo" */
+.currently {
+  margin-top: -20px !important; 
+  padding-bottom: 20px !important;
 }

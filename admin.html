@@ -24,98 +24,40 @@
   <link rel="icon" type="image/png" href="assets/img/favicon_oscuro.png" id="dynamic-favicon">
   
   <style>
-    /* ============================
-       LAYOUT APP (SIN SCROLL GLOBAL)
-       ============================ */
+    /* LAYOUT APP */
     body { margin: 0; padding: 0; overflow: hidden; height: 100vh; background: var(--bg); color: var(--text); font-family: var(--font-sans); }
-    
-    /* Botón de tema flotante */
-    .theme-toggle { position: fixed; top: 22px; right: 20px; z-index: 1000; background: var(--surface); border: 1px solid var(--border); border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: var(--shadow-md); }
+    .theme-toggle { position: fixed; top: 15px; right: 20px; z-index: 1000; background: var(--surface); border: 1px solid var(--border); border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: var(--shadow-md); }
     .theme-icon-img { width: 24px; height: 24px; object-fit: contain; }
 
     #admin-app { display: none; height: 100vh; width: 100vw; }
     #pin-screen { position: fixed; inset: 0; background: var(--bg); z-index: 9999; display: flex; align-items: center; justify-content: center; flex-direction: column; }
 
-    /* ============================
-       ESTRUCTURA DASHBOARD
-       ============================ */
-    .dashboard-layout {
-      display: grid;
-      grid-template-columns: 280px 1fr;
-      height: 100vh;
-    }
-
-    /* Barra Lateral (Lista de proyectos) */
-    .sidebar {
-      background: var(--surface);
-      border-right: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-    }
+    .dashboard-layout { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
+    .sidebar { background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; height: 100vh; }
     .sidebar-header { padding: 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
     .sidebar-header h2 { font-size: 16px; margin: 0; color: var(--text); }
     .project-list-scroll { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; }
-    
     .project-item { padding: 12px; background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-md); cursor: pointer; transition: 0.2s; display: flex; justify-content: space-between; align-items: center; }
     .project-item:hover { border-color: var(--accent); background: var(--bg); }
     .project-item.active { border-color: var(--accent); background: var(--accent-soft); }
     .project-item h3 { margin: 0; font-size: 14px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px; }
     .project-item .del-btn { background: none; border: none; color: var(--accent); cursor: pointer; font-size: 16px; padding: 0; }
 
-    /* Área Principal (Editor) */
-    .main-editor {
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      overflow: hidden;
-    }
+    .main-editor { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+    .editor-header { padding: 15px 25px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: var(--surface); padding-right: 80px; }
+    .editor-header h1 { font-size: 18px; margin: 0; }
+    .header-actions { display: flex; gap: 8px; }
 
-    .editor-header { 
-      padding: 5px 25px; 
-      border-bottom: 1px solid var(--border); 
-      display: flex; 
-      justify-content: space-between; 
-      align-items: center; 
-      background: var(--surface); 
-      padding-right: 80px; /* 👈 Deja hueco para el botón de claro/oscuro */
-    }
-    .editor-header h1 { font-size: 1px; margin: 0; }
-    .header-actions { display: flex; gap: 10px; }
+    .editor-body { display: grid; grid-template-columns: 1fr 400px; flex: 1; overflow: hidden; }
+    .form-scroll { padding: 25px; overflow-y: auto; border-right: 1px solid var(--border); }
+    .preview-area { padding: 25px; overflow-y: auto; background: var(--bg); display: flex; flex-direction: column; }
 
-    .editor-body {
-      display: grid;
-      grid-template-columns: 1fr 400px;
-      flex: 1;
-      overflow: hidden;
-    }
-
-    /* Formulario (Scrollable) */
-    .form-scroll {
-      padding: 25px;
-      overflow-y: auto;
-      border-right: 1px solid var(--border);
-    }
-
-    /* Preview (Fijo) */
-    .preview-area {
-      padding: 25px;
-      overflow-y: auto;
-      background: var(--bg);
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* ============================
-       COMPONENTES DEL FORMULARIO
-       ============================ */
     .form-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 15px; }
     .form-field label { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); text-transform: uppercase; }
     .form-field input, .form-field textarea, .form-field select { width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: 10px; font-family: var(--font-sans); font-size: 14px; color: var(--text); box-sizing: border-box; outline: none; }
     .form-field input:focus, .form-field textarea:focus { border-color: var(--accent); }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
     
-    /* Imágenes */
     .image-manager-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; max-height: 200px; overflow-y: auto; }
     .image-item { display: flex; align-items: center; gap: 10px; background: var(--surface-2); padding: 8px; border-radius: var(--r-sm); border: 1px solid var(--border); cursor: grab; }
     .image-item.sortable-ghost { opacity: 0.4; border-style: dashed; border-color: var(--accent); }
@@ -123,16 +65,12 @@
     .image-item-info { flex: 1; font-size: 11px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; pointer-events: none; }
     .image-item .del-btn { background: var(--accent); color: #fff; border: none; border-radius: 4px; cursor: pointer; padding: 4px 8px; }
 
-    /* Markdown Preview */
     .md-preview-box { display: none; background: var(--bg); border: 1px dashed var(--border-strong); border-radius: var(--r-md); padding: 15px; margin-top: 10px; font-size: 13px; color: var(--text-soft); line-height: 1.6; max-height: 200px; overflow-y: auto; }
     .md-preview-box h1, .md-preview-box h2, .md-preview-box h3 { color: var(--text); margin-top: 10px; margin-bottom: 5px; }
     .md-preview-box strong { color: var(--accent); }
     .preview-toggle { background: transparent; border: 1px solid var(--border); color: var(--text-muted); font-size: 11px; padding: 4px 8px; border-radius: 4px; cursor: pointer; margin-top: 5px; }
     .preview-toggle:hover { color: var(--accent); border-color: var(--accent); }
 
-    /* ============================
-       PREVIEW DEL PROYECTO
-       ============================ */
     .project-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
     .preview-carousel { position: relative; width: 100%; aspect-ratio: 16 / 10; background: var(--surface-2); }
     .preview-carousel img { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.3s; object-fit: cover; }
@@ -150,9 +88,6 @@
     .project-title { font-size: 18px; margin: 0 0 10px 0; color: var(--text); }
     .project-desc { font-size: 13px; color: var(--text-muted); margin: 0; line-height: 1.5; }
 
-    /* ============================
-       OVERLAYS (PIN Y CONFIG)
-       ============================ */
     .overlay-screen { position: fixed; inset: 0; background: var(--bg); z-index: 9999; display: flex; align-items: center; justify-content: center; flex-direction: column; }
     .box { background: var(--surface); padding: 30px; border-radius: var(--r-lg); border: 1px solid var(--border); max-width: 400px; width: 100%; text-align: center; box-shadow: var(--shadow-md); }
     .box h2 { color: var(--accent); margin-top: 0; }
@@ -160,7 +95,6 @@
     .pin-input { width: 100%; padding: 15px; font-size: 24px; text-align: center; letter-spacing: 5px; background: var(--bg); border: 1px solid var(--border); color: var(--text); border-radius: var(--r-md); outline: none; margin-bottom: 15px; font-family: var(--font-mono); box-sizing: border-box; }
     .status-msg { font-size: 12px; font-family: var(--font-mono); color: var(--accent); margin-top: 10px; }
 
-    /* Scrollbars finos */
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
@@ -177,21 +111,18 @@
 </head>
 <body>
 
-  <!-- BOTÓN DE TEMA FLOTANTE -->
   <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema"></button>
 
-  <!-- 1. PANTALLA DE PIN -->
   <div id="pin-screen" class="overlay-screen">
     <div class="box">
       <h2>[ SISTEMA BLOQUEADO ]</h2>
       <p>Introduce el PIN de administrador.</p>
-      <input type="password" id="admin-pin" class="pin-input" maxlength="16" placeholder="••••••••••••••••••" autocomplete="off">
+      <input type="password" id="admin-pin" class="pin-input" maxlength="20" placeholder="••••" autocomplete="off">
       <button class="btn btn-primary" style="width: 100%;" onclick="checkPin()">Desbloquear</button>
       <p id="pin-error" style="display: none;">PIN incorrecto.</p>
     </div>
   </div>
 
-  <!-- 2. PANTALLA DE CONFIGURACIÓN -->
   <div id="config-screen" class="overlay-screen" style="display: none;">
     <div class="box">
       <h2>🔧 Configuración Inicial</h2>
@@ -212,39 +143,33 @@
     </div>
   </div>
 
-  <!-- 3. APLICACIÓN PRINCIPAL -->
   <div id="admin-app">
     <div class="dashboard-layout">
       
-      <!-- BARRA LATERAL: LISTA -->
       <aside class="sidebar">
         <div class="sidebar-header">
           <h2>📦 Proyectos</h2>
           <button class="btn btn-primary" style="padding: 5px 10px; font-size: 12px;" onclick="resetForm()">+ Nuevo</button>
         </div>
-        <div class="project-list-scroll" id="projects-list">
-          <!-- Se llena con JS -->
-        </div>
+        <div class="project-list-scroll" id="projects-list"></div>
       </aside>
 
-      <!-- ÁREA PRINCIPAL: EDITOR -->
       <main class="main-editor">
         <header class="editor-header">
           <h1 id="editor-title">Editando Proyecto</h1>
           
           <div class="header-actions">
-            <!-- Input oculto para importar archivo -->
             <input type="file" id="import-file" accept=".json" style="display: none;" onchange="importJSON(event)">
             
             <button class="btn btn-secondary" style="padding: 8px 12px; font-size: 12px;" onclick="exportJSON()">📥 Backup</button>
             <button class="btn btn-secondary" style="padding: 8px 12px; font-size: 12px;" onclick="document.getElementById('import-file').click()">📤 Importar</button>
+            <button class="btn btn-secondary" style="padding: 8px 12px; font-size: 12px; border-color: var(--accent); color: var(--accent);" onclick="logout()">🚪 Salir</button>
+            
             <button class="btn btn-primary" style="padding: 8px 16px; font-size: 13px;" onclick="saveProject()" id="save-btn">💾 Guardar</button>
           </div>
         </header>
 
         <div class="editor-body">
-          
-          <!-- COLUMNA IZQUIERDA: FORMULARIO -->
           <div class="form-scroll">
             <input type="hidden" id="proj-id">
             
@@ -260,7 +185,7 @@
             </div>
 
             <div class="form-field">
-              <label>Descripción corta (aparece en la tarjeta)</label>
+              <label>Descripción corta</label>
               <textarea id="proj-desc" rows="2" placeholder="Resumen..." oninput="updatePreview()"></textarea>
             </div>
 
@@ -311,7 +236,6 @@
             <div class="status-msg" id="status-msg"></div>
           </div>
 
-          <!-- COLUMNA DERECHA: PREVIEW -->
           <div class="preview-area">
             <h3 style="margin-top: 0; font-size: 14px; color: var(--text-muted); text-transform: uppercase;">Previsualización</h3>
             <div class="project-card">
@@ -337,15 +261,23 @@
   </div>
 
   <script>
-    const ADMIN_PIN = "110308"; 
+    const ADMIN_PIN = "1234"; 
     let projectsData = [];
     let fileSha = null;
     let currentImages = []; 
     let previewIndex = 0;
 
+    function logout() {
+      if(confirm('¿Cerrar sesión de administrador?')) {
+        sessionStorage.removeItem('admin_logged');
+        window.location.reload();
+      }
+    }
+
     function checkPin() {
       const input = document.getElementById('admin-pin').value;
       if (input === ADMIN_PIN) {
+        sessionStorage.setItem('admin_logged', 'true');
         document.getElementById('pin-screen').style.display = 'none';
         if (!localStorage.getItem('gh_token')) {
           document.getElementById('config-screen').style.display = 'flex';
