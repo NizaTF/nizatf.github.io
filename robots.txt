@@ -23,5 +23,16 @@ Allow: /
 # No rastrear la página de error
 Disallow: /404.html
 
+User-agent: Googlebot-Image
+Disallow: /assets/img/boton_claro.png
+Disallow: /assets/img/boton_oscuro.png
+Disallow: /assets/img/favicon_claro.png
+Disallow: /assets/img/favicon_oscuro.png
+Disallow: /assets/img/image.png
+Disallow: /assets/img/logo_claro.png
+Disallow: /assets/img/logo_oscuro.png
+Disallow: /assets/img/placeholder.webp
+
 # Mapa del sitio
 Sitemap: https://nizatf.github.io/sitemap.xml
+
