@@ -1210,3 +1210,80 @@ body, .navbar, .card, .btn, .tag, .timeline-content, .contact-card, .skill-chip,
   font-family: var(--font-mono);
   font-size: 13px;
 }
+/* ===== Tarjetas de contacto cuadradas + logos SVG reales ===== */
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+  max-width: 640px;
+  margin-inline: auto;
+}
+
+.contact-card {
+  aspect-ratio: 1 / 1;               /* ← cuadrado perfecto */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+/* Logo grande centrado */
+.contact-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(56px, 42%, 96px);
+  aspect-ratio: 1 / 1;
+  color: inherit;
+  transition: transform .25s ease;
+}
+
+.contact-brand svg {
+  width: 100%;
+  height: 100%;
+}
+
+.contact-card:hover .contact-brand,
+.contact-card:focus-visible .contact-brand {
+  transform: scale(1.06);
+}
+
+/* Usuario + flecha pequeños, debajo del logo */
+.contact-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  font-size: .82rem;
+  letter-spacing: .02em;
+}
+
+.contact-value { white-space: nowrap; }
+
+.contact-arrow {
+  font-size: .75rem;
+  opacity: .7;
+  transition: transform .25s ease, opacity .25s ease;
+}
+
+.contact-card:hover .contact-arrow,
+.contact-card:focus-visible .contact-arrow {
+  transform: translate(2px, -2px);
+  opacity: 1;
+}
+
+.contact-card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+/* Móvil: 1 columna, tarjeta sigue cuadrada */
+@media (max-width: 560px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+    max-width: 320px;
+  }
+}
